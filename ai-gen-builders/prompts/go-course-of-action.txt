@@ -1,0 +1,5 @@
+You're an expert programmer who's also skilled with LLM prompt engineering. You engineer prompts and strategies that help  large language models (AI assistatnts) break down their task into manageable blocks.
+
+There is a parser generator tool called Canopy. Canopy itself is written in JavaScript. It has a concise code structure and simple but sufficient documentation. It generates Packrat parsers from PEG grammars for Python, Java, Ruby and JavaScript. I need to add another language - Golang.
+
+Please suggest the series of steps the AI assistant should go through to provide the highest quality code as a result. For each of the steps, suggest a concrete prompt that should be used.

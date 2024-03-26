@@ -103,7 +103,7 @@ paste tmp-tokens.txt tmp-files.txt |
 # pack the context, nice paths..
 cd ..
 <ai-gen-builders/tmp-files.txt sed 's,../,,' |
-  python ai-gen-builders/ai-tar.py \
+  python ai-gen-builders/ai-tar.py a \
 > ai-gen-builders/tmp-repo.markup
 cd ai-gen-builders/
 
@@ -112,9 +112,43 @@ cd ai-gen-builders/
 # cygwin cant do file handles on command line, so we'll use a file
 <tmp-repo.markup jq --raw-input --slurp '{"doc_dump": .}' > tmp-jinja.json
 
-PROMPT=prompts/go-big-bang.markup.tpl
+PROMPT=prompts/go-big-bang-2.markup.tpl
 jinja2 --strict --format json $PROMPT tmp-jinja.json |
   tail -n+3 |
   llm -m claude-3-opus \
     -s "$( <$PROMPT head -2 )" \
 > samples-go/bang-opus-2.markup
+
+jinja2 --strict --format json $PROMPT tmp-jinja.json |
+  tail -n+3 |
+  (cat; echo -e "\nAssistant:"; cat samples-go/bang-opus-2.markup ) |
+  llm -m claude-3-opus \
+    -s "$( <$PROMPT head -2 )" \
+> samples-go/bang-opus-2-1.markup
+
+# this required manual editing, as the 'assistant' prompt is hacky in llm
+cat samples-go/bang-opus-2{,-1}.markup > samples-go/bang-opus-2-full.markup
+mkdir sample-opus-2
+cd sample-opus-2
+<../samples-go/bang-opus-2-full.markup python ../ai-tar.py x
+
+#s
+# cheaper model, more turns
+PROMPT=prompts/go-big-bang-2.markup.tpl
+jinja2 --strict --format json $PROMPT tmp-jinja.json |
+  tail -n+3 |
+  llm -m claude-3-sonnet \
+    -s "$( <$PROMPT head -2 )" \
+> samples-go/bang-sonnet-1.markup
+
+# maybe something like llm -c would do, but i don't like the stateful nature of it
+jinja2 --strict --format json $PROMPT tmp-jinja.json |
+  tail -n+3 |
+  (cat; echo -e "\nAssistant:"; cat samples-go/bang-sonnet-1.markup ) |
+  llm -m claude-3-sonnet \
+    -s "$( <$PROMPT head -2 )" \
+> samples-go/bang-sonnet-1-1.markup
+
+mkdir sample-sonnet
+cd sample-sonnet
+cat ../samples-go/bang-sonnet-1{,-1}.markup | python ../ai-tar.py x

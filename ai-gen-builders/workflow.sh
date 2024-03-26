@@ -132,7 +132,7 @@ mkdir sample-opus-2
 cd sample-opus-2
 <../samples-go/bang-opus-2-full.markup python ../ai-tar.py x
 
-#s
+#
 # cheaper model, more turns
 PROMPT=prompts/go-big-bang-2.markup.tpl
 jinja2 --strict --format json $PROMPT tmp-jinja.json |

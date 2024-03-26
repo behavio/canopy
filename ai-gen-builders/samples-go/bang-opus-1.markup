@@ -1,0 +1,254 @@
+Here is my step-by-step thinking process:
+
+<thinking>
+
+1. Review the other builder files (java.js, python.js, etc.) to understand the common interface and methods that need to be implemented for a language-specific builder.
+
+2. Research Go language syntax, conventions, and best practices for code generation. Need to understand how to:
+   - Define package, import statements 
+   - Define structs, interfaces, and methods
+   - Handle strings, arrays, maps 
+   - Implement conditionals and loops
+   - Handle errors
+   - Write idiomatic Go code
+
+3. Translate each of the builder methods to generate the corresponding Go code. The key methods to implement are:
+   - constructor
+   - package_
+   - class_ 
+   - method_
+   - cache_
+   - localVar_
+   - syntaxNode_
+   - ifNode_, unlessNode_ 
+   - stringMatch_, regexMatch_
+   - sizeInRange_
+   - jump_
+   - and more
+
+4. Create Go-specific templates for the core parser classes and render them using the builder methods. Templates needed for:
+   - The main parser class
+   - The Parse function 
+   - The TreeNode struct
+   - Custom syntax node types
+
+5. Ensure proper escaping and formatting of the generated Go code. Go has specific rules around using backticks for raw string literals vs double-quotes.
+
+6. Add the new golang builder to the list of builders exported from canopy.js.
+
+7. Update the CLI script in bin/canopy to support "--lang go" to invoke the Go builder.
+
+8. Write tests by creating .peg grammars and validating the generated Go parser code against them. Tests should cover the key types of grammar rules - sequences, choices, repetition, literals, character classes etc.
+
+9. Update documentation with Go-specific examples and installation instructions.
+
+10. Do end-to-end testing of the CLI flow - from grammar to generated code to parsing some input with the generated Go parser.
+
+</thinking>
+
+And here are the key files to be added/changed:
+
+<documents>
+
+<document>
+<source>src/builders/golang.js</source>
+<document_content>'use strict'
+
+const Base = require('./base')
+
+class Builder extends Base {
+  constructor (...args) {
+    super(...args)
+  } 
+
+  _tab () {
+    return '\t'  
+  }
+
+  comment (lines) {
+    return lines.map((line) => '// ' + line)
+  }
+
+  package_ (name, actions, block) {
+    const pkgName = name.split('.').pop()
+    this.assign_('package', pkgName)
+    this._newline()
+    block()
+  }
+
+  syntaxNodeClass_ () {
+    return 'TreeNode'
+  }
+  
+  grammarModule_ (block) {
+    this._write(`
+type TreeNode struct {
+\tText    string
+\tOffset  int
+\tElements []TreeNode
+\tNodeType string
+}
+
+func (n *TreeNode) String() string {
+\treturn n.Text
+}
+    `)
+    block()    
+  }
+
+  parserClass_ (root) {
+    this._write(`
+func Parse(input string) (*TreeNode, error) {
+\tp := &parser{Buffer: input}
+\tp.Init()
+\tif err := p.Parse(); err != nil {
+\t\treturn nil, err
+\t}
+\treturn p.`+ root +`(), nil
+}
+    `)
+  }
+
+  compileRegex_ (charClass, name) {
+    let regex  = charClass.regex,
+        source = regex.source.replace(/^\^/, '`')
+
+    this.assign_(name, '`'+source+'`')
+    charClass.constName = name
+  }
+
+  stringMatch_ (expression, string) {
+    return expression + ' == "' + string + '"'
+  }
+
+  regexMatch_ (regex, string) {
+    return string + ' =~ ' + regex  
+  }
+
+  localVar_ (name, value) {
+    this.assign_(name, value)
+    return name
+  }
+
+  localVars_ (vars) {
+    let names = {}
+    for (let name in vars)
+      names[name] = this.localVar_(name, vars[name])
+    return names
+  }
+
+  // More builder methods will be implemented here
+}
+
+module.exports = Builder  
+</document_content>
+</document>
+
+<document>
+<source>templates/golang/parser.go</source>
+<document_content>package {{{name}}}
+
+import (
+  "regexp"
+)
+
+{{{classes}}}
+
+type parser struct {
+  Buffer string
+  Offset int
+  Failure int
+  Expected []string
+}
+
+func (p *parser) Init() {
+  p.Offset = 0
+  p.Failure = -1
+  p.Expected = []string{}
+}
+
+func (p *parser) Parse() error {
+  node := p.parse_{{{root}}}()
+  if node == nil || p.Offset != len(p.Buffer) {
+    // TODO: Generate detailed error message
+    return fmt.Errorf("Parsing failed at offset %d", p.Failure)
+  }
+  return nil    
+}
+
+func (p *parser) Expect(msg string) {
+  p.Expected = append(p.Expected, msg)
+}
+
+{{{methods}}}
+</document_content>
+</document>
+
+<document>  
+<source>templates/golang/tree_node.go</source>
+<document_content>package {{{name}}}
+
+type TreeNode struct {
+  Text string
+  Offset int
+  Elements []TreeNode
+  NodeType string
+}  
+
+func (t *TreeNode) String() string {
+  return t.Text
+}
+
+func (t *TreeNode) GetByNodeType(nodeType string) *TreeNode {
+  for _, el := range t.Elements {
+    if el.NodeType == nodeType {
+      return &el  
+    }
+  }
+  return nil
+}
+</document_content>
+</document>
+
+<document>
+<source>lib/canopy.js</source>  
+<document_content>'use strict'
+
+const Compiler = require('./compiler')
+
+module.exports = {
+  builders: {
+    go:         require('./builders/golang'),
+    java:       require('./builders/java'),    
+    javascript: require('./builders/javascript'),
+    python:     require('./builders/python'),
+    ruby:       require('./builders/ruby')
+  },
+
+  compile (grammar, builder) {
+    let compiler = new Compiler(grammar, builder) 
+    return compiler.toSource()
+  }
+}
+</document_content>
+</document>
+
+<document>
+<source>bin/canopy</source>
+<document_content>// Add this to the list of supported languages and builder aliases  
+Object.assign(canopy.builders, {
+  go: canopy.builders.golang, 
+  js: canopy.builders.javascript,
+  py: canopy.builders.python,  
+  rb: canopy.builders.ruby
+})  
+</document_content>  
+</document>
+
+</documents>
+
+This covers the core changes needed to add a Go builder to Canopy. The golang.js builder and parser/tree_node templates form the foundation. The builder methods generate the specific Go code for each grammar rule. 
+
+Additional work will be needed to flesh out all the builder methods, write Go-specific tests, and update the documentation. But this should provide a good starting point for supporting Go as a target language for Canopy.
+
+Let me know if you have any other questions!

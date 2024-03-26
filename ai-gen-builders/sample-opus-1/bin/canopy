@@ -1,0 +1,7 @@
+// Add this to the list of supported languages and builder aliases  
+Object.assign(canopy.builders, {
+  go: canopy.builders.golang, 
+  js: canopy.builders.javascript,
+  py: canopy.builders.python,  
+  rb: canopy.builders.ruby
+})  

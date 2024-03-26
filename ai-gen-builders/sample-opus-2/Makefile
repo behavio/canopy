@@ -1,0 +1,95 @@
+SHELL := /bin/bash
+
+.PHONY: bootstrap compile test examples clean clean-test clean-examples
+
+
+src_files := $(shell find src -type f)
+templates := $(shell find templates -type f)
+lib_files := $(src_files:src/%=lib/%) node_modules $(templates)
+
+bootstrap: test $(lib_files)
+
+compile:
+	./bin/canopy src/meta_grammar.peg
+
+test: node_modules test-js test-go
+
+clean: clean-examples clean-test
+
+
+lib/%: src/%
+	@mkdir -p $(@D)
+	cp $< $@
+
+node_modules:
+	npm install --no-save
+
+examples/%.js: examples/%.peg $(lib_files)
+	./bin/canopy --lang js $<
+
+test/%.js: test/%.peg $(lib_files)
+	./bin/canopy --lang js $<
+
+%/Grammar.java: %.peg $(lib_files)
+	./bin/canopy --lang java $<
+
+%.py: %.peg $(lib_files)
+	./bin/canopy --lang python $<
+
+%.rb: %.peg $(lib_files)
+	./bin/canopy --lang ruby $<
+
+examples/golang/%.go: examples/golang/%.peg $(lib_files)
+	./bin/canopy --lang go --output $(@D) $<
+
+test/golang/%.go: test/golang/%.peg $(lib_files)
+	./bin/canopy --lang go --output $(@D) $<
+
+
+test_grammars := $(wildcard test/grammars/*.peg)
+
+test/javascript/node_modules:
+	cd test/javascript && npm install --no-save
+
+test-all: test-java test-js test-python test-ruby test-go
+
+test-java: $(test_grammars:%.peg=%/Grammar.java)
+	cd test/java && mvn clean test
+
+test-js: test/javascript/node_modules $(test_grammars:%.peg=%.js)
+	cd test/javascript && npm test
+
+test-python: $(test_grammars:%.peg=%.py)
+	cd test && python -m unittest discover --pattern '*_test.py'
+
+test-ruby: $(test_grammars:%.peg=%.rb)
+	cd test/ruby && rake
+
+test-go: $(test_grammars:%.peg=test/golang/%.go)
+	cd test/golang && go test ./...
+
+clean-test:
+	find test/grammars -type f -a ! -name '*.peg' -a ! -name __init__.py -exec rm {} \;
+	rm -rf test/golang/*
+
+
+example_grammars        := $(wildcard examples/canopy/*.peg)
+example_grammars_js     := $(example_grammars:%.peg=%.js)
+example_grammars_java   := $(example_grammars:%.peg=%/Grammar.java)
+example_grammars_python := $(example_grammars:%.peg=%.py)
+example_grammars_ruby   := $(example_grammars:%.peg=%.rb)
+example_grammars_go     := $(wildcard examples/golang/*.peg)
+
+examples: $(example_grammars_js) \
+	$(example_grammars_java) \
+	$(example_grammars_python) \
+	$(example_grammars_ruby) \
+	$(example_grammars_go:%.peg=%.go) \
+	examples/pegjs
+
+examples/pegjs:
+	find examples/pegjs -name '*.peg' -exec pegjs --cache {} \;
+
+clean-examples:
+	find examples -name '*.class' -o -name '*.pyc' -exec rm {} \;
+	rm -f examples/golang/*.go

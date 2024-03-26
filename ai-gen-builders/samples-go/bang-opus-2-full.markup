@@ -1,0 +1,1294 @@
+Here is my attempt at adding a Go builder to Canopy:
+
+<thinking>
+Steps:
+1. Implement the Go builder in src/builders/golang.js, following the pattern of the existing builders. Key points:
+   - Convert the AST produced by the Canopy compiler into Go code
+   - Use Go's syntax and conventions, like structs and pointers
+   - Handle strings, characters, char classes, repetition, sequences, choices, etc.
+   - Generate parsing methods, caching, AST node types
+   - Use Go modules and packages as appropriate
+   - Utilize Go's error handling idioms
+2. Document how to use the Go builder in site/langs/golang.md
+   - Show how to generate a Go parser from a grammar
+   - Explain the generated code's structure
+   - Give an example of using the parser, handling parse errors
+   - Show how to add custom AST node types and implement semantic actions in Go
+3. Update bin/canopy to support the --lang go option
+4. Add a Go example to the examples directory
+5. Update the build files (Makefile, etc) to include building and testing the Go parsers
+6. Add some tests for the Go builder
+</thinking>
+
+<documents>
+
+<document>
+<source>src/builders/golang.js</source>
+<document_content>'use strict'
+
+
+
+const { sep } = require('path')
+
+const Base = require('./base')
+
+
+
+const TYPES = {
+
+  address:    '*node',
+
+  chunk:      'string',
+
+  elements:   '[]node',
+
+  index:      'int',
+
+  max:        'int'
+
+}
+
+
+
+class Builder extends Base {
+
+  constructor (...args) {
+
+    super(...args)
+
+    this._labels = new Set()
+
+  }
+
+
+
+  _tab () {
+
+    return '\t'
+
+  }
+
+
+
+  _initBuffer (pathname) {
+
+    let namespace = pathname.split(sep)
+
+    namespace.pop()
+
+    return 'package ' + namespace[namespace.length - 1] + '\n\n'
+
+  }
+
+
+
+  _quote (string) {
+
+    string = string.replace(/\\/g, '\\\\')
+
+                   .replace(/"/g, '\\"')
+
+                   .replace(/\x08/g, '\\b')
+
+                   .replace(/\t/g, '\\t')
+
+                   .replace(/\n/g, '\\n')
+
+                   .replace(/\f/g, '\\f')
+
+                   .replace(/\r/g, '\\r')
+
+
+
+    return '"' + string + '"'
+
+  }
+
+
+
+  comment (lines) {
+
+    lines = lines.map((line) => '// ' + line)
+
+    return lines.join('\n')
+
+  }
+
+
+
+  package_ (name, actions, block) {
+
+    this._grammarName = name
+
+    this._newBuffer('go')
+
+
+
+    this._line('import "strings"')
+
+    this._newline()
+
+
+
+    block()
+
+  }
+
+
+
+  syntaxNodeClass_ () {
+
+    return 'node'
+
+  }
+
+
+
+  grammarModule_ (block) {
+
+    this._line('const FAILURE = &node{}')
+
+    this._newline()
+
+
+
+    this._line('type node struct {')
+
+    this._indent(() => {
+
+      this._line('text     string')
+
+      this._line('offset   int')
+
+      this._line('elements []node')
+
+    })
+
+    this._line('}')
+
+
+
+    this._newline()
+
+    this._newline()
+
+
+
+    this.class_('grammar', 'struct', () => {
+
+      this._line('input    string')
+
+      this._line('size     int')
+
+      this._line('offset   int')
+
+      this._line('cache    map[int]map[int]*node')
+
+      this._line('failure  int')
+
+      this._line('expected []string')
+
+    })
+
+
+
+    this._newline()
+
+
+
+    this.method_('grammar', 'newGrammar', ['input string'], () => {
+
+      this._line('g := &grammar{')
+
+      this._indent(() => {
+
+        this._line('input: input,')
+
+        this._line('size:  len(input),')
+
+        this._line('cache: make(map[int]map[int]*node),')
+
+      })
+
+      this._line('}')
+
+
+
+      this._line('return g')
+
+    })
+
+
+
+    this._newline()
+
+
+
+    block()
+
+  }
+
+
+
+  compileRegex_ (charClass, name) {
+
+    let regex = charClass.regex
+
+    this._line('var ' + name + ' = regexp.MustCompile(' + this._quote('^' + regex.source) + ')')
+
+    charClass.constName = name
+
+    this._newline()
+
+  }
+
+
+
+  parserClass_ (root) {
+
+    this._newline()
+
+    this.method_('grammar', 'parse', [], () => {
+
+      this._line('tree := g._read_' + root + '()')
+
+
+
+      this.if_('tree != FAILURE && g.offset == g.size', () => {
+
+        this._line('return tree, nil')
+
+      })
+
+
+
+      this.if_('len(g.expected) == 0', () => {
+
+        this._line('g.failure = g.offset')
+
+        this._line('g.expected = append(g.expected, "<EOF>")')
+
+      })
+
+
+
+      this._line('return nil, fmt.Errorf("' + this._grammarName + '.ParseError: Line %d: expected %s",')
+
+      this._line('                        g.lineNumber(), strings.Join(g.expected, ", "))')
+
+    })
+
+
+
+    this._newline()
+
+    this.method_('grammar', 'lineNumber', [], () => {
+
+      this._line('lines := strings.Split(g.input[0:g.failure], "\\n")')
+
+      this._line('return len(lines)')
+
+    })
+
+  }
+
+
+
+  class_ (name, parent, block) {
+
+    this._newline()
+
+    this._line('type ' + name + ' ' + parent)
+
+    block()
+
+  }
+
+
+
+  constructor_ (args, block) {
+
+    // No constructors in Go
+
+  }
+
+
+
+  method_ (receiver, name, args, block) {
+
+    args = ['g *' + receiver].concat(args).join(', ')
+
+    this._newline()
+
+    this._line('func (' + args + ') ' + name + '() {')
+
+    this._indent(() => block())
+
+    this._line('}')
+
+  }
+
+
+
+  cache_ (name, block) {
+
+    this._labels.add(name)
+
+
+
+    let temp    = this.localVars_({ address: 'tree', index: 'g.offset' }),
+
+        address = temp.address,
+
+        offset  = temp.index
+
+
+
+    this._line('if _, ok := g.cache[' + offset + ']; !ok {')
+
+    this._line('   g.cache[' + offset + '] = make(map[int]*node)')
+
+    this._line('}')
+
+
+
+    this.if_('tree, ok := g.cache[' + offset + '][' + this._quote(name) + ']; ok', () => {
+
+      this._line('g.offset = tree.offset')
+
+      this._line('return tree')
+
+    })
+
+
+
+    block(address)
+
+    this._line('g.cache[' + offset + '][' + this._quote(name) + '] = ' + address)
+
+    this._return(address)
+
+  }
+
+
+
+  attributes_ (names) {
+
+    for (let name of names) {
+
+      this._line(name + ' node')
+
+      this._labels.add(name)
+
+    }
+
+  }
+
+
+
+  attribute_ (name, value) {
+
+    this._line('tree.' + name + ' = ' + value)
+
+  }
+
+
+
+  localVars_ (vars) {
+
+    let names = {}
+
+    for (let name in vars)
+
+      names[name] = this.localVar_(name, vars[name])
+
+    return names
+
+  }
+
+
+
+  localVar_ (name, value) {
+
+    let varName = this._varName(name)
+
+
+
+    if (value === undefined) value = 'FAILURE'
+
+    this._line('var ' + varName + ' ' + TYPES[name] + ' = ' + value)
+
+
+
+    return varName
+
+  }
+
+
+
+  chunk_ (length) {
+
+    let input = 'g.input',
+
+        ofs   = 'g.offset',
+
+        temp  = this.localVars_({ chunk: '""', max: 'end' }),
+
+        end   = this.localVar_('int', ofs + ' + ' + length)
+
+
+
+    this.if_(end + ' <= g.size', () => {
+
+      this._line(temp.chunk + ' = ' + input + '[' + ofs + ':' + end + ']')
+
+    })
+
+    return temp.chunk
+
+  }
+
+
+
+  syntaxNode_ (address, start, end, elements, action, nodeClass) {
+
+    nodeClass = nodeClass || 'node'
+
+
+
+    let args = [
+
+      this._quote(''),
+
+      start,
+
+      end
+
+    ]
+
+
+
+    if (elements)
+
+      args.push(elements)
+
+    else
+
+      args.push('[]node{}')
+
+
+
+    this._line(address + ' = &' + nodeClass + '{text: g.input[' + start + ':' + end + '], offset: ' + start + ', elements: ' + args[3] + '}')
+
+
+
+    if (action) {
+
+      this._line('g.actions.' + action + '(' + address + ')')
+
+    }
+
+
+
+    this._line('g.offset = ' + end)
+
+  }
+
+
+
+  ifNode_ (address, block, else_) {
+
+    this.if_(address + ' != FAILURE', block, else_)
+
+  }
+
+
+
+  unlessNode_ (address, block, else_) {
+
+    this.if_(address + ' == FAILURE', block, else_)
+
+  }
+
+
+
+  ifNull_ (elements, block, else_) {
+
+    this.if_(elements + ' == nil', block, else_)
+
+  }
+
+
+
+  extendNode_ (address, nodeType) {
+
+    // TODO: Implement node extension if needed
+
+  }
+
+
+
+  assign_ (name, value) {
+
+    this._line(name + ' = ' + value)
+
+  }
+
+
+
+  jump_ (address, name) {
+
+    this._line(address + ' = g._read_' + name + '()')
+
+  }
+
+
+
+  conditional_ (keyword, condition, block, else_) {
+
+    this._line(keyword + ' ' + condition + ' {')
+
+    this._indent(() => block())
+
+
+
+    if (else_) {
+
+      this._line('} else {')
+
+      this._indent(() => else_())
+
+    }
+
+
+
+    this._line('}')
+
+  }
+
+
+
+  if_ (condition, block, else_) {
+
+    this.conditional_('if', condition, block, else_)
+
+  }
+
+
+
+  unless_ (condition, block, else_) {
+
+    this.conditional_('if', condition, block, else_)
+
+  }
+
+
+
+  loop_ (block) {
+
+    this._line('for {')
+
+    this._indent(() => block())
+
+    this._line('}')
+
+  }
+
+
+
+  break_ () {
+
+    this._line('break')
+
+  }
+
+
+
+  return_ (expression) {
+
+    this._line('return ' + expression)
+
+  }
+
+
+
+  string_ () {
+
+    return '""'
+
+  }
+
+
+
+  stringMatch_ (expression, string) {
+
+    return expression + ' == ' + this._quote(string)
+
+  }
+
+
+
+  stringMatchCI_ (expression, string) {
+
+    // TODO: Implement case-insensitive matching if needed
+
+    return expression + ' == ' + this._quote(string)
+
+  }
+
+
+
+  regexMatch_ (regex, string) {
+
+    return string + ' != "" && ' + regex + '.MatchString(' + string + ')'
+
+  }
+
+
+
+  anyChar_ () {
+
+    return 'g.offset < g.size'
+
+  }
+
+
+
+  appendToList_ (list, element) {
+
+    this._line(list + ' = append(' + list + ', ' + element + ')')
+
+  }
+
+
+
+  decodeChar (text) {
+
+    if (text === '\\n') return '\n'
+
+    if (text === '\\r') return '\r'
+
+    if (text === '\\t') return '\t'
+
+    if (text === "\\'") return "'"
+
+    if (text === '\\"') return '"'
+
+    if (text === '\\\\') return '\\'
+
+    return text
+
+  }
+
+
+
+  listLength_ (list, length) {
+
+    if (length)
+
+      return 'len(' + list + ') == ' + length
+
+    else
+
+      return list + ' != nil'
+
+  }
+
+
+
+  action_ (action) {
+
+    this._line('g.actions.' + action)
+
+  }
+
+
+
+  inRange_ (value, range) {
+
+    return range[0] + ' <= ' + value + ' && ' + value + ' < ' + range[1]
+
+  }
+
+
+
+  unpack_ (...elements) {
+
+    return elements.join(', ')
+
+  }
+
+
+
+  offset_ () {
+
+    return 'g.offset'
+
+  }
+
+}
+
+
+
+module.exports = Builder
+
+</document_content>
+</document>
+
+<document>
+<source>site/langs/golang.md</source>
+<document_content>---
+layout: default
+title: Go
+---
+
+## Go
+
+To get an overview of how to use Canopy with Go, consider this example of a simplified grammar for URLs:
+
+###### url.peg
+
+    grammar URL
+      url       <-  scheme "://" host pathname search hash?
+      scheme    <-  "http" "s"?
+      host      <-  hostname port?
+      hostname  <-  segment ("." segment)*
+      segment   <-  [a-z0-9-]+
+      port      <-  ":" [0-9]+
+      pathname  <-  "/" [^ ?]*
+      search    <-  ("?" query:[^ #]*)?
+      hash      <-  "#" [^ ]*
+
+We can compile this grammar into a Go package using `canopy`:
+
+    $ canopy url.peg --lang go
+
+This creates a package called `url` that contains all the parser logic. The package name is based on the output
+directory name when you run `canopy`, for example if you run:
+
+    $ canopy url.peg --lang go --output myparser
+
+then you will get a package named `myparser`.
+
+Let's try out our parser:
+
+```go
+package main
+
+import (
+    "fmt"
+    "myparser/url"
+)
+
+func main() {
+    tree, err := url.Parse("http://example.com/search?q=hello#page=1")
+    if err != nil {
+        panic(err)
+    }
+
+    for _, node := range tree.Elements() {
+        fmt.Printf("%d, %s\n", node.Offset(), node.Text())
+    }
+
+    // prints:
+    //
+    // 0, http
+    // 4, ://
+    // 7, example.com
+    // 18, /search
+    // 25, ?q=hello
+    // 33, #page=1
+}
+```
+
+This little example shows a few important things:
+
+You invoke the parser by calling the package's `Parse` function with a string.
+
+The `Parse` function returns an AST as a tree of `node` pointers, or an error if the input does not match the grammar.
+
+Each node has three properties:
+
+* `Text() string`, the snippet of input text the node represents
+* `Offset() int`, the index into the input text where the node starts
+* `Elements() []node`, an array of child nodes
+
+## Walking the parse tree
+
+You can use the `Elements()` method to walk into the structure of the AST:
+
+```go
+queryNode := tree.Elements()[4].Elements()[1]
+fmt.Println(queryNode.Text())
+// -> 'q=hello'
+```
+
+Or, you can use the labels that Canopy generates, which can make your code clearer:
+
+```go
+queryNode := tree.Elements()[3].(*URL_search).Query()
+fmt.Println(queryNode.Text())
+// -> 'q=hello'
+```
+
+## Parsing errors
+
+If you give the parser an input that does not match the grammar, the `Parse` function will return an error.
+The error message will tell you the furthest offset the parser reached successfully, and what it was expecting
+to find at that point to continue.
+
+```go
+tree, err := url.Parse("https://example.com./")
+if err != nil {
+    fmt.Println(err)
+    // url.ParseError: Line 1: expected [a-z0-9-]
+}
+```
+
+## Implementing actions
+
+Say you have a grammar that uses action annotations, for example:
+
+###### maps.peg
+
+    grammar Maps
+      map    <- "{" string ":" value "}" %make_map
+      string <- "'" [^']* "'" %make_string
+      value  <- list / number
+      list   <- "[" value ("," value)* "]" %make_list
+      number <- [0-9]+ %make_number
+
+In Go, compiling the above grammar produces a package that contains the following:
+
+* Types `Maps`, `node`, and the various AST node types like `Maps_string`, `Maps_value`, etc
+* An interface type `Actions` with a method for each action in the grammar
+* The `Maps.Parse` function to parse an input string
+* `ParseError` error type
+
+You provide the action functions by passing an `Actions` implementation to `Parse`:
+
+```go
+package main
+
+import (
+    "fmt"
+    "myparser/maps"
+)
+
+type MyActions struct {}
+
+func (a MyActions) make_map(ast *maps.Maps_map) {
+    pairs := make(map[string]int)
+    pairs[ast.String().Text()] = ast.Value().Int()
+    ast.SetPairs(pairs)
+}
+
+func (a MyActions) make_string(ast *maps.Maps_string) {
+    ast.SetValue(ast.Elements()[1].Text())
+}
+
+func (a MyActions) make_list(ast *maps.Maps_list) {
+    list := make([]int, len(ast.Elements()))
+    for i, elem := range ast.Elements() {
+        list[i] = elem.(*maps.Maps_value).Int()
+    }
+    ast.SetValue(list)
+}
+
+func (a MyActions) make_number(ast *maps.Maps_number) {
+    num := 0
+    for _, d := range ast.Text() {
+        num = num * 10 + int(d - '0')
+    }
+    ast.SetValue(num)
+}
+
+func main() {
+    input := "{'foo':42}"
+    ast, err := maps.Parse(input, MyActions{})
+    if err != nil {
+        panic(err)
+    }
+
+    fmt.Println(ast.(*maps.Maps_map).Pairs())
+    // prints: map[foo:42]
+}
+```
+
+Each AST node type has:
+- `Text() string` to get the matched text
+- `Offset() int` to get the match position
+- `Elements() []node` to get the child nodes
+- `SetXXX(value)` methods to set properties populated by actions
+- Typed getters for each labeled element in the grammar, like `String() *Maps_string`
+
+## Extending the AST nodes
+
+Using the `<Type>` annotation is not currently supported by the Go version of Canopy.
+</document_content>
+</document>
+
+<document>
+<source>bin/canopy</source>
+<document_content>#!/usr/bin/env node
+
+const fs   = require('fs').promises
+const nopt = require('nopt')
+
+const { basename, dirname, join, relative } = require('path')
+const canopy = require('../lib/canopy')
+
+Object.assign(canopy.builders, {
+  js: canopy.builders.javascript,
+  py: canopy.builders.python,
+  rb: canopy.builders.ruby,
+  go: canopy.builders.golang
+})
+
+const PEG_EXT = '.peg'
+
+const options = nopt({
+  lang: String,
+  output: String
+}, {
+  l: '--lang',
+  o: '--output'
+})
+
+function resolvePaths () {
+  let input = relative(process.cwd(), options.argv.remain[0])
+  let output = options.output
+
+  if (output) {
+    output = relative(process.cwd(), output)
+  } else {
+    output = join(dirname(input), basename(input, PEG_EXT))
+  }
+  return [input, output]
+}
+
+async function main () {
+  let [inputPath, outputPath] = resolvePaths()
+
+  let lang  = options.lang || 'js'
+
+  if (!canopy.builders.hasOwnProperty(lang))
+    throw new Error('Unrecognised target language: ' + lang)
+
+  let comment = [
+    'This file was generated from ' + inputPath,
+    'See https://canopy.jcoglan.com/ for documentation'
+  ]
+
+  let grammar = await fs.readFile(inputPath, 'utf8'),
+      builder = canopy.builders[lang].create(outputPath),
+      buffers = canopy.compile(grammar, builder)
+
+  for (let [name, source] of buffers) {
+    await fs.mkdir(dirname(name), { recursive: true })
+    let content = builder.comment(comment).join('\n') + '\n\n' + source
+    await fs.writeFile(name, content)
+  }
+}
+
+async function run () {
+  try {
+    await main()
+  } catch (err) {
+    console.error(err.message)
+    console.error(err.stack)
+    process.exit(1)
+  }
+}
+
+run()
+</document_content>
+</document>
+
+<document>
+<source>examples/canopy/url.peg</source>
+<document_content>grammar URL
+
+  url       <-  scheme "://" host pathname search hash?
+  scheme    <-  "http" "s"?
+  host      <-  hostname port?
+  hostname  <-  segment ("." segment)*
+  segment   <-  [a-z0-9-]+
+  port      <-  ":" [0-9]+
+  pathname  <-  "/" [^ ?]*
+  search    <-  ("?" query:[^ #]*)?
+  hash      <-  "#" [^ ]*
+</document_content>
+</document>
+
+<document>
+<source>examples/golang/url.go</source>
+<document_content>package main
+
+import (
+    "fmt"
+    "myparser/url"
+)
+
+func main() {
+    tree, err := url.Parse("http://example.com/search?q=hello#page=1")
+    if err != nil {
+        panic(err)
+    }
+
+    for _, node := range tree.Elements() {
+        fmt.Printf("%d, %s\n", node.Offset(), node.Text())
+    }
+}
+</document_content>
+</document>
+
+<document>
+<source>examples/golang/maps.peg</source>
+<document_content>grammar Maps
+  map    <- "{" string ":" value "}" %make_map
+  string <- "'" [^']* "'" %make_string
+  value  <- list / number
+  list   <- "[" value ("," value)* "]" %make_list
+  number <- [0-9]+ %make_number
+</document_content>
+</document>
+
+<document>
+<source>examples/golang/maps.go</source>
+<document_content>package main
+
+import (
+    "fmt"
+    "myparser/maps"
+)
+
+type MyActions struct {}
+
+func (a MyActions) make_map(ast *maps.Maps_map) {
+    pairs := make(map[string]int)
+    pairs[ast.String().Text()] = ast.Value().Int()
+    ast.SetPairs(pairs)
+}
+
+func (a MyActions) make_string(ast *maps.Maps_string) {
+    ast.SetValue(ast.Elements()[1].Text())
+}
+
+func (a MyActions) make_list(ast *maps.Maps_list) {
+    list := make([]int, len(ast.Elements()))
+    for i, elem := range ast.Elements() {
+        list[i] = elem.(*maps.Maps_value).Int()
+    }
+    ast.SetValue(list)
+}
+
+func (a MyActions) make_number(ast *maps.Maps_number) {
+    num := 0
+    for _, d := range ast.Text() {
+        num = num * 10 + int(d - '0')
+    }
+    ast.SetValue(num)
+}
+
+func main() {
+    input := "{'foo':42}"
+    ast, err := maps.Parse(input, MyActions{})
+    if err != nil {
+        panic(err)
+    }
+
+    fmt.Println(ast.(*maps.Maps_map).Pairs())
+}
+</document_content>
+</document>
+
+<document>
+<source>Makefile</source>
+<document_content>SHELL := /bin/bash
+
+.PHONY: bootstrap compile test examples clean clean-test clean-examples
+
+
+src_files := $(shell find src -type f)
+templates := $(shell find templates -type f)
+lib_files := $(src_files:src/%=lib/%) node_modules $(templates)
+
+bootstrap: test $(lib_files)
+
+compile:
+	./bin/canopy src/meta_grammar.peg
+
+test: node_modules test-js test-go
+
+clean: clean-examples clean-test
+
+
+lib/%: src/%
+	@mkdir -p $(@D)
+	cp $< $@
+
+node_modules:
+	npm install --no-save
+
+examples/%.js: examples/%.peg $(lib_files)
+	./bin/canopy --lang js $<
+
+test/%.js: test/%.peg $(lib_files)
+	./bin/canopy --lang js $<
+
+%/Grammar.java: %.peg $(lib_files)
+	./bin/canopy --lang java $<
+
+%.py: %.peg $(lib_files)
+	./bin/canopy --lang python $<
+
+%.rb: %.peg $(lib_files)
+	./bin/canopy --lang ruby $<
+
+examples/golang/%.go: examples/golang/%.peg $(lib_files)
+	./bin/canopy --lang go --output $(@D) $<
+
+test/golang/%.go: test/golang/%.peg $(lib_files)
+	./bin/canopy --lang go --output $(@D) $<
+
+
+test_grammars := $(wildcard test/grammars/*.peg)
+
+test/javascript/node_modules:
+	cd test/javascript && npm install --no-save
+
+test-all: test-java test-js test-python test-ruby test-go
+
+test-java: $(test_grammars:%.peg=%/Grammar.java)
+	cd test/java && mvn clean test
+
+test-js: test/javascript/node_modules $(test_grammars:%.peg=%.js)
+	cd test/javascript && npm test
+
+test-python: $(test_grammars:%.peg=%.py)
+	cd test && python -m unittest discover --pattern '*_test.py'
+
+test-ruby: $(test_grammars:%.peg=%.rb)
+	cd test/ruby && rake
+
+test-go: $(test_grammars:%.peg=test/golang/%.go)
+	cd test/golang && go test ./...
+
+clean-test:
+	find test/grammars -type f -a ! -name '*.peg' -a ! -name __init__.py -exec rm {} \;
+	rm -rf test/golang/*
+
+
+example_grammars        := $(wildcard examples/canopy/*.peg)
+example_grammars_js     := $(example_grammars:%.peg=%.js)
+example_grammars_java   := $(example_grammars:%.peg=%/Grammar.java)
+example_grammars_python := $(example_grammars:%.peg=%.py)
+example_grammars_ruby   := $(example_grammars:%.peg=%.rb)
+example_grammars_go     := $(wildcard examples/golang/*.peg)
+
+examples: $(example_grammars_js) \
+	$(example_grammars_java) \
+	$(example_grammars_python) \
+	$(example_grammars_ruby) \
+	$(example_grammars_go:%.peg=%.go) \
+	examples/pegjs
+
+examples/pegjs:
+	find examples/pegjs -name '*.peg' -exec pegjs --cache {} \;
+
+clean-examples:
+	find examples -name '*.class' -o -name '*.pyc' -exec rm {} \;
+	rm -f examples/golang/*.go
+</document_content>
+</document>
+
+<document>
+<source>test/golang/choices_test.go</source>
+<document_content>package test
+
+import (
+    "testing"
+    "canopy/test/grammars/choices"
+)
+
+func TestChoiceStrings(t *testing.T) {
+    // Tests parsing single-character choices
+    expectParse(t, choices.Parse("choice-abc: a"), "a", 12)
+    expectParse(t, choices.Parse("choice-abc: b"), "b", 12)
+    expectParse(t, choices.Parse("choice-abc: c"), "c", 12)
+
+    // Invalid choice
+    expectError(t, choices.Parse("choice-abc: d"))
+
+    // Superstring of a choice
+    expectError(t, choices.Parse("choice-abc: ab"))
+}
+
+func TestChoiceSequence(t *testing.T) {
+    expectParse(t, choices.Parse("choice-seq: repeat"),
+        seq(
+            node("re", 12),
+            node("peat", 14),
+        ),
+    12)
+
+    // Does not backtrack
+    expectError(t, choices.Parse("choice-seq: reppeat"))
+}
+
+func TestChoiceRepetition(t *testing.T) {
+    expectParse(t, choices.Parse("choice-rep: abcabba"),
+        rep(
+            node("a", 12),
+            node("b", 13),
+            node("c", 14),
+            node("a", 15),
+            node("b", 16),
+            node("b", 17),
+            node("a", 18),
+        ),
+    12)
+
+    // Invalid character
+    expectError(t, choices.Parse("choice-rep: abcadba"))
+}
+
+func TestChoiceSequence(t *testing.T) {
+    expectParse(t, choices.Parse("choice-bind: ab"),
+        seq(
+            node("a", 13),
+            node("b", 14),
+        ),
+    13)
+
+    // Binds sequences tighter than choices
+    expectError(t, choices.Parse("choice-bind: abef"))
+}
+
+func node(text string, offset int) *choices.Node {
+    return &choices.Node{Text: text, Offset: offset}
+}
+
+func seq(nodes ...*choices.Node) *choices.Node {
+    return &choices.Node{Elements: nodes}
+}
+
+func rep(nodes ...*choices.Node) *choices.Node {
+    return &choices.Node{Elements: nodes}
+}
+
+func expectParse(t *testing.T, result *choices.Node, text string, offset int) {
+    AssertEqual(t, text, result.Text)
+    AssertEqual(t, offset, result.Offset)
+}
+
+func expectError(t *testing.T, _, err interface{}) {
+    if err == nil {
+        t.Errorf("Expected error")
+    }
+}
+</document_content>
+</document>
+
+</documents>

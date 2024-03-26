@@ -1,0 +1,450 @@
+Here is the rest of my attempt at adding Go support to Canopy:
+
+<document>
+<source>site/langs/golang.md</source>
+<document_content>
+... (continued from previous)
+
+###### maps.peg
+
+    grammar Maps
+      map    <- "{" string ":" value "}" %make_map
+      string <- "'" [^']* "'" %make_string
+      value  <- list / number  
+      list   <- "[" value ("," value)* "]" %make_list
+      number <- [0-9]+ %make_number
+
+In Go, compiling the above grammar produces a package that contains the following:
+
+* Types `Maps`, `node`, and the various AST node types like `Maps_string`, `Maps_value`, etc
+* An interface type `Actions` with a method for each action in the grammar
+* The `Maps.Parse` function to parse an input string
+* `ParseError` error type
+
+You provide the action functions by passing an `Actions` implementation to `Parse`:
+
+```go
+package main
+
+import (
+    "fmt"
+    "myparser/maps"
+)
+
+type MyActions struct {}
+
+func (a MyActions) make_map(ast *maps.Maps_map) {
+    pairs := make(map[string]int)
+    pairs[ast.String().Text()] = ast.Value().Int()
+    ast.SetPairs(pairs)
+}
+
+func (a MyActions) make_string(ast *maps.Maps_string) {
+    ast.SetValue(ast.Elements()[1].Text())  
+}
+
+func (a MyActions) make_list(ast *maps.Maps_list) {
+    list := make([]int, len(ast.Elements()))
+    for i, elem := range ast.Elements() {
+        list[i] = elem.(*maps.Maps_value).Int()
+    }
+    ast.SetValue(list)
+}
+
+func (a MyActions) make_number(ast *maps.Maps_number) {
+    num := 0
+    for _, d := range ast.Text() {
+        num = num * 10 + int(d - '0') 
+    }
+    ast.SetValue(num)
+}
+
+func main() {
+    input := "{'foo':42}"
+    ast, err := maps.Parse(input, MyActions{})
+    if err != nil {
+        panic(err)
+    }
+    
+    fmt.Println(ast.(*maps.Maps_map).Pairs())
+    // prints: map[foo:42]
+}
+```
+
+Each AST node type has:
+- `Text() string` to get the matched text
+- `Offset() int` to get the match position 
+- `Elements() []node` to get the child nodes
+- `SetXXX(value)` methods to set properties populated by actions
+- Typed getters for each labeled element in the grammar, like `String() *Maps_string`
+
+## Extending the AST nodes
+
+Using the `<Type>` annotation is not currently supported by the Go version of Canopy.
+</document_content>
+</document>
+
+<document>
+<source>bin/canopy</source>
+<document_content>#!/usr/bin/env node
+
+const fs   = require('fs').promises
+const nopt = require('nopt')  
+
+const { basename, dirname, join, relative } = require('path')
+const canopy = require('../lib/canopy')
+
+Object.assign(canopy.builders, {
+  js: canopy.builders.javascript,
+  py: canopy.builders.python,  
+  rb: canopy.builders.ruby,
+  go: canopy.builders.golang
+})
+
+const PEG_EXT = '.peg'
+
+const options = nopt({  
+  lang: String,
+  output: String
+}, {
+  l: '--lang',
+  o: '--output' 
+})
+
+function resolvePaths () {
+  let input = relative(process.cwd(), options.argv.remain[0])
+  let output = options.output
+
+  if (output) {
+    output = relative(process.cwd(), output)   
+  } else {
+    output = join(dirname(input), basename(input, PEG_EXT))
+  }
+  return [input, output]
+}
+
+async function main () {
+  let [inputPath, outputPath] = resolvePaths()
+
+  let lang  = options.lang || 'js' 
+
+  if (!canopy.builders.hasOwnProperty(lang))
+    throw new Error('Unrecognised target language: ' + lang)
+    
+  let comment = [
+    'This file was generated from ' + inputPath,
+    'See https://canopy.jcoglan.com/ for documentation' 
+  ]
+
+  let grammar = await fs.readFile(inputPath, 'utf8'),
+      builder = canopy.builders[lang].create(outputPath),
+      buffers = canopy.compile(grammar, builder)
+      
+  for (let [name, source] of buffers) {
+    await fs.mkdir(dirname(name), { recursive: true })
+    let content = builder.comment(comment).join('\n') + '\n\n' + source
+    await fs.writeFile(name, content)  
+  }
+}
+
+async function run () {
+  try {
+    await main()
+  } catch (err) {
+    console.error(err.message)
+    console.error(err.stack) 
+    process.exit(1)
+  }
+}
+
+run()
+</document_content>
+</document>
+
+<document>
+<source>examples/canopy/url.peg</source>
+<document_content>grammar URL
+
+  url       <-  scheme "://" host pathname search hash?
+  scheme    <-  "http" "s"?
+  host      <-  hostname port?
+  hostname  <-  segment ("." segment)*  
+  segment   <-  [a-z0-9-]+
+  port      <-  ":" [0-9]+
+  pathname  <-  "/" [^ ?]*
+  search    <-  ("?" query:[^ #]*)?
+  hash      <-  "#" [^ ]*
+</document_content>  
+</document>
+
+<document>
+<source>examples/golang/url.go</source>
+<document_content>package main
+
+import (
+    "fmt"
+    "myparser/url"  
+)
+
+func main() {
+    tree, err := url.Parse("http://example.com/search?q=hello#page=1")
+    if err != nil {
+        panic(err)
+    }
+    
+    for _, node := range tree.Elements() {
+        fmt.Printf("%d, %s\n", node.Offset(), node.Text())
+    }
+}
+</document_content>
+</document>
+
+<document>
+<source>examples/golang/maps.peg</source>
+<document_content>grammar Maps
+  map    <- "{" string ":" value "}" %make_map
+  string <- "'" [^']* "'" %make_string
+  value  <- list / number
+  list   <- "[" value ("," value)* "]" %make_list 
+  number <- [0-9]+ %make_number  
+</document_content>
+</document>
+
+<document>  
+<source>examples/golang/maps.go</source>
+<document_content>package main
+
+import (
+    "fmt" 
+    "myparser/maps"
+)
+
+type MyActions struct {}
+
+func (a MyActions) make_map(ast *maps.Maps_map) {
+    pairs := make(map[string]int)
+    pairs[ast.String().Text()] = ast.Value().Int()
+    ast.SetPairs(pairs)  
+}
+
+func (a MyActions) make_string(ast *maps.Maps_string) {
+    ast.SetValue(ast.Elements()[1].Text())
+}
+  
+func (a MyActions) make_list(ast *maps.Maps_list) {
+    list := make([]int, len(ast.Elements()))
+    for i, elem := range ast.Elements() {
+        list[i] = elem.(*maps.Maps_value).Int() 
+    }
+    ast.SetValue(list)
+}
+
+func (a MyActions) make_number(ast *maps.Maps_number) {
+    num := 0
+    for _, d := range ast.Text() {
+        num = num * 10 + int(d - '0')
+    }  
+    ast.SetValue(num)
+}
+
+func main() {
+    input := "{'foo':42}" 
+    ast, err := maps.Parse(input, MyActions{})
+    if err != nil {
+        panic(err)  
+    }
+    
+    fmt.Println(ast.(*maps.Maps_map).Pairs())
+}
+</document_content>
+</document>
+
+<document>
+<source>Makefile</source>
+<document_content>SHELL := /bin/bash
+
+.PHONY: bootstrap compile test examples clean clean-test clean-examples
+
+
+src_files := $(shell find src -type f) 
+templates := $(shell find templates -type f)
+lib_files := $(src_files:src/%=lib/%) node_modules $(templates)
+
+bootstrap: test $(lib_files)
+
+compile:  
+	./bin/canopy src/meta_grammar.peg
+
+test: node_modules test-js test-go
+
+clean: clean-examples clean-test
+
+
+lib/%: src/%  
+	@mkdir -p $(@D)
+	cp $< $@
+
+node_modules:
+	npm install --no-save 
+	
+examples/%.js: examples/%.peg $(lib_files)
+	./bin/canopy --lang js $< 
+
+test/%.js: test/%.peg $(lib_files)  
+	./bin/canopy --lang js $<
+
+%/Grammar.java: %.peg $(lib_files)
+	./bin/canopy --lang java $< 
+
+%.py: %.peg $(lib_files)
+	./bin/canopy --lang python $<
+	
+%.rb: %.peg $(lib_files)  
+	./bin/canopy --lang ruby $<
+	
+examples/golang/%.go: examples/golang/%.peg $(lib_files)
+	./bin/canopy --lang go --output $(@D) $<
+	
+test/golang/%.go: test/golang/%.peg $(lib_files)
+	./bin/canopy --lang go --output $(@D) $<	
+	
+
+test_grammars := $(wildcard test/grammars/*.peg)
+
+test/javascript/node_modules:  
+	cd test/javascript && npm install --no-save
+
+test-all: test-java test-js test-python test-ruby test-go	
+
+test-java: $(test_grammars:%.peg=%/Grammar.java)
+	cd test/java && mvn clean test
+	
+test-js: test/javascript/node_modules $(test_grammars:%.peg=%.js)
+	cd test/javascript && npm test
+	
+test-python: $(test_grammars:%.peg=%.py)  
+	cd test && python -m unittest discover --pattern '*_test.py'
+	
+test-ruby: $(test_grammars:%.peg=%.rb)
+	cd test/ruby && rake
+	
+test-go: $(test_grammars:%.peg=test/golang/%.go)
+	cd test/golang && go test ./...
+
+clean-test:
+	find test/grammars -type f -a ! -name '*.peg' -a ! -name __init__.py -exec rm {} \;  
+	rm -rf test/golang/*
+	
+
+example_grammars        := $(wildcard examples/canopy/*.peg)
+example_grammars_js     := $(example_grammars:%.peg=%.js) 
+example_grammars_java   := $(example_grammars:%.peg=%/Grammar.java)
+example_grammars_python := $(example_grammars:%.peg=%.py)
+example_grammars_ruby   := $(example_grammars:%.peg=%.rb)
+example_grammars_go     := $(wildcard examples/golang/*.peg)  
+
+examples: $(example_grammars_js) \
+	$(example_grammars_java) \
+	$(example_grammars_python) \ 
+	$(example_grammars_ruby) \
+	$(example_grammars_go:%.peg=%.go) \  
+	examples/pegjs
+
+examples/pegjs:  
+	find examples/pegjs -name '*.peg' -exec pegjs --cache {} \;
+
+clean-examples:
+	find examples -name '*.class' -o -name '*.pyc' -exec rm {} \;   
+	rm -f examples/golang/*.go
+</document_content>
+</document>
+
+<document>
+<source>test/golang/choices_test.go</source>  
+<document_content>package test
+
+import (
+    "testing"
+    "canopy/test/grammars/choices"
+)
+
+func TestChoiceStrings(t *testing.T) {
+    // Tests parsing single-character choices     
+    expectParse(t, choices.Parse("choice-abc: a"), "a", 12)
+    expectParse(t, choices.Parse("choice-abc: b"), "b", 12)  
+    expectParse(t, choices.Parse("choice-abc: c"), "c", 12)
+
+    // Invalid choice
+    expectError(t, choices.Parse("choice-abc: d"))
+
+    // Superstring of a choice  
+    expectError(t, choices.Parse("choice-abc: ab"))
+}
+
+func TestChoiceSequence(t *testing.T) {
+    expectParse(t, choices.Parse("choice-seq: repeat"), 
+        seq(
+            node("re", 12),
+            node("peat", 14),  
+        ), 
+    12)
+    
+    // Does not backtrack
+    expectError(t, choices.Parse("choice-seq: reppeat"))    
+}
+
+func TestChoiceRepetition(t *testing.T) {
+    expectParse(t, choices.Parse("choice-rep: abcabba"),
+        rep(
+            node("a", 12),
+            node("b", 13),
+            node("c", 14),  
+            node("a", 15),
+            node("b", 16),
+            node("b", 17),  
+            node("a", 18),
+        ),
+    12)
+         
+    // Invalid character   
+    expectError(t, choices.Parse("choice-rep: abcadba"))
+}
+
+func TestChoiceSequence(t *testing.T) {
+    expectParse(t, choices.Parse("choice-bind: ab"),   
+        seq(
+            node("a", 13),  
+            node("b", 14),  
+        ),
+    13)
+    
+    // Binds sequences tighter than choices
+    expectError(t, choices.Parse("choice-bind: abef"))    
+}
+
+func node(text string, offset int) *choices.Node {
+    return &choices.Node{Text: text, Offset: offset}
+}
+
+func seq(nodes ...*choices.Node) *choices.Node {
+    return &choices.Node{Elements: nodes}   
+}
+
+func rep(nodes ...*choices.Node) *choices.Node {  
+    return &choices.Node{Elements: nodes}
+}  
+
+func expectParse(t *testing.T, result *choices.Node, text string, offset int) {
+    AssertEqual(t, text, result.Text)
+    AssertEqual(t, offset, result.Offset)  
+}
+
+func expectError(t *testing.T, _, err interface{}) {
+    if err == nil {
+        t.Errorf("Expected error")    
+    }
+}
+</document_content>  
+</document>
+
+</documents>

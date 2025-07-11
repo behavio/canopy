@@ -12,7 +12,8 @@ The generated parser will be a self-contained Go package, allowing for easy inte
 
 ## 2. Core Components
 
-The generated Go package will consist of the following core components, implemented as structs and functions.
+The generated Go package will consist of the following core components, implemented as structs and functions. The package should be named
+as jsonparser for json.peg, the main struct being JsonParser. Thus we can use the jsonparser.New() syntax recommended in https://go.dev/blog/package-names.
 
 ### The `Parser`
 
@@ -26,7 +27,7 @@ type Parser struct {
     err     *ParseError
 }
 
-func NewParser(input string, actions Actions) *Parser {
+func New(input string, actions Actions) *Parser {
     // ...
 }
 
@@ -42,47 +43,60 @@ func (p *Parser) Parse() (*TreeNode, error) {
 
 ### The Grammar Logic
 
-Instead of a separate `Grammar` component, the `_read_<rule_name>` methods will be unexported methods on the `Parser` struct itself.
+Instead of a separate `Grammar` component, the parsing rule methods will be unexported methods on the `Parser` struct itself.
 
 ```go
-func (p *Parser) _read_root() *TreeNode {
+func (p *Parser) readRoot() *TreeNode {
     // ...
 }
 
-func (p *Parser) _read_anotherRule() *TreeNode {
+func (p *Parser) readAnotherRule() *TreeNode {
     // ...
 }
 ```
 
 **Reasoning**:
-- **Composition and Methods**: This approach favors composition over inheritance. The parsing logic is tightly coupled with the parser's state (cache, input text), so making them methods of `Parser` is a natural fit in Go. Unexported methods (starting with a lowercase letter) encapsulate the internal parsing logic, presenting a clean public API.
+- **Composition and Idiomatic Naming**: This approach favors composition over inheritance. The parsing logic is tightly coupled with the parser's state, so making them methods of `Parser` is a natural fit. The method names (e.g., `readRoot`) use `camelCase` and start with a lowercase letter, making them **unexported** according to Go's visibility rules. While other Canopy backends use a `_read_` prefix, this design opts for idiomatic Go naming to present a clean public API and improve integration within Go projects.
 
-### The `TreeNode`
+### The `TreeNode` Interface and Custom Nodes
 
-This struct represents a node in the generated parse tree.
+To support a strongly-typed, semantic parse tree, the generated code will define a `TreeNode` interface and a `BaseNode` struct that other nodes can embed.
 
 ```go
-type TreeNode struct {
+// TreeNode is the interface that all nodes in the parse tree must implement.
+type TreeNode interface {
+    GetText() string
+    GetOffset() int
+    GetChildren() []TreeNode
+}
+
+// BaseNode provides the core fields and methods for a tree node.
+// Custom node types will embed it to satisfy the TreeNode interface.
+type BaseNode struct {
     Text     string
     Offset   int
-    Children []*TreeNode
-    // Rule-specific fields can be added here or handled via a more generic map
+    Children []TreeNode
 }
+
+func (n *BaseNode) GetText() string       { return n.Text }
+func (n *BaseNode) GetOffset() int      { return n.Offset }
+func (n *BaseNode) GetChildren() []TreeNode { return n.Children }
 ```
 
-For named rules, specific node types can be generated using struct embedding to extend the base `TreeNode`.
+An action can then return a custom struct that embeds `BaseNode` and adds its own semantic value.
 
 ```go
-type ExpressionNode struct {
-    TreeNode
-    // Additional fields specific to 'Expression'
+// Example of a custom node returned by an action.
+type IntegerNode struct {
+    BaseNode
+    Value int64
 }
 ```
 
 **Reasoning**:
-- **Struct for Data**: `TreeNode` is a plain data structure, making a struct the perfect choice.
-- **Slice for Children**: A slice (`[]*TreeNode`) is the natural and efficient way to handle a collection of child nodes in Go.
-- **Struct Embedding for Specialization**: Go's struct embedding provides a form of composition that mimics inheritance, allowing for specialized node types that share the base `TreeNode`'s properties without the complexity of a class hierarchy.
+- **Interface for Polymorphism**: Defining `TreeNode` as an interface allows the `Children` slice to hold different concrete node types (`[]TreeNode`), enabling a polymorphic tree structure. This is a common and idiomatic Go pattern for building flexible but type-safe data structures.
+- **Struct Embedding for Reusability**: Embedding `BaseNode` allows custom node types (like `IntegerNode`) to automatically satisfy the `TreeNode` interface without boilerplate code. This keeps the design DRY (Don't Repeat Yourself) and makes it easy to add new node types.
+- **Type Safety**: This approach is more type-safe than using `interface{}`. When you retrieve a child from the tree, you can use a type assertion to get back the specific, rich type (e.g., `*IntegerNode`), avoiding the need to check and cast a generic `Value` field.
 
 ### The `ParseError`
 
@@ -122,19 +136,22 @@ The parsing flow will follow Go's idiomatic error handling and control flow patt
 
 ## 4. Canopy Actions
 
-Actions will be handled via a Go interface.
+Actions are handled via a Go interface. When a rule with an action is successfully parsed, the parser calls the corresponding method on the `Actions` interface. The method's return value replaces the generic node for that rule in the tree.
 
 ```go
+// The Actions interface defines methods for transforming parsed nodes.
 type Actions interface {
-    // Method for each action in the grammar
-    MakeInteger(input string, start, end int, elements []*TreeNode) (interface{}, error)
+    // The method signature now returns a specific, custom node type
+    // that must implement the TreeNode interface.
+    MakeInteger(input string, start, end int, elements []TreeNode) (*IntegerNode, error)
 }
 ```
 
-The user provides a struct that implements this interface. The `Parser` calls the methods on the provided implementation.
+The user provides a struct that implements this interface. The parser invokes the methods, and the returned custom nodes are integrated directly into the parse tree.
 
 **Reasoning**:
-- **Interfaces for Behavior**: Interfaces are Go's way of specifying behavior. Defining an `Actions` interface decouples the parser from any specific implementation of the actions. This allows users to provide their own logic while ensuring a type-safe contract with the parser. The `(interface{}, error)` return signature allows actions to return custom types and signal failures gracefully.
+- **Type-Safe Transformations**: By returning specific types (e.g., `*IntegerNode`) that implement the `TreeNode` interface, actions produce a semantic, strongly-typed tree from the very beginning. This eliminates the need for downstream type assertions on a generic `Value` field.
+- **Decoupling via Interfaces**: The `Actions` interface decouples the generated parser from the user's semantic logic. The parser guarantees the structure and inputs, and the user provides the implementation that transforms the raw parse nodes into a meaningful data structure. The Go compiler enforces that the return values are valid `TreeNode` implementers, ensuring correctness at compile time.
 
 ## 5. Code Generation and Templates
 

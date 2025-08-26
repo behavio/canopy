@@ -9,6 +9,8 @@ package-lock.json
 lib
 
 test/grammars/**/*.java
+test/grammars/**/*.go
+test/grammars/**/*.mod
 test/grammars/*.js
 test/grammars/*.py
 test/grammars/*.rb

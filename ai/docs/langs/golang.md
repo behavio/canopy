@@ -65,22 +65,22 @@ To support a strongly-typed, semantic parse tree, the generated code will define
 ```go
 // TreeNode is the interface that all nodes in the parse tree must implement.
 type TreeNode interface {
-    GetText() string
-    GetOffset() int
-    GetChildren() []TreeNode
+    Text() string
+    Offset() int
+    Children() []TreeNode
 }
 
 // BaseNode provides the core fields and methods for a tree node.
 // Custom node types will embed it to satisfy the TreeNode interface.
 type BaseNode struct {
-    Text     string
-    Offset   int
-    Children []TreeNode
+    text     string
+    offset   int
+    children []TreeNode
 }
 
-func (n *BaseNode) GetText() string       { return n.Text }
-func (n *BaseNode) GetOffset() int      { return n.Offset }
-func (n *BaseNode) GetChildren() []TreeNode { return n.Children }
+func (n *BaseNode) Text() string       { return n.text }
+func (n *BaseNode) Offset() int      { return n.offset }
+func (n *BaseNode) Children() []TreeNode { return n.children }
 ```
 
 An action can then return a custom struct that embeds `BaseNode` and adds its own semantic value.

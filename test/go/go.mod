@@ -2,6 +2,12 @@ module canopy/test
 
 go 1.22.0
 
-require choicesgoparser v0.0.0
+require (
+	choicesgoparser v0.0.0
+	extensionsgoparser v0.0.0
+)
 
-replace choicesgoparser => ../grammars/choices-go
+replace (
+	choicesgoparser => ../grammars/choices-go
+	extensionsgoparser => ../grammars/extensions-go
+)

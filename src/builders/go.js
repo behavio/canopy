@@ -207,10 +207,14 @@ class Builder extends Base {
     this._indent(() => {
       this._line('BaseNode');
       for (let fieldName of cls.fields.values()) {
+        if (!fieldName) continue;
         this._line(fieldName + ' TreeNode');
       }
     });
     this._line('}');
+    this._newline();
+
+    this._line('var _ TreeNode = (*' + cls.name + ')(nil)');
     this._newline();
 
     this._line(

@@ -6,10 +6,12 @@ require (
 	choicesgoparser v0.0.0
 	extensionsgoparser v0.0.0
 	nodeactionsgoparser v0.0.0
+	predicatesgoparser v0.0.0
 )
 
 replace (
 	choicesgoparser => ../grammars/choices-go
 	extensionsgoparser => ../grammars/extensions-go
 	nodeactionsgoparser => ../grammars/node_actions-go
+	predicatesgoparser => ../grammars/predicates-go
 )

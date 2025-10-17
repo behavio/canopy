@@ -52,7 +52,7 @@ test/javascript/node_modules:
 test-all: test-java test-js test-python test-ruby test-go
 
 test-go: $(test_grammars_go)
-	$(foreach dir, $(dir $(test_grammars_go)), (cd $(dir) && go build) || exit 1;)
+	cd test/go && go test
 
 test-java: $(test_grammars:%.peg=%/Grammar.java)
 	cd test/java && mvn clean test

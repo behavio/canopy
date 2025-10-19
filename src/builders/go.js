@@ -48,6 +48,13 @@ class Builder extends Base {
     return JSON.stringify(string);
   }
 
+  assign_(name, value) {
+    // Skip self-assignments (e.g., p.offset = p.offset) which are no-ops
+    if (name !== value) {
+      super.assign_(name, value);
+    }
+  }
+
   comment(lines) {
     return lines.map((line) => '// ' + line);
   }

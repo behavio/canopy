@@ -118,7 +118,6 @@ func (p *LispGoParser) _read_program() TreeNode {
     }
     if len(elements0) >= 1 {
         address0 = &BaseNode{text: p.slice(index1, p.offset), offset: index1, children: elements0}
-        p.offset = p.offset
     } else {
         address0 = nil
     }
@@ -162,7 +161,6 @@ func (p *LispGoParser) _read_cell() TreeNode {
     }
     if len(elements2) >= 0 {
         address3 = &BaseNode{text: p.slice(index4, p.offset), offset: index4, children: elements2}
-        p.offset = p.offset
     } else {
         address3 = nil
     }
@@ -198,7 +196,6 @@ func (p *LispGoParser) _read_cell() TreeNode {
             }
             if len(elements3) >= 0 {
                 address6 = &BaseNode{text: p.slice(index6, p.offset), offset: index6, children: elements3}
-                p.offset = p.offset
             } else {
                 address6 = nil
             }
@@ -220,7 +217,6 @@ func (p *LispGoParser) _read_cell() TreeNode {
         address2 = nil
     } else {
         address2 = newNode1(p.slice(index3, p.offset), index3, elements1)
-        p.offset = p.offset
     }
     cache1[index2] = cacheEntry{node: address2, offset: p.offset}
     return address2
@@ -285,7 +281,6 @@ func (p *LispGoParser) _read_list() TreeNode {
         }
         if len(elements5) >= 1 {
             address10 = &BaseNode{text: p.slice(index9, p.offset), offset: index9, children: elements5}
-            p.offset = p.offset
         } else {
             address10 = nil
         }
@@ -330,7 +325,6 @@ func (p *LispGoParser) _read_list() TreeNode {
         address8 = nil
     } else {
         address8 = newNode2(p.slice(index8, p.offset), index8, elements4)
-        p.offset = p.offset
     }
     cache2[index7] = cacheEntry{node: address8, offset: p.offset}
     return address8
@@ -518,7 +512,6 @@ func (p *LispGoParser) _read_integer() TreeNode {
         }
         if len(elements7) >= 0 {
             address17 = &BaseNode{text: p.slice(index16, p.offset), offset: index16, children: elements7}
-            p.offset = p.offset
         } else {
             address17 = nil
         }
@@ -536,7 +529,6 @@ func (p *LispGoParser) _read_integer() TreeNode {
         address15 = nil
     } else {
         address15 = &BaseNode{text: p.slice(index15, p.offset), offset: index15, children: elements6}
-        p.offset = p.offset
     }
     cache5[index14] = cacheEntry{node: address15, offset: p.offset}
     return address15
@@ -649,7 +641,6 @@ func (p *LispGoParser) _read_string() TreeNode {
                 address22 = nil
             } else {
                 address22 = &BaseNode{text: p.slice(index21, p.offset), offset: index21, children: elements10}
-                p.offset = p.offset
             }
             if address22 == nil {
                 p.offset = index20
@@ -685,7 +676,6 @@ func (p *LispGoParser) _read_string() TreeNode {
         }
         if len(elements9) >= 0 {
             address21 = &BaseNode{text: p.slice(index19, p.offset), offset: index19, children: elements9}
-            p.offset = p.offset
         } else {
             address21 = nil
         }
@@ -730,7 +720,6 @@ func (p *LispGoParser) _read_string() TreeNode {
         address19 = nil
     } else {
         address19 = &BaseNode{text: p.slice(index18, p.offset), offset: index18, children: elements8}
-        p.offset = p.offset
     }
     cache6[index17] = cacheEntry{node: address19, offset: p.offset}
     return address19
@@ -769,7 +758,6 @@ func (p *LispGoParser) _read_symbol() TreeNode {
         p.offset = index25
         if address28 == nil {
             address28 = &BaseNode{text: p.slice(p.offset, p.offset), offset: p.offset, children: nil}
-            p.offset = p.offset
         } else {
             address28 = nil
         }
@@ -803,7 +791,6 @@ func (p *LispGoParser) _read_symbol() TreeNode {
             address27 = nil
         } else {
             address27 = &BaseNode{text: p.slice(index24, p.offset), offset: index24, children: elements12}
-            p.offset = p.offset
         }
         if address27 != nil {
             elements11 = append(elements11, address27)
@@ -813,7 +800,6 @@ func (p *LispGoParser) _read_symbol() TreeNode {
     }
     if len(elements11) >= 1 {
         address26 = &BaseNode{text: p.slice(index23, p.offset), offset: index23, children: elements11}
-        p.offset = p.offset
     } else {
         address26 = nil
     }

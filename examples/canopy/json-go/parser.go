@@ -251,7 +251,6 @@ func (p *JsonGoParser) _read_document() TreeNode {
         address0 = nil
     } else {
         address0 = newNode1(p.slice(index1, p.offset), index1, elements0)
-        p.offset = p.offset
     }
     cache0[index0] = cacheEntry{node: address0, offset: p.offset}
     return address0
@@ -356,7 +355,6 @@ func (p *JsonGoParser) _read_object() TreeNode {
                     address8 = nil
                 } else {
                     address8 = newNode3(p.slice(index7, p.offset), index7, elements3)
-                    p.offset = p.offset
                 }
                 if address8 != nil {
                     elements2 = append(elements2, address8)
@@ -366,7 +364,6 @@ func (p *JsonGoParser) _read_object() TreeNode {
             }
             if len(elements2) >= 0 {
                 address7 = &BaseNode{text: p.slice(index6, p.offset), offset: index6, children: elements2}
-                p.offset = p.offset
             } else {
                 address7 = nil
             }
@@ -415,7 +412,6 @@ func (p *JsonGoParser) _read_object() TreeNode {
         address4 = nil
     } else {
         address4 = newNode2(p.slice(index5, p.offset), index5, elements1)
-        p.offset = p.offset
     }
     if address4 == nil {
         p.offset = index4
@@ -489,7 +485,6 @@ func (p *JsonGoParser) _read_object() TreeNode {
             address4 = nil
         } else {
             address4 = newNode4(p.slice(index8, p.offset), index8, elements4)
-            p.offset = p.offset
         }
         if address4 == nil {
             p.offset = index4
@@ -581,7 +576,6 @@ func (p *JsonGoParser) _read_pair() TreeNode {
         address15 = nil
     } else {
         address15 = newNode5(p.slice(index10, p.offset), index10, elements5)
-        p.offset = p.offset
     }
     cache2[index9] = cacheEntry{node: address15, offset: p.offset}
     return address15
@@ -686,7 +680,6 @@ func (p *JsonGoParser) _read_array() TreeNode {
                     address25 = nil
                 } else {
                     address25 = newNode7(p.slice(index15, p.offset), index15, elements8)
-                    p.offset = p.offset
                 }
                 if address25 != nil {
                     elements7 = append(elements7, address25)
@@ -696,7 +689,6 @@ func (p *JsonGoParser) _read_array() TreeNode {
             }
             if len(elements7) >= 0 {
                 address24 = &BaseNode{text: p.slice(index14, p.offset), offset: index14, children: elements7}
-                p.offset = p.offset
             } else {
                 address24 = nil
             }
@@ -745,7 +737,6 @@ func (p *JsonGoParser) _read_array() TreeNode {
         address21 = nil
     } else {
         address21 = newNode6(p.slice(index13, p.offset), index13, elements6)
-        p.offset = p.offset
     }
     if address21 == nil {
         p.offset = index12
@@ -819,7 +810,6 @@ func (p *JsonGoParser) _read_array() TreeNode {
             address21 = nil
         } else {
             address21 = newNode8(p.slice(index16, p.offset), index16, elements9)
-            p.offset = p.offset
         }
         if address21 == nil {
             p.offset = index12
@@ -901,7 +891,6 @@ func (p *JsonGoParser) _read_value() TreeNode {
         address32 = nil
     } else {
         address32 = newNode9(p.slice(index18, p.offset), index18, elements10)
-        p.offset = p.offset
     }
     cache4[index17] = cacheEntry{node: address32, offset: p.offset}
     return address32
@@ -1014,7 +1003,6 @@ func (p *JsonGoParser) _read_string() TreeNode {
                 address39 = nil
             } else {
                 address39 = &BaseNode{text: p.slice(index24, p.offset), offset: index24, children: elements13}
-                p.offset = p.offset
             }
             if address39 == nil {
                 p.offset = index23
@@ -1050,7 +1038,6 @@ func (p *JsonGoParser) _read_string() TreeNode {
         }
         if len(elements12) >= 0 {
             address38 = &BaseNode{text: p.slice(index22, p.offset), offset: index22, children: elements12}
-            p.offset = p.offset
         } else {
             address38 = nil
         }
@@ -1095,7 +1082,6 @@ func (p *JsonGoParser) _read_string() TreeNode {
         address36 = nil
     } else {
         address36 = &BaseNode{text: p.slice(index21, p.offset), offset: index21, children: elements11}
-        p.offset = p.offset
     }
     cache5[index20] = cacheEntry{node: address36, offset: p.offset}
     return address36
@@ -1237,7 +1223,6 @@ func (p *JsonGoParser) _read_number() TreeNode {
                 }
                 if len(elements16) >= 0 {
                     address47 = &BaseNode{text: p.slice(index30, p.offset), offset: index30, children: elements16}
-                    p.offset = p.offset
                 } else {
                     address47 = nil
                 }
@@ -1255,7 +1240,6 @@ func (p *JsonGoParser) _read_number() TreeNode {
                 address45 = nil
             } else {
                 address45 = &BaseNode{text: p.slice(index29, p.offset), offset: index29, children: elements15}
-                p.offset = p.offset
             }
             if address45 == nil {
                 p.offset = index28
@@ -1329,7 +1313,6 @@ func (p *JsonGoParser) _read_number() TreeNode {
                 }
                 if len(elements18) >= 1 {
                     address51 = &BaseNode{text: p.slice(index33, p.offset), offset: index33, children: elements18}
-                    p.offset = p.offset
                 } else {
                     address51 = nil
                 }
@@ -1347,7 +1330,6 @@ func (p *JsonGoParser) _read_number() TreeNode {
                 address49 = nil
             } else {
                 address49 = &BaseNode{text: p.slice(index32, p.offset), offset: index32, children: elements17}
-                p.offset = p.offset
             }
             if address49 == nil {
                 address49 = &BaseNode{text: p.slice(index31, index31), offset: index31, children: nil}
@@ -1523,7 +1505,6 @@ func (p *JsonGoParser) _read_number() TreeNode {
                         }
                         if len(elements20) >= 1 {
                             address56 = &BaseNode{text: p.slice(index38, p.offset), offset: index38, children: elements20}
-                            p.offset = p.offset
                         } else {
                             address56 = nil
                         }
@@ -1545,7 +1526,6 @@ func (p *JsonGoParser) _read_number() TreeNode {
                     address53 = nil
                 } else {
                     address53 = &BaseNode{text: p.slice(index35, p.offset), offset: index35, children: elements19}
-                    p.offset = p.offset
                 }
                 if address53 == nil {
                     address53 = &BaseNode{text: p.slice(index34, index34), offset: index34, children: nil}
@@ -1573,7 +1553,6 @@ func (p *JsonGoParser) _read_number() TreeNode {
         address43 = nil
     } else {
         address43 = &BaseNode{text: p.slice(index26, p.offset), offset: index26, children: elements14}
-        p.offset = p.offset
     }
     cache6[index25] = cacheEntry{node: address43, offset: p.offset}
     return address43
@@ -1735,7 +1714,6 @@ func (p *JsonGoParser) _read___() TreeNode {
     }
     if len(elements21) >= 0 {
         address60 = &BaseNode{text: p.slice(index43, p.offset), offset: index43, children: elements21}
-        p.offset = p.offset
     } else {
         address60 = nil
     }

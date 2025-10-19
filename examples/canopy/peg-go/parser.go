@@ -472,7 +472,6 @@ func (p *PegGoParser) _read_grammar() TreeNode {
     }
     if len(elements1) >= 0 {
         address1 = &BaseNode{text: p.slice(index2, p.offset), offset: index2, children: elements1}
-        p.offset = p.offset
     } else {
         address1 = nil
     }
@@ -511,7 +510,6 @@ func (p *PegGoParser) _read_grammar() TreeNode {
                 }
                 if len(elements4) >= 0 {
                     address6 = &BaseNode{text: p.slice(index5, p.offset), offset: index5, children: elements4}
-                    p.offset = p.offset
                 } else {
                     address6 = nil
                 }
@@ -533,7 +531,6 @@ func (p *PegGoParser) _read_grammar() TreeNode {
                     address5 = nil
                 } else {
                     address5 = newNode2(p.slice(index4, p.offset), index4, elements3)
-                    p.offset = p.offset
                 }
                 if address5 != nil {
                     elements2 = append(elements2, address5)
@@ -543,7 +540,6 @@ func (p *PegGoParser) _read_grammar() TreeNode {
             }
             if len(elements2) >= 1 {
                 address4 = &BaseNode{text: p.slice(index3, p.offset), offset: index3, children: elements2}
-                p.offset = p.offset
             } else {
                 address4 = nil
             }
@@ -566,7 +562,6 @@ func (p *PegGoParser) _read_grammar() TreeNode {
                 }
                 if len(elements5) >= 0 {
                     address9 = &BaseNode{text: p.slice(index6, p.offset), offset: index6, children: elements5}
-                    p.offset = p.offset
                 } else {
                     address9 = nil
                 }
@@ -592,7 +587,6 @@ func (p *PegGoParser) _read_grammar() TreeNode {
         address0 = nil
     } else {
         address0 = newNode1(p.slice(index1, p.offset), index1, elements0)
-        p.offset = p.offset
     }
     cache0[index0] = cacheEntry{node: address0, offset: p.offset}
     return address0
@@ -686,7 +680,6 @@ func (p *PegGoParser) _read_grammar_name() TreeNode {
             }
             if len(elements7) >= 1 {
                 address14 = &BaseNode{text: p.slice(index10, p.offset), offset: index10, children: elements7}
-                p.offset = p.offset
             } else {
                 address14 = nil
             }
@@ -716,7 +709,6 @@ func (p *PegGoParser) _read_grammar_name() TreeNode {
         address11 = nil
     } else {
         address11 = newNode3(p.slice(index8, p.offset), index8, elements6)
-        p.offset = p.offset
     }
     cache1[index7] = cacheEntry{node: address11, offset: p.offset}
     return address11
@@ -769,7 +761,6 @@ func (p *PegGoParser) _read_grammar_rule() TreeNode {
         address17 = nil
     } else {
         address17 = newNode4(p.slice(index12, p.offset), index12, elements8)
-        p.offset = p.offset
     }
     cache2[index11] = cacheEntry{node: address17, offset: p.offset}
     return address17
@@ -811,7 +802,6 @@ func (p *PegGoParser) _read_assignment() TreeNode {
     }
     if len(elements10) >= 1 {
         address22 = &BaseNode{text: p.slice(index15, p.offset), offset: index15, children: elements10}
-        p.offset = p.offset
     } else {
         address22 = nil
     }
@@ -857,7 +847,6 @@ func (p *PegGoParser) _read_assignment() TreeNode {
             }
             if len(elements11) >= 1 {
                 address25 = &BaseNode{text: p.slice(index16, p.offset), offset: index16, children: elements11}
-                p.offset = p.offset
             } else {
                 address25 = nil
             }
@@ -879,7 +868,6 @@ func (p *PegGoParser) _read_assignment() TreeNode {
         address21 = nil
     } else {
         address21 = &BaseNode{text: p.slice(index14, p.offset), offset: index14, children: elements9}
-        p.offset = p.offset
     }
     cache3[index13] = cacheEntry{node: address21, offset: p.offset}
     return address21
@@ -973,7 +961,6 @@ func (p *PegGoParser) _read_parenthesised_expression() TreeNode {
         }
         if len(elements13) >= 0 {
             address30 = &BaseNode{text: p.slice(index21, p.offset), offset: index21, children: elements13}
-            p.offset = p.offset
         } else {
             address30 = nil
         }
@@ -1000,7 +987,6 @@ func (p *PegGoParser) _read_parenthesised_expression() TreeNode {
                 }
                 if len(elements14) >= 0 {
                     address33 = &BaseNode{text: p.slice(index22, p.offset), offset: index22, children: elements14}
-                    p.offset = p.offset
                 } else {
                     address33 = nil
                 }
@@ -1053,7 +1039,6 @@ func (p *PegGoParser) _read_parenthesised_expression() TreeNode {
         address28 = nil
     } else {
         address28 = newNode5(p.slice(index20, p.offset), index20, elements12)
-        p.offset = p.offset
     }
     cache5[index19] = cacheEntry{node: address28, offset: p.offset}
     return address28
@@ -1111,7 +1096,6 @@ func (p *PegGoParser) _read_choice_expression() TreeNode {
             }
             if len(elements18) >= 1 {
                 address40 = &BaseNode{text: p.slice(index27, p.offset), offset: index27, children: elements18}
-                p.offset = p.offset
             } else {
                 address40 = nil
             }
@@ -1157,7 +1141,6 @@ func (p *PegGoParser) _read_choice_expression() TreeNode {
                     }
                     if len(elements19) >= 1 {
                         address43 = &BaseNode{text: p.slice(index28, p.offset), offset: index28, children: elements19}
-                        p.offset = p.offset
                     } else {
                         address43 = nil
                     }
@@ -1187,7 +1170,6 @@ func (p *PegGoParser) _read_choice_expression() TreeNode {
                 address39 = nil
             } else {
                 address39 = newNode7(p.slice(index26, p.offset), index26, elements17)
-                p.offset = p.offset
             }
             if address39 != nil {
                 elements16 = append(elements16, address39)
@@ -1197,7 +1179,6 @@ func (p *PegGoParser) _read_choice_expression() TreeNode {
         }
         if len(elements16) >= 1 {
             address38 = &BaseNode{text: p.slice(index25, p.offset), offset: index25, children: elements16}
-            p.offset = p.offset
         } else {
             address38 = nil
         }
@@ -1215,7 +1196,6 @@ func (p *PegGoParser) _read_choice_expression() TreeNode {
         address36 = nil
     } else {
         address36 = newNode6(p.slice(index24, p.offset), index24, elements15)
-        p.offset = p.offset
     }
     cache6[index23] = cacheEntry{node: address36, offset: p.offset}
     return address36
@@ -1281,7 +1261,6 @@ func (p *PegGoParser) _read_choice_part() TreeNode {
         }
         if len(elements22) >= 1 {
             address49 = &BaseNode{text: p.slice(index34, p.offset), offset: index34, children: elements22}
-            p.offset = p.offset
         } else {
             address49 = nil
         }
@@ -1303,7 +1282,6 @@ func (p *PegGoParser) _read_choice_part() TreeNode {
             address48 = nil
         } else {
             address48 = newNode8(p.slice(index33, p.offset), index33, elements21)
-            p.offset = p.offset
         }
         if address48 == nil {
             address48 = &BaseNode{text: p.slice(index32, index32), offset: index32, children: nil}
@@ -1323,7 +1301,6 @@ func (p *PegGoParser) _read_choice_part() TreeNode {
         address46 = nil
     } else {
         address46 = &BaseNode{text: p.slice(index30, p.offset), offset: index30, children: elements20}
-        p.offset = p.offset
     }
     cache7[index29] = cacheEntry{node: address46, offset: p.offset}
     return address46
@@ -1369,7 +1346,6 @@ func (p *PegGoParser) _read_action_expression() TreeNode {
         }
         if len(elements24) >= 1 {
             address54 = &BaseNode{text: p.slice(index37, p.offset), offset: index37, children: elements24}
-            p.offset = p.offset
         } else {
             address54 = nil
         }
@@ -1395,7 +1371,6 @@ func (p *PegGoParser) _read_action_expression() TreeNode {
         address52 = nil
     } else {
         address52 = newNode9(p.slice(index36, p.offset), index36, elements23)
-        p.offset = p.offset
     }
     cache8[index35] = cacheEntry{node: address52, offset: p.offset}
     return address52
@@ -1462,7 +1437,6 @@ func (p *PegGoParser) _read_actionable_expression() TreeNode {
         }
         if len(elements26) >= 0 {
             address59 = &BaseNode{text: p.slice(index41, p.offset), offset: index41, children: elements26}
-            p.offset = p.offset
         } else {
             address59 = nil
         }
@@ -1489,7 +1463,6 @@ func (p *PegGoParser) _read_actionable_expression() TreeNode {
                 }
                 if len(elements27) >= 0 {
                     address62 = &BaseNode{text: p.slice(index42, p.offset), offset: index42, children: elements27}
-                    p.offset = p.offset
                 } else {
                     address62 = nil
                 }
@@ -1542,7 +1515,6 @@ func (p *PegGoParser) _read_actionable_expression() TreeNode {
         address57 = nil
     } else {
         address57 = newNode10(p.slice(index40, p.offset), index40, elements25)
-        p.offset = p.offset
     }
     if address57 == nil {
         p.offset = index39
@@ -1621,7 +1593,6 @@ func (p *PegGoParser) _read_action_tag() TreeNode {
         address65 = nil
     } else {
         address65 = newNode11(p.slice(index44, p.offset), index44, elements28)
-        p.offset = p.offset
     }
     cache10[index43] = cacheEntry{node: address65, offset: p.offset}
     return address65
@@ -1712,7 +1683,6 @@ func (p *PegGoParser) _read_type_tag() TreeNode {
         address68 = nil
     } else {
         address68 = newNode12(p.slice(index46, p.offset), index46, elements29)
-        p.offset = p.offset
     }
     cache11[index45] = cacheEntry{node: address68, offset: p.offset}
     return address68
@@ -1770,7 +1740,6 @@ func (p *PegGoParser) _read_sequence_expression() TreeNode {
             }
             if len(elements33) >= 1 {
                 address76 = &BaseNode{text: p.slice(index51, p.offset), offset: index51, children: elements33}
-                p.offset = p.offset
             } else {
                 address76 = nil
             }
@@ -1792,7 +1761,6 @@ func (p *PegGoParser) _read_sequence_expression() TreeNode {
                 address75 = nil
             } else {
                 address75 = newNode14(p.slice(index50, p.offset), index50, elements32)
-                p.offset = p.offset
             }
             if address75 != nil {
                 elements31 = append(elements31, address75)
@@ -1802,7 +1770,6 @@ func (p *PegGoParser) _read_sequence_expression() TreeNode {
         }
         if len(elements31) >= 1 {
             address74 = &BaseNode{text: p.slice(index49, p.offset), offset: index49, children: elements31}
-            p.offset = p.offset
         } else {
             address74 = nil
         }
@@ -1820,7 +1787,6 @@ func (p *PegGoParser) _read_sequence_expression() TreeNode {
         address72 = nil
     } else {
         address72 = newNode13(p.slice(index48, p.offset), index48, elements30)
-        p.offset = p.offset
     }
     cache12[index47] = cacheEntry{node: address72, offset: p.offset}
     return address72
@@ -1884,7 +1850,6 @@ func (p *PegGoParser) _read_sequence_part() TreeNode {
         address79 = nil
     } else {
         address79 = newNode15(p.slice(index53, p.offset), index53, elements34)
-        p.offset = p.offset
     }
     cache13[index52] = cacheEntry{node: address79, offset: p.offset}
     return address79
@@ -1948,7 +1913,6 @@ func (p *PegGoParser) _read_maybe_atom() TreeNode {
         address82 = nil
     } else {
         address82 = newNode16(p.slice(index57, p.offset), index57, elements35)
-        p.offset = p.offset
     }
     cache14[index56] = cacheEntry{node: address82, offset: p.offset}
     return address82
@@ -2040,7 +2004,6 @@ func (p *PegGoParser) _read_repeated_atom() TreeNode {
         address85 = nil
     } else {
         address85 = newNode17(p.slice(index59, p.offset), index59, elements36)
-        p.offset = p.offset
     }
     cache15[index58] = cacheEntry{node: address85, offset: p.offset}
     return address85
@@ -2206,7 +2169,6 @@ func (p *PegGoParser) _read_predicated_atom() TreeNode {
         address90 = nil
     } else {
         address90 = newNode18(p.slice(index66, p.offset), index66, elements37)
-        p.offset = p.offset
     }
     cache18[index65] = cacheEntry{node: address90, offset: p.offset}
     return address90
@@ -2242,7 +2204,6 @@ func (p *PegGoParser) _read_reference_expression() TreeNode {
         p.offset = index70
         if address95 == nil {
             address95 = &BaseNode{text: p.slice(p.offset, p.offset), offset: p.offset, children: nil}
-            p.offset = p.offset
         } else {
             address95 = nil
         }
@@ -2260,7 +2221,6 @@ func (p *PegGoParser) _read_reference_expression() TreeNode {
         address93 = nil
     } else {
         address93 = newNode19(p.slice(index69, p.offset), index69, elements38)
-        p.offset = p.offset
     }
     cache19[index68] = cacheEntry{node: address93, offset: p.offset}
     return address93
@@ -2375,7 +2335,6 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
                 address99 = nil
             } else {
                 address99 = &BaseNode{text: p.slice(index76, p.offset), offset: index76, children: elements41}
-                p.offset = p.offset
             }
             if address99 == nil {
                 p.offset = index75
@@ -2411,7 +2370,6 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
         }
         if len(elements40) >= 0 {
             address98 = &BaseNode{text: p.slice(index74, p.offset), offset: index74, children: elements40}
-            p.offset = p.offset
         } else {
             address98 = nil
         }
@@ -2456,7 +2414,6 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
         address96 = nil
     } else {
         address96 = &BaseNode{text: p.slice(index73, p.offset), offset: index73, children: elements39}
-        p.offset = p.offset
     }
     if address96 == nil {
         p.offset = index72
@@ -2552,7 +2509,6 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
                     address105 = nil
                 } else {
                     address105 = &BaseNode{text: p.slice(index80, p.offset), offset: index80, children: elements44}
-                    p.offset = p.offset
                 }
                 if address105 == nil {
                     p.offset = index79
@@ -2588,7 +2544,6 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
             }
             if len(elements43) >= 0 {
                 address104 = &BaseNode{text: p.slice(index78, p.offset), offset: index78, children: elements43}
-                p.offset = p.offset
             } else {
                 address104 = nil
             }
@@ -2633,7 +2588,6 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
             address96 = nil
         } else {
             address96 = &BaseNode{text: p.slice(index77, p.offset), offset: index77, children: elements42}
-            p.offset = p.offset
         }
         if address96 == nil {
             p.offset = index72
@@ -2750,7 +2704,6 @@ func (p *PegGoParser) _read_ci_string_expression() TreeNode {
                 address112 = nil
             } else {
                 address112 = &BaseNode{text: p.slice(index85, p.offset), offset: index85, children: elements47}
-                p.offset = p.offset
             }
             if address112 == nil {
                 p.offset = index84
@@ -2786,7 +2739,6 @@ func (p *PegGoParser) _read_ci_string_expression() TreeNode {
         }
         if len(elements46) >= 0 {
             address111 = &BaseNode{text: p.slice(index83, p.offset), offset: index83, children: elements46}
-            p.offset = p.offset
         } else {
             address111 = nil
         }
@@ -2831,7 +2783,6 @@ func (p *PegGoParser) _read_ci_string_expression() TreeNode {
         address109 = nil
     } else {
         address109 = &BaseNode{text: p.slice(index82, p.offset), offset: index82, children: elements45}
-        p.offset = p.offset
     }
     cache21[index81] = cacheEntry{node: address109, offset: p.offset}
     return address109
@@ -3012,7 +2963,6 @@ func (p *PegGoParser) _read_char_class_expression() TreeNode {
                     address121 = nil
                 } else {
                     address121 = &BaseNode{text: p.slice(index92, p.offset), offset: index92, children: elements50}
-                    p.offset = p.offset
                 }
                 if address121 == nil {
                     p.offset = index91
@@ -3048,7 +2998,6 @@ func (p *PegGoParser) _read_char_class_expression() TreeNode {
             }
             if len(elements49) >= 1 {
                 address120 = &BaseNode{text: p.slice(index90, p.offset), offset: index90, children: elements49}
-                p.offset = p.offset
             } else {
                 address120 = nil
             }
@@ -3097,7 +3046,6 @@ func (p *PegGoParser) _read_char_class_expression() TreeNode {
         address117 = nil
     } else {
         address117 = &BaseNode{text: p.slice(index88, p.offset), offset: index88, children: elements48}
-        p.offset = p.offset
     }
     cache23[index87] = cacheEntry{node: address117, offset: p.offset}
     return address117
@@ -3161,7 +3109,6 @@ func (p *PegGoParser) _read_label() TreeNode {
         address125 = nil
     } else {
         address125 = newNode20(p.slice(index94, p.offset), index94, elements51)
-        p.offset = p.offset
     }
     cache24[index93] = cacheEntry{node: address125, offset: p.offset}
     return address125
@@ -3241,7 +3188,6 @@ func (p *PegGoParser) _read_object_identifier() TreeNode {
                 address131 = nil
             } else {
                 address131 = newNode22(p.slice(index98, p.offset), index98, elements54)
-                p.offset = p.offset
             }
             if address131 != nil {
                 elements53 = append(elements53, address131)
@@ -3251,7 +3197,6 @@ func (p *PegGoParser) _read_object_identifier() TreeNode {
         }
         if len(elements53) >= 0 {
             address130 = &BaseNode{text: p.slice(index97, p.offset), offset: index97, children: elements53}
-            p.offset = p.offset
         } else {
             address130 = nil
         }
@@ -3269,7 +3214,6 @@ func (p *PegGoParser) _read_object_identifier() TreeNode {
         address128 = nil
     } else {
         address128 = newNode21(p.slice(index96, p.offset), index96, elements52)
-        p.offset = p.offset
     }
     cache25[index95] = cacheEntry{node: address128, offset: p.offset}
     return address128
@@ -3353,7 +3297,6 @@ func (p *PegGoParser) _read_identifier() TreeNode {
         }
         if len(elements56) >= 0 {
             address136 = &BaseNode{text: p.slice(index101, p.offset), offset: index101, children: elements56}
-            p.offset = p.offset
         } else {
             address136 = nil
         }
@@ -3371,7 +3314,6 @@ func (p *PegGoParser) _read_identifier() TreeNode {
         address134 = nil
     } else {
         address134 = &BaseNode{text: p.slice(index100, p.offset), offset: index100, children: elements55}
-        p.offset = p.offset
     }
     cache26[index99] = cacheEntry{node: address134, offset: p.offset}
     return address134
@@ -3503,7 +3445,6 @@ func (p *PegGoParser) _read_comment() TreeNode {
         }
         if len(elements58) >= 0 {
             address141 = &BaseNode{text: p.slice(index106, p.offset), offset: index106, children: elements58}
-            p.offset = p.offset
         } else {
             address141 = nil
         }
@@ -3521,7 +3462,6 @@ func (p *PegGoParser) _read_comment() TreeNode {
         address139 = nil
     } else {
         address139 = &BaseNode{text: p.slice(index105, p.offset), offset: index105, children: elements57}
-        p.offset = p.offset
     }
     cache28[index104] = cacheEntry{node: address139, offset: p.offset}
     return address139

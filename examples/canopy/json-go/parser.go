@@ -188,20 +188,17 @@ func newNode9(text string, start int, elements []TreeNode) TreeNode {
 }
 
 
-var REGEX_1 = regexp.MustCompile("^[^\"]")
-var REGEX_2 = regexp.MustCompile("^[1-9]")
-var REGEX_3 = regexp.MustCompile("^[0-9]")
-var REGEX_4 = regexp.MustCompile("^[0-9]")
-var REGEX_5 = regexp.MustCompile("^[0-9]")
-var REGEX_6 = regexp.MustCompile("^[\\s]")
+var REGEX_1 = regexp.MustCompile(`^[^"]`)
+var REGEX_2 = regexp.MustCompile(`^[1-9]`)
+var REGEX_3 = regexp.MustCompile(`^[0-9]`)
+var REGEX_4 = regexp.MustCompile(`^[0-9]`)
+var REGEX_5 = regexp.MustCompile(`^[0-9]`)
+var REGEX_6 = regexp.MustCompile(`^[\s]`)
 
 func (p *JsonGoParser) _read_document() TreeNode {
-    var address0 TreeNode
-    address0 = nil
-    var index0 int
-    index0 = p.offset
-    var cache0 map[int]cacheEntry
-    cache0 = p.cache["document"]
+    var address0 TreeNode = nil
+    var index0 int = p.offset
+    var cache0 map[int]cacheEntry = p.cache["document"]
     if cache0 == nil {
         cache0 = make(map[int]cacheEntry)
         p.cache["document"] = cache0
@@ -210,17 +207,14 @@ func (p *JsonGoParser) _read_document() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index1 int
-    index1 = p.offset
-    var elements0 []TreeNode
-    elements0 = make([]TreeNode, 3)
-    var address1 TreeNode
+    var index1 int = p.offset
+    var elements0 []TreeNode = make([]TreeNode, 3)
+    var address1 TreeNode = nil
     address1 = p._read___()
     if address1 != nil {
         elements0[0] = address1
-        var address2 TreeNode
-        var index2 int
-        index2 = p.offset
+        var address2 TreeNode = nil
+        var index2 int = p.offset
         address2 = p._read_object()
         if address2 == nil {
             p.offset = index2
@@ -231,7 +225,7 @@ func (p *JsonGoParser) _read_document() TreeNode {
         }
         if address2 != nil {
             elements0[1] = address2
-            var address3 TreeNode
+            var address3 TreeNode = nil
             address3 = p._read___()
             if address3 != nil {
                 elements0[2] = address3
@@ -257,12 +251,9 @@ func (p *JsonGoParser) _read_document() TreeNode {
 }
 
 func (p *JsonGoParser) _read_object() TreeNode {
-    var address4 TreeNode
-    address4 = nil
-    var index3 int
-    index3 = p.offset
-    var cache1 map[int]cacheEntry
-    cache1 = p.cache["object"]
+    var address4 TreeNode = nil
+    var index3 int = p.offset
+    var cache1 map[int]cacheEntry = p.cache["object"]
     if cache1 == nil {
         cache1 = make(map[int]cacheEntry)
         p.cache["object"] = cache1
@@ -271,17 +262,12 @@ func (p *JsonGoParser) _read_object() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index4 int
-    index4 = p.offset
-    var index5 int
-    index5 = p.offset
-    var elements1 []TreeNode
-    elements1 = make([]TreeNode, 4)
-    var address5 TreeNode
-    var chunk0 string
-    chunk0 = ""
-    var max0 int
-    max0 = p.offset + 1
+    var index4 int = p.offset
+    var index5 int = p.offset
+    var elements1 []TreeNode = make([]TreeNode, 4)
+    var address5 TreeNode = nil
+    var chunk0 string = ""
+    var max0 int = p.offset + 1
     if max0 <= len(p.input) {
         chunk0 = string(p.input[p.offset:max0])
     }
@@ -300,27 +286,20 @@ func (p *JsonGoParser) _read_object() TreeNode {
     }
     if address5 != nil {
         elements1[0] = address5
-        var address6 TreeNode
+        var address6 TreeNode = nil
         address6 = p._read_pair()
         if address6 != nil {
             elements1[1] = address6
-            var address7 TreeNode
-            var index6 int
-            index6 = p.offset
-            var elements2 []TreeNode
-            elements2 = nil
-            var address8 TreeNode
-            address8 = nil
+            var address7 TreeNode = nil
+            var index6 int = p.offset
+            var elements2 []TreeNode = nil
+            var address8 TreeNode = nil
             for {
-                var index7 int
-                index7 = p.offset
-                var elements3 []TreeNode
-                elements3 = make([]TreeNode, 2)
-                var address9 TreeNode
-                var chunk1 string
-                chunk1 = ""
-                var max1 int
-                max1 = p.offset + 1
+                var index7 int = p.offset
+                var elements3 []TreeNode = make([]TreeNode, 2)
+                var address9 TreeNode = nil
+                var chunk1 string = ""
+                var max1 int = p.offset + 1
                 if max1 <= len(p.input) {
                     chunk1 = string(p.input[p.offset:max1])
                 }
@@ -339,7 +318,7 @@ func (p *JsonGoParser) _read_object() TreeNode {
                 }
                 if address9 != nil {
                     elements3[0] = address9
-                    var address10 TreeNode
+                    var address10 TreeNode = nil
                     address10 = p._read_pair()
                     if address10 != nil {
                         elements3[1] = address10
@@ -369,11 +348,9 @@ func (p *JsonGoParser) _read_object() TreeNode {
             }
             if address7 != nil {
                 elements1[2] = address7
-                var address11 TreeNode
-                var chunk2 string
-                chunk2 = ""
-                var max2 int
-                max2 = p.offset + 1
+                var address11 TreeNode = nil
+                var chunk2 string = ""
+                var max2 int = p.offset + 1
                 if max2 <= len(p.input) {
                     chunk2 = string(p.input[p.offset:max2])
                 }
@@ -415,15 +392,11 @@ func (p *JsonGoParser) _read_object() TreeNode {
     }
     if address4 == nil {
         p.offset = index4
-        var index8 int
-        index8 = p.offset
-        var elements4 []TreeNode
-        elements4 = make([]TreeNode, 3)
-        var address12 TreeNode
-        var chunk3 string
-        chunk3 = ""
-        var max3 int
-        max3 = p.offset + 1
+        var index8 int = p.offset
+        var elements4 []TreeNode = make([]TreeNode, 3)
+        var address12 TreeNode = nil
+        var chunk3 string = ""
+        var max3 int = p.offset + 1
         if max3 <= len(p.input) {
             chunk3 = string(p.input[p.offset:max3])
         }
@@ -442,15 +415,13 @@ func (p *JsonGoParser) _read_object() TreeNode {
         }
         if address12 != nil {
             elements4[0] = address12
-            var address13 TreeNode
+            var address13 TreeNode = nil
             address13 = p._read___()
             if address13 != nil {
                 elements4[1] = address13
-                var address14 TreeNode
-                var chunk4 string
-                chunk4 = ""
-                var max4 int
-                max4 = p.offset + 1
+                var address14 TreeNode = nil
+                var chunk4 string = ""
+                var max4 int = p.offset + 1
                 if max4 <= len(p.input) {
                     chunk4 = string(p.input[p.offset:max4])
                 }
@@ -495,12 +466,9 @@ func (p *JsonGoParser) _read_object() TreeNode {
 }
 
 func (p *JsonGoParser) _read_pair() TreeNode {
-    var address15 TreeNode
-    address15 = nil
-    var index9 int
-    index9 = p.offset
-    var cache2 map[int]cacheEntry
-    cache2 = p.cache["pair"]
+    var address15 TreeNode = nil
+    var index9 int = p.offset
+    var cache2 map[int]cacheEntry = p.cache["pair"]
     if cache2 == nil {
         cache2 = make(map[int]cacheEntry)
         p.cache["pair"] = cache2
@@ -509,27 +477,23 @@ func (p *JsonGoParser) _read_pair() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index10 int
-    index10 = p.offset
-    var elements5 []TreeNode
-    elements5 = make([]TreeNode, 5)
-    var address16 TreeNode
+    var index10 int = p.offset
+    var elements5 []TreeNode = make([]TreeNode, 5)
+    var address16 TreeNode = nil
     address16 = p._read___()
     if address16 != nil {
         elements5[0] = address16
-        var address17 TreeNode
+        var address17 TreeNode = nil
         address17 = p._read_string()
         if address17 != nil {
             elements5[1] = address17
-            var address18 TreeNode
+            var address18 TreeNode = nil
             address18 = p._read___()
             if address18 != nil {
                 elements5[2] = address18
-                var address19 TreeNode
-                var chunk5 string
-                chunk5 = ""
-                var max5 int
-                max5 = p.offset + 1
+                var address19 TreeNode = nil
+                var chunk5 string = ""
+                var max5 int = p.offset + 1
                 if max5 <= len(p.input) {
                     chunk5 = string(p.input[p.offset:max5])
                 }
@@ -548,7 +512,7 @@ func (p *JsonGoParser) _read_pair() TreeNode {
                 }
                 if address19 != nil {
                     elements5[3] = address19
-                    var address20 TreeNode
+                    var address20 TreeNode = nil
                     address20 = p._read_value()
                     if address20 != nil {
                         elements5[4] = address20
@@ -582,12 +546,9 @@ func (p *JsonGoParser) _read_pair() TreeNode {
 }
 
 func (p *JsonGoParser) _read_array() TreeNode {
-    var address21 TreeNode
-    address21 = nil
-    var index11 int
-    index11 = p.offset
-    var cache3 map[int]cacheEntry
-    cache3 = p.cache["array"]
+    var address21 TreeNode = nil
+    var index11 int = p.offset
+    var cache3 map[int]cacheEntry = p.cache["array"]
     if cache3 == nil {
         cache3 = make(map[int]cacheEntry)
         p.cache["array"] = cache3
@@ -596,17 +557,12 @@ func (p *JsonGoParser) _read_array() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index12 int
-    index12 = p.offset
-    var index13 int
-    index13 = p.offset
-    var elements6 []TreeNode
-    elements6 = make([]TreeNode, 4)
-    var address22 TreeNode
-    var chunk6 string
-    chunk6 = ""
-    var max6 int
-    max6 = p.offset + 1
+    var index12 int = p.offset
+    var index13 int = p.offset
+    var elements6 []TreeNode = make([]TreeNode, 4)
+    var address22 TreeNode = nil
+    var chunk6 string = ""
+    var max6 int = p.offset + 1
     if max6 <= len(p.input) {
         chunk6 = string(p.input[p.offset:max6])
     }
@@ -625,27 +581,20 @@ func (p *JsonGoParser) _read_array() TreeNode {
     }
     if address22 != nil {
         elements6[0] = address22
-        var address23 TreeNode
+        var address23 TreeNode = nil
         address23 = p._read_value()
         if address23 != nil {
             elements6[1] = address23
-            var address24 TreeNode
-            var index14 int
-            index14 = p.offset
-            var elements7 []TreeNode
-            elements7 = nil
-            var address25 TreeNode
-            address25 = nil
+            var address24 TreeNode = nil
+            var index14 int = p.offset
+            var elements7 []TreeNode = nil
+            var address25 TreeNode = nil
             for {
-                var index15 int
-                index15 = p.offset
-                var elements8 []TreeNode
-                elements8 = make([]TreeNode, 2)
-                var address26 TreeNode
-                var chunk7 string
-                chunk7 = ""
-                var max7 int
-                max7 = p.offset + 1
+                var index15 int = p.offset
+                var elements8 []TreeNode = make([]TreeNode, 2)
+                var address26 TreeNode = nil
+                var chunk7 string = ""
+                var max7 int = p.offset + 1
                 if max7 <= len(p.input) {
                     chunk7 = string(p.input[p.offset:max7])
                 }
@@ -664,7 +613,7 @@ func (p *JsonGoParser) _read_array() TreeNode {
                 }
                 if address26 != nil {
                     elements8[0] = address26
-                    var address27 TreeNode
+                    var address27 TreeNode = nil
                     address27 = p._read_value()
                     if address27 != nil {
                         elements8[1] = address27
@@ -694,11 +643,9 @@ func (p *JsonGoParser) _read_array() TreeNode {
             }
             if address24 != nil {
                 elements6[2] = address24
-                var address28 TreeNode
-                var chunk8 string
-                chunk8 = ""
-                var max8 int
-                max8 = p.offset + 1
+                var address28 TreeNode = nil
+                var chunk8 string = ""
+                var max8 int = p.offset + 1
                 if max8 <= len(p.input) {
                     chunk8 = string(p.input[p.offset:max8])
                 }
@@ -740,15 +687,11 @@ func (p *JsonGoParser) _read_array() TreeNode {
     }
     if address21 == nil {
         p.offset = index12
-        var index16 int
-        index16 = p.offset
-        var elements9 []TreeNode
-        elements9 = make([]TreeNode, 3)
-        var address29 TreeNode
-        var chunk9 string
-        chunk9 = ""
-        var max9 int
-        max9 = p.offset + 1
+        var index16 int = p.offset
+        var elements9 []TreeNode = make([]TreeNode, 3)
+        var address29 TreeNode = nil
+        var chunk9 string = ""
+        var max9 int = p.offset + 1
         if max9 <= len(p.input) {
             chunk9 = string(p.input[p.offset:max9])
         }
@@ -767,15 +710,13 @@ func (p *JsonGoParser) _read_array() TreeNode {
         }
         if address29 != nil {
             elements9[0] = address29
-            var address30 TreeNode
+            var address30 TreeNode = nil
             address30 = p._read___()
             if address30 != nil {
                 elements9[1] = address30
-                var address31 TreeNode
-                var chunk10 string
-                chunk10 = ""
-                var max10 int
-                max10 = p.offset + 1
+                var address31 TreeNode = nil
+                var chunk10 string = ""
+                var max10 int = p.offset + 1
                 if max10 <= len(p.input) {
                     chunk10 = string(p.input[p.offset:max10])
                 }
@@ -820,12 +761,9 @@ func (p *JsonGoParser) _read_array() TreeNode {
 }
 
 func (p *JsonGoParser) _read_value() TreeNode {
-    var address32 TreeNode
-    address32 = nil
-    var index17 int
-    index17 = p.offset
-    var cache4 map[int]cacheEntry
-    cache4 = p.cache["value"]
+    var address32 TreeNode = nil
+    var index17 int = p.offset
+    var cache4 map[int]cacheEntry = p.cache["value"]
     if cache4 == nil {
         cache4 = make(map[int]cacheEntry)
         p.cache["value"] = cache4
@@ -834,17 +772,14 @@ func (p *JsonGoParser) _read_value() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index18 int
-    index18 = p.offset
-    var elements10 []TreeNode
-    elements10 = make([]TreeNode, 3)
-    var address33 TreeNode
+    var index18 int = p.offset
+    var elements10 []TreeNode = make([]TreeNode, 3)
+    var address33 TreeNode = nil
     address33 = p._read___()
     if address33 != nil {
         elements10[0] = address33
-        var address34 TreeNode
-        var index19 int
-        index19 = p.offset
+        var address34 TreeNode = nil
+        var index19 int = p.offset
         address34 = p._read_object()
         if address34 == nil {
             p.offset = index19
@@ -871,7 +806,7 @@ func (p *JsonGoParser) _read_value() TreeNode {
         }
         if address34 != nil {
             elements10[1] = address34
-            var address35 TreeNode
+            var address35 TreeNode = nil
             address35 = p._read___()
             if address35 != nil {
                 elements10[2] = address35
@@ -897,12 +832,9 @@ func (p *JsonGoParser) _read_value() TreeNode {
 }
 
 func (p *JsonGoParser) _read_string() TreeNode {
-    var address36 TreeNode
-    address36 = nil
-    var index20 int
-    index20 = p.offset
-    var cache5 map[int]cacheEntry
-    cache5 = p.cache["string"]
+    var address36 TreeNode = nil
+    var index20 int = p.offset
+    var cache5 map[int]cacheEntry = p.cache["string"]
     if cache5 == nil {
         cache5 = make(map[int]cacheEntry)
         p.cache["string"] = cache5
@@ -911,15 +843,11 @@ func (p *JsonGoParser) _read_string() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index21 int
-    index21 = p.offset
-    var elements11 []TreeNode
-    elements11 = make([]TreeNode, 3)
-    var address37 TreeNode
-    var chunk11 string
-    chunk11 = ""
-    var max11 int
-    max11 = p.offset + 1
+    var index21 int = p.offset
+    var elements11 []TreeNode = make([]TreeNode, 3)
+    var address37 TreeNode = nil
+    var chunk11 string = ""
+    var max11 int = p.offset + 1
     if max11 <= len(p.input) {
         chunk11 = string(p.input[p.offset:max11])
     }
@@ -938,25 +866,17 @@ func (p *JsonGoParser) _read_string() TreeNode {
     }
     if address37 != nil {
         elements11[0] = address37
-        var address38 TreeNode
-        var index22 int
-        index22 = p.offset
-        var elements12 []TreeNode
-        elements12 = nil
-        var address39 TreeNode
-        address39 = nil
+        var address38 TreeNode = nil
+        var index22 int = p.offset
+        var elements12 []TreeNode = nil
+        var address39 TreeNode = nil
         for {
-            var index23 int
-            index23 = p.offset
-            var index24 int
-            index24 = p.offset
-            var elements13 []TreeNode
-            elements13 = make([]TreeNode, 2)
-            var address40 TreeNode
-            var chunk12 string
-            chunk12 = ""
-            var max12 int
-            max12 = p.offset + 1
+            var index23 int = p.offset
+            var index24 int = p.offset
+            var elements13 []TreeNode = make([]TreeNode, 2)
+            var address40 TreeNode = nil
+            var chunk12 string = ""
+            var max12 int = p.offset + 1
             if max12 <= len(p.input) {
                 chunk12 = string(p.input[p.offset:max12])
             }
@@ -975,7 +895,7 @@ func (p *JsonGoParser) _read_string() TreeNode {
             }
             if address40 != nil {
                 elements13[0] = address40
-                var address41 TreeNode
+                var address41 TreeNode = nil
                 if p.offset < len(p.input) {
                     address41 = &BaseNode{text: p.slice(p.offset, p.offset + 1), offset: p.offset, children: nil}
                     p.offset = p.offset + 1
@@ -1006,10 +926,8 @@ func (p *JsonGoParser) _read_string() TreeNode {
             }
             if address39 == nil {
                 p.offset = index23
-                var chunk13 string
-                chunk13 = ""
-                var max13 int
-                max13 = p.offset + 1
+                var chunk13 string = ""
+                var max13 int = p.offset + 1
                 if max13 <= len(p.input) {
                     chunk13 = string(p.input[p.offset:max13])
                 }
@@ -1043,11 +961,9 @@ func (p *JsonGoParser) _read_string() TreeNode {
         }
         if address38 != nil {
             elements11[1] = address38
-            var address42 TreeNode
-            var chunk14 string
-            chunk14 = ""
-            var max14 int
-            max14 = p.offset + 1
+            var address42 TreeNode = nil
+            var chunk14 string = ""
+            var max14 int = p.offset + 1
             if max14 <= len(p.input) {
                 chunk14 = string(p.input[p.offset:max14])
             }
@@ -1088,12 +1004,9 @@ func (p *JsonGoParser) _read_string() TreeNode {
 }
 
 func (p *JsonGoParser) _read_number() TreeNode {
-    var address43 TreeNode
-    address43 = nil
-    var index25 int
-    index25 = p.offset
-    var cache6 map[int]cacheEntry
-    cache6 = p.cache["number"]
+    var address43 TreeNode = nil
+    var index25 int = p.offset
+    var cache6 map[int]cacheEntry = p.cache["number"]
     if cache6 == nil {
         cache6 = make(map[int]cacheEntry)
         p.cache["number"] = cache6
@@ -1102,17 +1015,12 @@ func (p *JsonGoParser) _read_number() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index26 int
-    index26 = p.offset
-    var elements14 []TreeNode
-    elements14 = make([]TreeNode, 4)
-    var address44 TreeNode
-    var index27 int
-    index27 = p.offset
-    var chunk15 string
-    chunk15 = ""
-    var max15 int
-    max15 = p.offset + 1
+    var index26 int = p.offset
+    var elements14 []TreeNode = make([]TreeNode, 4)
+    var address44 TreeNode = nil
+    var index27 int = p.offset
+    var chunk15 string = ""
+    var max15 int = p.offset + 1
     if max15 <= len(p.input) {
         chunk15 = string(p.input[p.offset:max15])
     }
@@ -1135,13 +1043,10 @@ func (p *JsonGoParser) _read_number() TreeNode {
     }
     if address44 != nil {
         elements14[0] = address44
-        var address45 TreeNode
-        var index28 int
-        index28 = p.offset
-        var chunk16 string
-        chunk16 = ""
-        var max16 int
-        max16 = p.offset + 1
+        var address45 TreeNode = nil
+        var index28 int = p.offset
+        var chunk16 string = ""
+        var max16 int = p.offset + 1
         if max16 <= len(p.input) {
             chunk16 = string(p.input[p.offset:max16])
         }
@@ -1160,15 +1065,11 @@ func (p *JsonGoParser) _read_number() TreeNode {
         }
         if address45 == nil {
             p.offset = index28
-            var index29 int
-            index29 = p.offset
-            var elements15 []TreeNode
-            elements15 = make([]TreeNode, 2)
-            var address46 TreeNode
-            var chunk17 string
-            chunk17 = ""
-            var max17 int
-            max17 = p.offset + 1
+            var index29 int = p.offset
+            var elements15 []TreeNode = make([]TreeNode, 2)
+            var address46 TreeNode = nil
+            var chunk17 string = ""
+            var max17 int = p.offset + 1
             if max17 <= len(p.input) {
                 chunk17 = string(p.input[p.offset:max17])
             }
@@ -1187,18 +1088,13 @@ func (p *JsonGoParser) _read_number() TreeNode {
             }
             if address46 != nil {
                 elements15[0] = address46
-                var address47 TreeNode
-                var index30 int
-                index30 = p.offset
-                var elements16 []TreeNode
-                elements16 = nil
-                var address48 TreeNode
-                address48 = nil
+                var address47 TreeNode = nil
+                var index30 int = p.offset
+                var elements16 []TreeNode = nil
+                var address48 TreeNode = nil
                 for {
-                    var chunk18 string
-                    chunk18 = ""
-                    var max18 int
-                    max18 = p.offset + 1
+                    var chunk18 string = ""
+                    var max18 int = p.offset + 1
                     if max18 <= len(p.input) {
                         chunk18 = string(p.input[p.offset:max18])
                     }
@@ -1247,18 +1143,13 @@ func (p *JsonGoParser) _read_number() TreeNode {
         }
         if address45 != nil {
             elements14[1] = address45
-            var address49 TreeNode
-            var index31 int
-            index31 = p.offset
-            var index32 int
-            index32 = p.offset
-            var elements17 []TreeNode
-            elements17 = make([]TreeNode, 2)
-            var address50 TreeNode
-            var chunk19 string
-            chunk19 = ""
-            var max19 int
-            max19 = p.offset + 1
+            var address49 TreeNode = nil
+            var index31 int = p.offset
+            var index32 int = p.offset
+            var elements17 []TreeNode = make([]TreeNode, 2)
+            var address50 TreeNode = nil
+            var chunk19 string = ""
+            var max19 int = p.offset + 1
             if max19 <= len(p.input) {
                 chunk19 = string(p.input[p.offset:max19])
             }
@@ -1277,18 +1168,13 @@ func (p *JsonGoParser) _read_number() TreeNode {
             }
             if address50 != nil {
                 elements17[0] = address50
-                var address51 TreeNode
-                var index33 int
-                index33 = p.offset
-                var elements18 []TreeNode
-                elements18 = nil
-                var address52 TreeNode
-                address52 = nil
+                var address51 TreeNode = nil
+                var index33 int = p.offset
+                var elements18 []TreeNode = nil
+                var address52 TreeNode = nil
                 for {
-                    var chunk20 string
-                    chunk20 = ""
-                    var max20 int
-                    max20 = p.offset + 1
+                    var chunk20 string = ""
+                    var max20 int = p.offset + 1
                     if max20 <= len(p.input) {
                         chunk20 = string(p.input[p.offset:max20])
                     }
@@ -1337,20 +1223,14 @@ func (p *JsonGoParser) _read_number() TreeNode {
             }
             if address49 != nil {
                 elements14[2] = address49
-                var address53 TreeNode
-                var index34 int
-                index34 = p.offset
-                var index35 int
-                index35 = p.offset
-                var elements19 []TreeNode
-                elements19 = make([]TreeNode, 3)
-                var address54 TreeNode
-                var index36 int
-                index36 = p.offset
-                var chunk21 string
-                chunk21 = ""
-                var max21 int
-                max21 = p.offset + 1
+                var address53 TreeNode = nil
+                var index34 int = p.offset
+                var index35 int = p.offset
+                var elements19 []TreeNode = make([]TreeNode, 3)
+                var address54 TreeNode = nil
+                var index36 int = p.offset
+                var chunk21 string = ""
+                var max21 int = p.offset + 1
                 if max21 <= len(p.input) {
                     chunk21 = string(p.input[p.offset:max21])
                 }
@@ -1369,10 +1249,8 @@ func (p *JsonGoParser) _read_number() TreeNode {
                 }
                 if address54 == nil {
                     p.offset = index36
-                    var chunk22 string
-                    chunk22 = ""
-                    var max22 int
-                    max22 = p.offset + 1
+                    var chunk22 string = ""
+                    var max22 int = p.offset + 1
                     if max22 <= len(p.input) {
                         chunk22 = string(p.input[p.offset:max22])
                     }
@@ -1395,13 +1273,10 @@ func (p *JsonGoParser) _read_number() TreeNode {
                 }
                 if address54 != nil {
                     elements19[0] = address54
-                    var address55 TreeNode
-                    var index37 int
-                    index37 = p.offset
-                    var chunk23 string
-                    chunk23 = ""
-                    var max23 int
-                    max23 = p.offset + 1
+                    var address55 TreeNode = nil
+                    var index37 int = p.offset
+                    var chunk23 string = ""
+                    var max23 int = p.offset + 1
                     if max23 <= len(p.input) {
                         chunk23 = string(p.input[p.offset:max23])
                     }
@@ -1420,10 +1295,8 @@ func (p *JsonGoParser) _read_number() TreeNode {
                     }
                     if address55 == nil {
                         p.offset = index37
-                        var chunk24 string
-                        chunk24 = ""
-                        var max24 int
-                        max24 = p.offset + 1
+                        var chunk24 string = ""
+                        var max24 int = p.offset + 1
                         if max24 <= len(p.input) {
                             chunk24 = string(p.input[p.offset:max24])
                         }
@@ -1442,10 +1315,8 @@ func (p *JsonGoParser) _read_number() TreeNode {
                         }
                         if address55 == nil {
                             p.offset = index37
-                            var chunk25 string
-                            chunk25 = ""
-                            var max25 int
-                            max25 = p.offset + 0
+                            var chunk25 string = ""
+                            var max25 int = p.offset + 0
                             if max25 <= len(p.input) {
                                 chunk25 = string(p.input[p.offset:max25])
                             }
@@ -1469,18 +1340,13 @@ func (p *JsonGoParser) _read_number() TreeNode {
                     }
                     if address55 != nil {
                         elements19[1] = address55
-                        var address56 TreeNode
-                        var index38 int
-                        index38 = p.offset
-                        var elements20 []TreeNode
-                        elements20 = nil
-                        var address57 TreeNode
-                        address57 = nil
+                        var address56 TreeNode = nil
+                        var index38 int = p.offset
+                        var elements20 []TreeNode = nil
+                        var address57 TreeNode = nil
                         for {
-                            var chunk26 string
-                            chunk26 = ""
-                            var max26 int
-                            max26 = p.offset + 1
+                            var chunk26 string = ""
+                            var max26 int = p.offset + 1
                             if max26 <= len(p.input) {
                                 chunk26 = string(p.input[p.offset:max26])
                             }
@@ -1559,12 +1425,9 @@ func (p *JsonGoParser) _read_number() TreeNode {
 }
 
 func (p *JsonGoParser) _read_boolean_() TreeNode {
-    var address58 TreeNode
-    address58 = nil
-    var index39 int
-    index39 = p.offset
-    var cache7 map[int]cacheEntry
-    cache7 = p.cache["boolean_"]
+    var address58 TreeNode = nil
+    var index39 int = p.offset
+    var cache7 map[int]cacheEntry = p.cache["boolean_"]
     if cache7 == nil {
         cache7 = make(map[int]cacheEntry)
         p.cache["boolean_"] = cache7
@@ -1573,12 +1436,9 @@ func (p *JsonGoParser) _read_boolean_() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index40 int
-    index40 = p.offset
-    var chunk27 string
-    chunk27 = ""
-    var max27 int
-    max27 = p.offset + 4
+    var index40 int = p.offset
+    var chunk27 string = ""
+    var max27 int = p.offset + 4
     if max27 <= len(p.input) {
         chunk27 = string(p.input[p.offset:max27])
     }
@@ -1597,10 +1457,8 @@ func (p *JsonGoParser) _read_boolean_() TreeNode {
     }
     if address58 == nil {
         p.offset = index40
-        var chunk28 string
-        chunk28 = ""
-        var max28 int
-        max28 = p.offset + 5
+        var chunk28 string = ""
+        var max28 int = p.offset + 5
         if max28 <= len(p.input) {
             chunk28 = string(p.input[p.offset:max28])
         }
@@ -1626,12 +1484,9 @@ func (p *JsonGoParser) _read_boolean_() TreeNode {
 }
 
 func (p *JsonGoParser) _read_null_() TreeNode {
-    var address59 TreeNode
-    address59 = nil
-    var index41 int
-    index41 = p.offset
-    var cache8 map[int]cacheEntry
-    cache8 = p.cache["null_"]
+    var address59 TreeNode = nil
+    var index41 int = p.offset
+    var cache8 map[int]cacheEntry = p.cache["null_"]
     if cache8 == nil {
         cache8 = make(map[int]cacheEntry)
         p.cache["null_"] = cache8
@@ -1640,10 +1495,8 @@ func (p *JsonGoParser) _read_null_() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var chunk29 string
-    chunk29 = ""
-    var max29 int
-    max29 = p.offset + 4
+    var chunk29 string = ""
+    var max29 int = p.offset + 4
     if max29 <= len(p.input) {
         chunk29 = string(p.input[p.offset:max29])
     }
@@ -1665,12 +1518,9 @@ func (p *JsonGoParser) _read_null_() TreeNode {
 }
 
 func (p *JsonGoParser) _read___() TreeNode {
-    var address60 TreeNode
-    address60 = nil
-    var index42 int
-    index42 = p.offset
-    var cache9 map[int]cacheEntry
-    cache9 = p.cache["__"]
+    var address60 TreeNode = nil
+    var index42 int = p.offset
+    var cache9 map[int]cacheEntry = p.cache["__"]
     if cache9 == nil {
         cache9 = make(map[int]cacheEntry)
         p.cache["__"] = cache9
@@ -1679,17 +1529,12 @@ func (p *JsonGoParser) _read___() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index43 int
-    index43 = p.offset
-    var elements21 []TreeNode
-    elements21 = nil
-    var address61 TreeNode
-    address61 = nil
+    var index43 int = p.offset
+    var elements21 []TreeNode = nil
+    var address61 TreeNode = nil
     for {
-        var chunk30 string
-        chunk30 = ""
-        var max30 int
-        max30 = p.offset + 1
+        var chunk30 string = ""
+        var max30 int = p.offset + 1
         if max30 <= len(p.input) {
             chunk30 = string(p.input[p.offset:max30])
         }
@@ -1802,18 +1647,5 @@ func (p *JsonGoParser) slice(start, end int) string {
     if end > len(p.input) { end = len(p.input) }
     if start > end { start = end }
     return string(p.input[start:end])
-}
-
-func (p *JsonGoParser) extendNode(node TreeNode, name string) TreeNode {
-    if node == nil {
-        return nil
-    }
-    if p.types == nil {
-        return node
-    }
-    if extender, ok := p.types[name]; ok && extender != nil {
-        return extender(node)
-    }
-    return node
 }
 

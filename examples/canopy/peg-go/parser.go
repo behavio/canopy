@@ -427,22 +427,19 @@ func newNode22(text string, start int, elements []TreeNode) TreeNode {
 }
 
 
-var REGEX_1 = regexp.MustCompile("^[^\"]")
-var REGEX_2 = regexp.MustCompile("^[^']")
+var REGEX_1 = regexp.MustCompile(`^[^"]`)
+var REGEX_2 = regexp.MustCompile(`^[^']`)
 var REGEX_3 = regexp.MustCompile("^[^`]")
-var REGEX_4 = regexp.MustCompile("^[^\\]]")
-var REGEX_5 = regexp.MustCompile("^[a-zA-Z_]")
-var REGEX_6 = regexp.MustCompile("^[a-zA-Z0-9_]")
-var REGEX_7 = regexp.MustCompile("^[\\s]")
-var REGEX_8 = regexp.MustCompile("^[^\\n]")
+var REGEX_4 = regexp.MustCompile(`^[^\]]`)
+var REGEX_5 = regexp.MustCompile(`^[a-zA-Z_]`)
+var REGEX_6 = regexp.MustCompile(`^[a-zA-Z0-9_]`)
+var REGEX_7 = regexp.MustCompile(`^[\s]`)
+var REGEX_8 = regexp.MustCompile(`^[^\n]`)
 
 func (p *PegGoParser) _read_grammar() TreeNode {
-    var address0 TreeNode
-    address0 = nil
-    var index0 int
-    index0 = p.offset
-    var cache0 map[int]cacheEntry
-    cache0 = p.cache["grammar"]
+    var address0 TreeNode = nil
+    var index0 int = p.offset
+    var cache0 map[int]cacheEntry = p.cache["grammar"]
     if cache0 == nil {
         cache0 = make(map[int]cacheEntry)
         p.cache["grammar"] = cache0
@@ -451,17 +448,12 @@ func (p *PegGoParser) _read_grammar() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index1 int
-    index1 = p.offset
-    var elements0 []TreeNode
-    elements0 = make([]TreeNode, 4)
-    var address1 TreeNode
-    var index2 int
-    index2 = p.offset
-    var elements1 []TreeNode
-    elements1 = nil
-    var address2 TreeNode
-    address2 = nil
+    var index1 int = p.offset
+    var elements0 []TreeNode = make([]TreeNode, 4)
+    var address1 TreeNode = nil
+    var index2 int = p.offset
+    var elements1 []TreeNode = nil
+    var address2 TreeNode = nil
     for {
         address2 = p._read___()
         if address2 != nil {
@@ -477,29 +469,21 @@ func (p *PegGoParser) _read_grammar() TreeNode {
     }
     if address1 != nil {
         elements0[0] = address1
-        var address3 TreeNode
+        var address3 TreeNode = nil
         address3 = p._read_grammar_name()
         if address3 != nil {
             elements0[1] = address3
-            var address4 TreeNode
-            var index3 int
-            index3 = p.offset
-            var elements2 []TreeNode
-            elements2 = nil
-            var address5 TreeNode
-            address5 = nil
+            var address4 TreeNode = nil
+            var index3 int = p.offset
+            var elements2 []TreeNode = nil
+            var address5 TreeNode = nil
             for {
-                var index4 int
-                index4 = p.offset
-                var elements3 []TreeNode
-                elements3 = make([]TreeNode, 2)
-                var address6 TreeNode
-                var index5 int
-                index5 = p.offset
-                var elements4 []TreeNode
-                elements4 = nil
-                var address7 TreeNode
-                address7 = nil
+                var index4 int = p.offset
+                var elements3 []TreeNode = make([]TreeNode, 2)
+                var address6 TreeNode = nil
+                var index5 int = p.offset
+                var elements4 []TreeNode = nil
+                var address7 TreeNode = nil
                 for {
                     address7 = p._read___()
                     if address7 != nil {
@@ -515,7 +499,7 @@ func (p *PegGoParser) _read_grammar() TreeNode {
                 }
                 if address6 != nil {
                     elements3[0] = address6
-                    var address8 TreeNode
+                    var address8 TreeNode = nil
                     address8 = p._read_grammar_rule()
                     if address8 != nil {
                         elements3[1] = address8
@@ -545,13 +529,10 @@ func (p *PegGoParser) _read_grammar() TreeNode {
             }
             if address4 != nil {
                 elements0[2] = address4
-                var address9 TreeNode
-                var index6 int
-                index6 = p.offset
-                var elements5 []TreeNode
-                elements5 = nil
-                var address10 TreeNode
-                address10 = nil
+                var address9 TreeNode = nil
+                var index6 int = p.offset
+                var elements5 []TreeNode = nil
+                var address10 TreeNode = nil
                 for {
                     address10 = p._read___()
                     if address10 != nil {
@@ -593,12 +574,9 @@ func (p *PegGoParser) _read_grammar() TreeNode {
 }
 
 func (p *PegGoParser) _read_grammar_name() TreeNode {
-    var address11 TreeNode
-    address11 = nil
-    var index7 int
-    index7 = p.offset
-    var cache1 map[int]cacheEntry
-    cache1 = p.cache["grammar_name"]
+    var address11 TreeNode = nil
+    var index7 int = p.offset
+    var cache1 map[int]cacheEntry = p.cache["grammar_name"]
     if cache1 == nil {
         cache1 = make(map[int]cacheEntry)
         p.cache["grammar_name"] = cache1
@@ -607,15 +585,11 @@ func (p *PegGoParser) _read_grammar_name() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index8 int
-    index8 = p.offset
-    var elements6 []TreeNode
-    elements6 = make([]TreeNode, 4)
-    var address12 TreeNode
-    var chunk0 string
-    chunk0 = ""
-    var max0 int
-    max0 = p.offset + 7
+    var index8 int = p.offset
+    var elements6 []TreeNode = make([]TreeNode, 4)
+    var address12 TreeNode = nil
+    var chunk0 string = ""
+    var max0 int = p.offset + 7
     if max0 <= len(p.input) {
         chunk0 = string(p.input[p.offset:max0])
     }
@@ -634,13 +608,10 @@ func (p *PegGoParser) _read_grammar_name() TreeNode {
     }
     if address12 != nil {
         elements6[0] = address12
-        var address13 TreeNode
-        var index9 int
-        index9 = p.offset
-        var chunk1 string
-        chunk1 = ""
-        var max1 int
-        max1 = p.offset + 1
+        var address13 TreeNode = nil
+        var index9 int = p.offset
+        var chunk1 string = ""
+        var max1 int = p.offset + 1
         if max1 <= len(p.input) {
             chunk1 = string(p.input[p.offset:max1])
         }
@@ -663,13 +634,10 @@ func (p *PegGoParser) _read_grammar_name() TreeNode {
         }
         if address13 != nil {
             elements6[1] = address13
-            var address14 TreeNode
-            var index10 int
-            index10 = p.offset
-            var elements7 []TreeNode
-            elements7 = nil
-            var address15 TreeNode
-            address15 = nil
+            var address14 TreeNode = nil
+            var index10 int = p.offset
+            var elements7 []TreeNode = nil
+            var address15 TreeNode = nil
             for {
                 address15 = p._read___()
                 if address15 != nil {
@@ -685,7 +653,7 @@ func (p *PegGoParser) _read_grammar_name() TreeNode {
             }
             if address14 != nil {
                 elements6[2] = address14
-                var address16 TreeNode
+                var address16 TreeNode = nil
                 address16 = p._read_object_identifier()
                 if address16 != nil {
                     elements6[3] = address16
@@ -715,12 +683,9 @@ func (p *PegGoParser) _read_grammar_name() TreeNode {
 }
 
 func (p *PegGoParser) _read_grammar_rule() TreeNode {
-    var address17 TreeNode
-    address17 = nil
-    var index11 int
-    index11 = p.offset
-    var cache2 map[int]cacheEntry
-    cache2 = p.cache["grammar_rule"]
+    var address17 TreeNode = nil
+    var index11 int = p.offset
+    var cache2 map[int]cacheEntry = p.cache["grammar_rule"]
     if cache2 == nil {
         cache2 = make(map[int]cacheEntry)
         p.cache["grammar_rule"] = cache2
@@ -729,19 +694,17 @@ func (p *PegGoParser) _read_grammar_rule() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index12 int
-    index12 = p.offset
-    var elements8 []TreeNode
-    elements8 = make([]TreeNode, 3)
-    var address18 TreeNode
+    var index12 int = p.offset
+    var elements8 []TreeNode = make([]TreeNode, 3)
+    var address18 TreeNode = nil
     address18 = p._read_identifier()
     if address18 != nil {
         elements8[0] = address18
-        var address19 TreeNode
+        var address19 TreeNode = nil
         address19 = p._read_assignment()
         if address19 != nil {
             elements8[1] = address19
-            var address20 TreeNode
+            var address20 TreeNode = nil
             address20 = p._read_parsing_expression()
             if address20 != nil {
                 elements8[2] = address20
@@ -767,12 +730,9 @@ func (p *PegGoParser) _read_grammar_rule() TreeNode {
 }
 
 func (p *PegGoParser) _read_assignment() TreeNode {
-    var address21 TreeNode
-    address21 = nil
-    var index13 int
-    index13 = p.offset
-    var cache3 map[int]cacheEntry
-    cache3 = p.cache["assignment"]
+    var address21 TreeNode = nil
+    var index13 int = p.offset
+    var cache3 map[int]cacheEntry = p.cache["assignment"]
     if cache3 == nil {
         cache3 = make(map[int]cacheEntry)
         p.cache["assignment"] = cache3
@@ -781,17 +741,12 @@ func (p *PegGoParser) _read_assignment() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index14 int
-    index14 = p.offset
-    var elements9 []TreeNode
-    elements9 = make([]TreeNode, 3)
-    var address22 TreeNode
-    var index15 int
-    index15 = p.offset
-    var elements10 []TreeNode
-    elements10 = nil
-    var address23 TreeNode
-    address23 = nil
+    var index14 int = p.offset
+    var elements9 []TreeNode = make([]TreeNode, 3)
+    var address22 TreeNode = nil
+    var index15 int = p.offset
+    var elements10 []TreeNode = nil
+    var address23 TreeNode = nil
     for {
         address23 = p._read___()
         if address23 != nil {
@@ -807,11 +762,9 @@ func (p *PegGoParser) _read_assignment() TreeNode {
     }
     if address22 != nil {
         elements9[0] = address22
-        var address24 TreeNode
-        var chunk2 string
-        chunk2 = ""
-        var max2 int
-        max2 = p.offset + 2
+        var address24 TreeNode = nil
+        var chunk2 string = ""
+        var max2 int = p.offset + 2
         if max2 <= len(p.input) {
             chunk2 = string(p.input[p.offset:max2])
         }
@@ -830,13 +783,10 @@ func (p *PegGoParser) _read_assignment() TreeNode {
         }
         if address24 != nil {
             elements9[1] = address24
-            var address25 TreeNode
-            var index16 int
-            index16 = p.offset
-            var elements11 []TreeNode
-            elements11 = nil
-            var address26 TreeNode
-            address26 = nil
+            var address25 TreeNode = nil
+            var index16 int = p.offset
+            var elements11 []TreeNode = nil
+            var address26 TreeNode = nil
             for {
                 address26 = p._read___()
                 if address26 != nil {
@@ -874,12 +824,9 @@ func (p *PegGoParser) _read_assignment() TreeNode {
 }
 
 func (p *PegGoParser) _read_parsing_expression() TreeNode {
-    var address27 TreeNode
-    address27 = nil
-    var index17 int
-    index17 = p.offset
-    var cache4 map[int]cacheEntry
-    cache4 = p.cache["parsing_expression"]
+    var address27 TreeNode = nil
+    var index17 int = p.offset
+    var cache4 map[int]cacheEntry = p.cache["parsing_expression"]
     if cache4 == nil {
         cache4 = make(map[int]cacheEntry)
         p.cache["parsing_expression"] = cache4
@@ -888,8 +835,7 @@ func (p *PegGoParser) _read_parsing_expression() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index18 int
-    index18 = p.offset
+    var index18 int = p.offset
     address27 = p._read_choice_expression()
     if address27 == nil {
         p.offset = index18
@@ -903,12 +849,9 @@ func (p *PegGoParser) _read_parsing_expression() TreeNode {
 }
 
 func (p *PegGoParser) _read_parenthesised_expression() TreeNode {
-    var address28 TreeNode
-    address28 = nil
-    var index19 int
-    index19 = p.offset
-    var cache5 map[int]cacheEntry
-    cache5 = p.cache["parenthesised_expression"]
+    var address28 TreeNode = nil
+    var index19 int = p.offset
+    var cache5 map[int]cacheEntry = p.cache["parenthesised_expression"]
     if cache5 == nil {
         cache5 = make(map[int]cacheEntry)
         p.cache["parenthesised_expression"] = cache5
@@ -917,15 +860,11 @@ func (p *PegGoParser) _read_parenthesised_expression() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index20 int
-    index20 = p.offset
-    var elements12 []TreeNode
-    elements12 = make([]TreeNode, 5)
-    var address29 TreeNode
-    var chunk3 string
-    chunk3 = ""
-    var max3 int
-    max3 = p.offset + 1
+    var index20 int = p.offset
+    var elements12 []TreeNode = make([]TreeNode, 5)
+    var address29 TreeNode = nil
+    var chunk3 string = ""
+    var max3 int = p.offset + 1
     if max3 <= len(p.input) {
         chunk3 = string(p.input[p.offset:max3])
     }
@@ -944,13 +883,10 @@ func (p *PegGoParser) _read_parenthesised_expression() TreeNode {
     }
     if address29 != nil {
         elements12[0] = address29
-        var address30 TreeNode
-        var index21 int
-        index21 = p.offset
-        var elements13 []TreeNode
-        elements13 = nil
-        var address31 TreeNode
-        address31 = nil
+        var address30 TreeNode = nil
+        var index21 int = p.offset
+        var elements13 []TreeNode = nil
+        var address31 TreeNode = nil
         for {
             address31 = p._read___()
             if address31 != nil {
@@ -966,17 +902,14 @@ func (p *PegGoParser) _read_parenthesised_expression() TreeNode {
         }
         if address30 != nil {
             elements12[1] = address30
-            var address32 TreeNode
+            var address32 TreeNode = nil
             address32 = p._read_parsing_expression()
             if address32 != nil {
                 elements12[2] = address32
-                var address33 TreeNode
-                var index22 int
-                index22 = p.offset
-                var elements14 []TreeNode
-                elements14 = nil
-                var address34 TreeNode
-                address34 = nil
+                var address33 TreeNode = nil
+                var index22 int = p.offset
+                var elements14 []TreeNode = nil
+                var address34 TreeNode = nil
                 for {
                     address34 = p._read___()
                     if address34 != nil {
@@ -992,11 +925,9 @@ func (p *PegGoParser) _read_parenthesised_expression() TreeNode {
                 }
                 if address33 != nil {
                     elements12[3] = address33
-                    var address35 TreeNode
-                    var chunk4 string
-                    chunk4 = ""
-                    var max4 int
-                    max4 = p.offset + 1
+                    var address35 TreeNode = nil
+                    var chunk4 string = ""
+                    var max4 int = p.offset + 1
                     if max4 <= len(p.input) {
                         chunk4 = string(p.input[p.offset:max4])
                     }
@@ -1045,12 +976,9 @@ func (p *PegGoParser) _read_parenthesised_expression() TreeNode {
 }
 
 func (p *PegGoParser) _read_choice_expression() TreeNode {
-    var address36 TreeNode
-    address36 = nil
-    var index23 int
-    index23 = p.offset
-    var cache6 map[int]cacheEntry
-    cache6 = p.cache["choice_expression"]
+    var address36 TreeNode = nil
+    var index23 int = p.offset
+    var cache6 map[int]cacheEntry = p.cache["choice_expression"]
     if cache6 == nil {
         cache6 = make(map[int]cacheEntry)
         p.cache["choice_expression"] = cache6
@@ -1059,33 +987,23 @@ func (p *PegGoParser) _read_choice_expression() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index24 int
-    index24 = p.offset
-    var elements15 []TreeNode
-    elements15 = make([]TreeNode, 2)
-    var address37 TreeNode
+    var index24 int = p.offset
+    var elements15 []TreeNode = make([]TreeNode, 2)
+    var address37 TreeNode = nil
     address37 = p._read_choice_part()
     if address37 != nil {
         elements15[0] = address37
-        var address38 TreeNode
-        var index25 int
-        index25 = p.offset
-        var elements16 []TreeNode
-        elements16 = nil
-        var address39 TreeNode
-        address39 = nil
+        var address38 TreeNode = nil
+        var index25 int = p.offset
+        var elements16 []TreeNode = nil
+        var address39 TreeNode = nil
         for {
-            var index26 int
-            index26 = p.offset
-            var elements17 []TreeNode
-            elements17 = make([]TreeNode, 4)
-            var address40 TreeNode
-            var index27 int
-            index27 = p.offset
-            var elements18 []TreeNode
-            elements18 = nil
-            var address41 TreeNode
-            address41 = nil
+            var index26 int = p.offset
+            var elements17 []TreeNode = make([]TreeNode, 4)
+            var address40 TreeNode = nil
+            var index27 int = p.offset
+            var elements18 []TreeNode = nil
+            var address41 TreeNode = nil
             for {
                 address41 = p._read___()
                 if address41 != nil {
@@ -1101,11 +1019,9 @@ func (p *PegGoParser) _read_choice_expression() TreeNode {
             }
             if address40 != nil {
                 elements17[0] = address40
-                var address42 TreeNode
-                var chunk5 string
-                chunk5 = ""
-                var max5 int
-                max5 = p.offset + 1
+                var address42 TreeNode = nil
+                var chunk5 string = ""
+                var max5 int = p.offset + 1
                 if max5 <= len(p.input) {
                     chunk5 = string(p.input[p.offset:max5])
                 }
@@ -1124,13 +1040,10 @@ func (p *PegGoParser) _read_choice_expression() TreeNode {
                 }
                 if address42 != nil {
                     elements17[1] = address42
-                    var address43 TreeNode
-                    var index28 int
-                    index28 = p.offset
-                    var elements19 []TreeNode
-                    elements19 = nil
-                    var address44 TreeNode
-                    address44 = nil
+                    var address43 TreeNode = nil
+                    var index28 int = p.offset
+                    var elements19 []TreeNode = nil
+                    var address44 TreeNode = nil
                     for {
                         address44 = p._read___()
                         if address44 != nil {
@@ -1146,7 +1059,7 @@ func (p *PegGoParser) _read_choice_expression() TreeNode {
                     }
                     if address43 != nil {
                         elements17[2] = address43
-                        var address45 TreeNode
+                        var address45 TreeNode = nil
                         address45 = p._read_choice_part()
                         if address45 != nil {
                             elements17[3] = address45
@@ -1202,12 +1115,9 @@ func (p *PegGoParser) _read_choice_expression() TreeNode {
 }
 
 func (p *PegGoParser) _read_choice_part() TreeNode {
-    var address46 TreeNode
-    address46 = nil
-    var index29 int
-    index29 = p.offset
-    var cache7 map[int]cacheEntry
-    cache7 = p.cache["choice_part"]
+    var address46 TreeNode = nil
+    var index29 int = p.offset
+    var cache7 map[int]cacheEntry = p.cache["choice_part"]
     if cache7 == nil {
         cache7 = make(map[int]cacheEntry)
         p.cache["choice_part"] = cache7
@@ -1216,13 +1126,10 @@ func (p *PegGoParser) _read_choice_part() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index30 int
-    index30 = p.offset
-    var elements20 []TreeNode
-    elements20 = make([]TreeNode, 2)
-    var address47 TreeNode
-    var index31 int
-    index31 = p.offset
+    var index30 int = p.offset
+    var elements20 []TreeNode = make([]TreeNode, 2)
+    var address47 TreeNode = nil
+    var index31 int = p.offset
     address47 = p._read_action_expression()
     if address47 == nil {
         p.offset = index31
@@ -1237,20 +1144,14 @@ func (p *PegGoParser) _read_choice_part() TreeNode {
     }
     if address47 != nil {
         elements20[0] = address47
-        var address48 TreeNode
-        var index32 int
-        index32 = p.offset
-        var index33 int
-        index33 = p.offset
-        var elements21 []TreeNode
-        elements21 = make([]TreeNode, 2)
-        var address49 TreeNode
-        var index34 int
-        index34 = p.offset
-        var elements22 []TreeNode
-        elements22 = nil
-        var address50 TreeNode
-        address50 = nil
+        var address48 TreeNode = nil
+        var index32 int = p.offset
+        var index33 int = p.offset
+        var elements21 []TreeNode = make([]TreeNode, 2)
+        var address49 TreeNode = nil
+        var index34 int = p.offset
+        var elements22 []TreeNode = nil
+        var address50 TreeNode = nil
         for {
             address50 = p._read___()
             if address50 != nil {
@@ -1266,7 +1167,7 @@ func (p *PegGoParser) _read_choice_part() TreeNode {
         }
         if address49 != nil {
             elements21[0] = address49
-            var address51 TreeNode
+            var address51 TreeNode = nil
             address51 = p._read_type_tag()
             if address51 != nil {
                 elements21[1] = address51
@@ -1307,12 +1208,9 @@ func (p *PegGoParser) _read_choice_part() TreeNode {
 }
 
 func (p *PegGoParser) _read_action_expression() TreeNode {
-    var address52 TreeNode
-    address52 = nil
-    var index35 int
-    index35 = p.offset
-    var cache8 map[int]cacheEntry
-    cache8 = p.cache["action_expression"]
+    var address52 TreeNode = nil
+    var index35 int = p.offset
+    var cache8 map[int]cacheEntry = p.cache["action_expression"]
     if cache8 == nil {
         cache8 = make(map[int]cacheEntry)
         p.cache["action_expression"] = cache8
@@ -1321,21 +1219,16 @@ func (p *PegGoParser) _read_action_expression() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index36 int
-    index36 = p.offset
-    var elements23 []TreeNode
-    elements23 = make([]TreeNode, 3)
-    var address53 TreeNode
+    var index36 int = p.offset
+    var elements23 []TreeNode = make([]TreeNode, 3)
+    var address53 TreeNode = nil
     address53 = p._read_actionable_expression()
     if address53 != nil {
         elements23[0] = address53
-        var address54 TreeNode
-        var index37 int
-        index37 = p.offset
-        var elements24 []TreeNode
-        elements24 = nil
-        var address55 TreeNode
-        address55 = nil
+        var address54 TreeNode = nil
+        var index37 int = p.offset
+        var elements24 []TreeNode = nil
+        var address55 TreeNode = nil
         for {
             address55 = p._read___()
             if address55 != nil {
@@ -1351,7 +1244,7 @@ func (p *PegGoParser) _read_action_expression() TreeNode {
         }
         if address54 != nil {
             elements23[1] = address54
-            var address56 TreeNode
+            var address56 TreeNode = nil
             address56 = p._read_action_tag()
             if address56 != nil {
                 elements23[2] = address56
@@ -1377,12 +1270,9 @@ func (p *PegGoParser) _read_action_expression() TreeNode {
 }
 
 func (p *PegGoParser) _read_actionable_expression() TreeNode {
-    var address57 TreeNode
-    address57 = nil
-    var index38 int
-    index38 = p.offset
-    var cache9 map[int]cacheEntry
-    cache9 = p.cache["actionable_expression"]
+    var address57 TreeNode = nil
+    var index38 int = p.offset
+    var cache9 map[int]cacheEntry = p.cache["actionable_expression"]
     if cache9 == nil {
         cache9 = make(map[int]cacheEntry)
         p.cache["actionable_expression"] = cache9
@@ -1391,17 +1281,12 @@ func (p *PegGoParser) _read_actionable_expression() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index39 int
-    index39 = p.offset
-    var index40 int
-    index40 = p.offset
-    var elements25 []TreeNode
-    elements25 = make([]TreeNode, 5)
-    var address58 TreeNode
-    var chunk6 string
-    chunk6 = ""
-    var max6 int
-    max6 = p.offset + 1
+    var index39 int = p.offset
+    var index40 int = p.offset
+    var elements25 []TreeNode = make([]TreeNode, 5)
+    var address58 TreeNode = nil
+    var chunk6 string = ""
+    var max6 int = p.offset + 1
     if max6 <= len(p.input) {
         chunk6 = string(p.input[p.offset:max6])
     }
@@ -1420,13 +1305,10 @@ func (p *PegGoParser) _read_actionable_expression() TreeNode {
     }
     if address58 != nil {
         elements25[0] = address58
-        var address59 TreeNode
-        var index41 int
-        index41 = p.offset
-        var elements26 []TreeNode
-        elements26 = nil
-        var address60 TreeNode
-        address60 = nil
+        var address59 TreeNode = nil
+        var index41 int = p.offset
+        var elements26 []TreeNode = nil
+        var address60 TreeNode = nil
         for {
             address60 = p._read___()
             if address60 != nil {
@@ -1442,17 +1324,14 @@ func (p *PegGoParser) _read_actionable_expression() TreeNode {
         }
         if address59 != nil {
             elements25[1] = address59
-            var address61 TreeNode
+            var address61 TreeNode = nil
             address61 = p._read_actionable_expression()
             if address61 != nil {
                 elements25[2] = address61
-                var address62 TreeNode
-                var index42 int
-                index42 = p.offset
-                var elements27 []TreeNode
-                elements27 = nil
-                var address63 TreeNode
-                address63 = nil
+                var address62 TreeNode = nil
+                var index42 int = p.offset
+                var elements27 []TreeNode = nil
+                var address63 TreeNode = nil
                 for {
                     address63 = p._read___()
                     if address63 != nil {
@@ -1468,11 +1347,9 @@ func (p *PegGoParser) _read_actionable_expression() TreeNode {
                 }
                 if address62 != nil {
                     elements25[3] = address62
-                    var address64 TreeNode
-                    var chunk7 string
-                    chunk7 = ""
-                    var max7 int
-                    max7 = p.offset + 1
+                    var address64 TreeNode = nil
+                    var chunk7 string = ""
+                    var max7 int = p.offset + 1
                     if max7 <= len(p.input) {
                         chunk7 = string(p.input[p.offset:max7])
                     }
@@ -1536,12 +1413,9 @@ func (p *PegGoParser) _read_actionable_expression() TreeNode {
 }
 
 func (p *PegGoParser) _read_action_tag() TreeNode {
-    var address65 TreeNode
-    address65 = nil
-    var index43 int
-    index43 = p.offset
-    var cache10 map[int]cacheEntry
-    cache10 = p.cache["action_tag"]
+    var address65 TreeNode = nil
+    var index43 int = p.offset
+    var cache10 map[int]cacheEntry = p.cache["action_tag"]
     if cache10 == nil {
         cache10 = make(map[int]cacheEntry)
         p.cache["action_tag"] = cache10
@@ -1550,15 +1424,11 @@ func (p *PegGoParser) _read_action_tag() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index44 int
-    index44 = p.offset
-    var elements28 []TreeNode
-    elements28 = make([]TreeNode, 2)
-    var address66 TreeNode
-    var chunk8 string
-    chunk8 = ""
-    var max8 int
-    max8 = p.offset + 1
+    var index44 int = p.offset
+    var elements28 []TreeNode = make([]TreeNode, 2)
+    var address66 TreeNode = nil
+    var chunk8 string = ""
+    var max8 int = p.offset + 1
     if max8 <= len(p.input) {
         chunk8 = string(p.input[p.offset:max8])
     }
@@ -1577,7 +1447,7 @@ func (p *PegGoParser) _read_action_tag() TreeNode {
     }
     if address66 != nil {
         elements28[0] = address66
-        var address67 TreeNode
+        var address67 TreeNode = nil
         address67 = p._read_identifier()
         if address67 != nil {
             elements28[1] = address67
@@ -1599,12 +1469,9 @@ func (p *PegGoParser) _read_action_tag() TreeNode {
 }
 
 func (p *PegGoParser) _read_type_tag() TreeNode {
-    var address68 TreeNode
-    address68 = nil
-    var index45 int
-    index45 = p.offset
-    var cache11 map[int]cacheEntry
-    cache11 = p.cache["type_tag"]
+    var address68 TreeNode = nil
+    var index45 int = p.offset
+    var cache11 map[int]cacheEntry = p.cache["type_tag"]
     if cache11 == nil {
         cache11 = make(map[int]cacheEntry)
         p.cache["type_tag"] = cache11
@@ -1613,15 +1480,11 @@ func (p *PegGoParser) _read_type_tag() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index46 int
-    index46 = p.offset
-    var elements29 []TreeNode
-    elements29 = make([]TreeNode, 3)
-    var address69 TreeNode
-    var chunk9 string
-    chunk9 = ""
-    var max9 int
-    max9 = p.offset + 1
+    var index46 int = p.offset
+    var elements29 []TreeNode = make([]TreeNode, 3)
+    var address69 TreeNode = nil
+    var chunk9 string = ""
+    var max9 int = p.offset + 1
     if max9 <= len(p.input) {
         chunk9 = string(p.input[p.offset:max9])
     }
@@ -1640,15 +1503,13 @@ func (p *PegGoParser) _read_type_tag() TreeNode {
     }
     if address69 != nil {
         elements29[0] = address69
-        var address70 TreeNode
+        var address70 TreeNode = nil
         address70 = p._read_object_identifier()
         if address70 != nil {
             elements29[1] = address70
-            var address71 TreeNode
-            var chunk10 string
-            chunk10 = ""
-            var max10 int
-            max10 = p.offset + 1
+            var address71 TreeNode = nil
+            var chunk10 string = ""
+            var max10 int = p.offset + 1
             if max10 <= len(p.input) {
                 chunk10 = string(p.input[p.offset:max10])
             }
@@ -1689,12 +1550,9 @@ func (p *PegGoParser) _read_type_tag() TreeNode {
 }
 
 func (p *PegGoParser) _read_sequence_expression() TreeNode {
-    var address72 TreeNode
-    address72 = nil
-    var index47 int
-    index47 = p.offset
-    var cache12 map[int]cacheEntry
-    cache12 = p.cache["sequence_expression"]
+    var address72 TreeNode = nil
+    var index47 int = p.offset
+    var cache12 map[int]cacheEntry = p.cache["sequence_expression"]
     if cache12 == nil {
         cache12 = make(map[int]cacheEntry)
         p.cache["sequence_expression"] = cache12
@@ -1703,33 +1561,23 @@ func (p *PegGoParser) _read_sequence_expression() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index48 int
-    index48 = p.offset
-    var elements30 []TreeNode
-    elements30 = make([]TreeNode, 2)
-    var address73 TreeNode
+    var index48 int = p.offset
+    var elements30 []TreeNode = make([]TreeNode, 2)
+    var address73 TreeNode = nil
     address73 = p._read_sequence_part()
     if address73 != nil {
         elements30[0] = address73
-        var address74 TreeNode
-        var index49 int
-        index49 = p.offset
-        var elements31 []TreeNode
-        elements31 = nil
-        var address75 TreeNode
-        address75 = nil
+        var address74 TreeNode = nil
+        var index49 int = p.offset
+        var elements31 []TreeNode = nil
+        var address75 TreeNode = nil
         for {
-            var index50 int
-            index50 = p.offset
-            var elements32 []TreeNode
-            elements32 = make([]TreeNode, 2)
-            var address76 TreeNode
-            var index51 int
-            index51 = p.offset
-            var elements33 []TreeNode
-            elements33 = nil
-            var address77 TreeNode
-            address77 = nil
+            var index50 int = p.offset
+            var elements32 []TreeNode = make([]TreeNode, 2)
+            var address76 TreeNode = nil
+            var index51 int = p.offset
+            var elements33 []TreeNode = nil
+            var address77 TreeNode = nil
             for {
                 address77 = p._read___()
                 if address77 != nil {
@@ -1745,7 +1593,7 @@ func (p *PegGoParser) _read_sequence_expression() TreeNode {
             }
             if address76 != nil {
                 elements32[0] = address76
-                var address78 TreeNode
+                var address78 TreeNode = nil
                 address78 = p._read_sequence_part()
                 if address78 != nil {
                     elements32[1] = address78
@@ -1793,12 +1641,9 @@ func (p *PegGoParser) _read_sequence_expression() TreeNode {
 }
 
 func (p *PegGoParser) _read_sequence_part() TreeNode {
-    var address79 TreeNode
-    address79 = nil
-    var index52 int
-    index52 = p.offset
-    var cache13 map[int]cacheEntry
-    cache13 = p.cache["sequence_part"]
+    var address79 TreeNode = nil
+    var index52 int = p.offset
+    var cache13 map[int]cacheEntry = p.cache["sequence_part"]
     if cache13 == nil {
         cache13 = make(map[int]cacheEntry)
         p.cache["sequence_part"] = cache13
@@ -1807,13 +1652,10 @@ func (p *PegGoParser) _read_sequence_part() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index53 int
-    index53 = p.offset
-    var elements34 []TreeNode
-    elements34 = make([]TreeNode, 2)
-    var address80 TreeNode
-    var index54 int
-    index54 = p.offset
+    var index53 int = p.offset
+    var elements34 []TreeNode = make([]TreeNode, 2)
+    var address80 TreeNode = nil
+    var index54 int = p.offset
     address80 = p._read_label()
     if address80 == nil {
         address80 = &BaseNode{text: p.slice(index54, index54), offset: index54, children: nil}
@@ -1821,9 +1663,8 @@ func (p *PegGoParser) _read_sequence_part() TreeNode {
     }
     if address80 != nil {
         elements34[0] = address80
-        var address81 TreeNode
-        var index55 int
-        index55 = p.offset
+        var address81 TreeNode = nil
+        var index55 int = p.offset
         address81 = p._read_maybe_atom()
         if address81 == nil {
             p.offset = index55
@@ -1856,12 +1697,9 @@ func (p *PegGoParser) _read_sequence_part() TreeNode {
 }
 
 func (p *PegGoParser) _read_maybe_atom() TreeNode {
-    var address82 TreeNode
-    address82 = nil
-    var index56 int
-    index56 = p.offset
-    var cache14 map[int]cacheEntry
-    cache14 = p.cache["maybe_atom"]
+    var address82 TreeNode = nil
+    var index56 int = p.offset
+    var cache14 map[int]cacheEntry = p.cache["maybe_atom"]
     if cache14 == nil {
         cache14 = make(map[int]cacheEntry)
         p.cache["maybe_atom"] = cache14
@@ -1870,19 +1708,15 @@ func (p *PegGoParser) _read_maybe_atom() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index57 int
-    index57 = p.offset
-    var elements35 []TreeNode
-    elements35 = make([]TreeNode, 2)
-    var address83 TreeNode
+    var index57 int = p.offset
+    var elements35 []TreeNode = make([]TreeNode, 2)
+    var address83 TreeNode = nil
     address83 = p._read_atom()
     if address83 != nil {
         elements35[0] = address83
-        var address84 TreeNode
-        var chunk11 string
-        chunk11 = ""
-        var max11 int
-        max11 = p.offset + 1
+        var address84 TreeNode = nil
+        var chunk11 string = ""
+        var max11 int = p.offset + 1
         if max11 <= len(p.input) {
             chunk11 = string(p.input[p.offset:max11])
         }
@@ -1919,12 +1753,9 @@ func (p *PegGoParser) _read_maybe_atom() TreeNode {
 }
 
 func (p *PegGoParser) _read_repeated_atom() TreeNode {
-    var address85 TreeNode
-    address85 = nil
-    var index58 int
-    index58 = p.offset
-    var cache15 map[int]cacheEntry
-    cache15 = p.cache["repeated_atom"]
+    var address85 TreeNode = nil
+    var index58 int = p.offset
+    var cache15 map[int]cacheEntry = p.cache["repeated_atom"]
     if cache15 == nil {
         cache15 = make(map[int]cacheEntry)
         p.cache["repeated_atom"] = cache15
@@ -1933,21 +1764,16 @@ func (p *PegGoParser) _read_repeated_atom() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index59 int
-    index59 = p.offset
-    var elements36 []TreeNode
-    elements36 = make([]TreeNode, 2)
-    var address86 TreeNode
+    var index59 int = p.offset
+    var elements36 []TreeNode = make([]TreeNode, 2)
+    var address86 TreeNode = nil
     address86 = p._read_atom()
     if address86 != nil {
         elements36[0] = address86
-        var address87 TreeNode
-        var index60 int
-        index60 = p.offset
-        var chunk12 string
-        chunk12 = ""
-        var max12 int
-        max12 = p.offset + 1
+        var address87 TreeNode = nil
+        var index60 int = p.offset
+        var chunk12 string = ""
+        var max12 int = p.offset + 1
         if max12 <= len(p.input) {
             chunk12 = string(p.input[p.offset:max12])
         }
@@ -1966,10 +1792,8 @@ func (p *PegGoParser) _read_repeated_atom() TreeNode {
         }
         if address87 == nil {
             p.offset = index60
-            var chunk13 string
-            chunk13 = ""
-            var max13 int
-            max13 = p.offset + 1
+            var chunk13 string = ""
+            var max13 int = p.offset + 1
             if max13 <= len(p.input) {
                 chunk13 = string(p.input[p.offset:max13])
             }
@@ -2010,12 +1834,9 @@ func (p *PegGoParser) _read_repeated_atom() TreeNode {
 }
 
 func (p *PegGoParser) _read_atom() TreeNode {
-    var address88 TreeNode
-    address88 = nil
-    var index61 int
-    index61 = p.offset
-    var cache16 map[int]cacheEntry
-    cache16 = p.cache["atom"]
+    var address88 TreeNode = nil
+    var index61 int = p.offset
+    var cache16 map[int]cacheEntry = p.cache["atom"]
     if cache16 == nil {
         cache16 = make(map[int]cacheEntry)
         p.cache["atom"] = cache16
@@ -2024,8 +1845,7 @@ func (p *PegGoParser) _read_atom() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index62 int
-    index62 = p.offset
+    var index62 int = p.offset
     address88 = p._read_parenthesised_expression()
     if address88 == nil {
         p.offset = index62
@@ -2047,12 +1867,9 @@ func (p *PegGoParser) _read_atom() TreeNode {
 }
 
 func (p *PegGoParser) _read_terminal_node() TreeNode {
-    var address89 TreeNode
-    address89 = nil
-    var index63 int
-    index63 = p.offset
-    var cache17 map[int]cacheEntry
-    cache17 = p.cache["terminal_node"]
+    var address89 TreeNode = nil
+    var index63 int = p.offset
+    var cache17 map[int]cacheEntry = p.cache["terminal_node"]
     if cache17 == nil {
         cache17 = make(map[int]cacheEntry)
         p.cache["terminal_node"] = cache17
@@ -2061,8 +1878,7 @@ func (p *PegGoParser) _read_terminal_node() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index64 int
-    index64 = p.offset
+    var index64 int = p.offset
     address89 = p._read_string_expression()
     if address89 == nil {
         p.offset = index64
@@ -2084,12 +1900,9 @@ func (p *PegGoParser) _read_terminal_node() TreeNode {
 }
 
 func (p *PegGoParser) _read_predicated_atom() TreeNode {
-    var address90 TreeNode
-    address90 = nil
-    var index65 int
-    index65 = p.offset
-    var cache18 map[int]cacheEntry
-    cache18 = p.cache["predicated_atom"]
+    var address90 TreeNode = nil
+    var index65 int = p.offset
+    var cache18 map[int]cacheEntry = p.cache["predicated_atom"]
     if cache18 == nil {
         cache18 = make(map[int]cacheEntry)
         p.cache["predicated_atom"] = cache18
@@ -2098,17 +1911,12 @@ func (p *PegGoParser) _read_predicated_atom() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index66 int
-    index66 = p.offset
-    var elements37 []TreeNode
-    elements37 = make([]TreeNode, 2)
-    var address91 TreeNode
-    var index67 int
-    index67 = p.offset
-    var chunk14 string
-    chunk14 = ""
-    var max14 int
-    max14 = p.offset + 1
+    var index66 int = p.offset
+    var elements37 []TreeNode = make([]TreeNode, 2)
+    var address91 TreeNode = nil
+    var index67 int = p.offset
+    var chunk14 string = ""
+    var max14 int = p.offset + 1
     if max14 <= len(p.input) {
         chunk14 = string(p.input[p.offset:max14])
     }
@@ -2127,10 +1935,8 @@ func (p *PegGoParser) _read_predicated_atom() TreeNode {
     }
     if address91 == nil {
         p.offset = index67
-        var chunk15 string
-        chunk15 = ""
-        var max15 int
-        max15 = p.offset + 1
+        var chunk15 string = ""
+        var max15 int = p.offset + 1
         if max15 <= len(p.input) {
             chunk15 = string(p.input[p.offset:max15])
         }
@@ -2153,7 +1959,7 @@ func (p *PegGoParser) _read_predicated_atom() TreeNode {
     }
     if address91 != nil {
         elements37[0] = address91
-        var address92 TreeNode
+        var address92 TreeNode = nil
         address92 = p._read_atom()
         if address92 != nil {
             elements37[1] = address92
@@ -2175,12 +1981,9 @@ func (p *PegGoParser) _read_predicated_atom() TreeNode {
 }
 
 func (p *PegGoParser) _read_reference_expression() TreeNode {
-    var address93 TreeNode
-    address93 = nil
-    var index68 int
-    index68 = p.offset
-    var cache19 map[int]cacheEntry
-    cache19 = p.cache["reference_expression"]
+    var address93 TreeNode = nil
+    var index68 int = p.offset
+    var cache19 map[int]cacheEntry = p.cache["reference_expression"]
     if cache19 == nil {
         cache19 = make(map[int]cacheEntry)
         p.cache["reference_expression"] = cache19
@@ -2189,17 +1992,14 @@ func (p *PegGoParser) _read_reference_expression() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index69 int
-    index69 = p.offset
-    var elements38 []TreeNode
-    elements38 = make([]TreeNode, 2)
-    var address94 TreeNode
+    var index69 int = p.offset
+    var elements38 []TreeNode = make([]TreeNode, 2)
+    var address94 TreeNode = nil
     address94 = p._read_identifier()
     if address94 != nil {
         elements38[0] = address94
-        var address95 TreeNode
-        var index70 int
-        index70 = p.offset
+        var address95 TreeNode = nil
+        var index70 int = p.offset
         address95 = p._read_assignment()
         p.offset = index70
         if address95 == nil {
@@ -2227,12 +2027,9 @@ func (p *PegGoParser) _read_reference_expression() TreeNode {
 }
 
 func (p *PegGoParser) _read_string_expression() TreeNode {
-    var address96 TreeNode
-    address96 = nil
-    var index71 int
-    index71 = p.offset
-    var cache20 map[int]cacheEntry
-    cache20 = p.cache["string_expression"]
+    var address96 TreeNode = nil
+    var index71 int = p.offset
+    var cache20 map[int]cacheEntry = p.cache["string_expression"]
     if cache20 == nil {
         cache20 = make(map[int]cacheEntry)
         p.cache["string_expression"] = cache20
@@ -2241,17 +2038,12 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index72 int
-    index72 = p.offset
-    var index73 int
-    index73 = p.offset
-    var elements39 []TreeNode
-    elements39 = make([]TreeNode, 3)
-    var address97 TreeNode
-    var chunk16 string
-    chunk16 = ""
-    var max16 int
-    max16 = p.offset + 1
+    var index72 int = p.offset
+    var index73 int = p.offset
+    var elements39 []TreeNode = make([]TreeNode, 3)
+    var address97 TreeNode = nil
+    var chunk16 string = ""
+    var max16 int = p.offset + 1
     if max16 <= len(p.input) {
         chunk16 = string(p.input[p.offset:max16])
     }
@@ -2270,25 +2062,17 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
     }
     if address97 != nil {
         elements39[0] = address97
-        var address98 TreeNode
-        var index74 int
-        index74 = p.offset
-        var elements40 []TreeNode
-        elements40 = nil
-        var address99 TreeNode
-        address99 = nil
+        var address98 TreeNode = nil
+        var index74 int = p.offset
+        var elements40 []TreeNode = nil
+        var address99 TreeNode = nil
         for {
-            var index75 int
-            index75 = p.offset
-            var index76 int
-            index76 = p.offset
-            var elements41 []TreeNode
-            elements41 = make([]TreeNode, 2)
-            var address100 TreeNode
-            var chunk17 string
-            chunk17 = ""
-            var max17 int
-            max17 = p.offset + 1
+            var index75 int = p.offset
+            var index76 int = p.offset
+            var elements41 []TreeNode = make([]TreeNode, 2)
+            var address100 TreeNode = nil
+            var chunk17 string = ""
+            var max17 int = p.offset + 1
             if max17 <= len(p.input) {
                 chunk17 = string(p.input[p.offset:max17])
             }
@@ -2307,7 +2091,7 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
             }
             if address100 != nil {
                 elements41[0] = address100
-                var address101 TreeNode
+                var address101 TreeNode = nil
                 if p.offset < len(p.input) {
                     address101 = &BaseNode{text: p.slice(p.offset, p.offset + 1), offset: p.offset, children: nil}
                     p.offset = p.offset + 1
@@ -2338,10 +2122,8 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
             }
             if address99 == nil {
                 p.offset = index75
-                var chunk18 string
-                chunk18 = ""
-                var max18 int
-                max18 = p.offset + 1
+                var chunk18 string = ""
+                var max18 int = p.offset + 1
                 if max18 <= len(p.input) {
                     chunk18 = string(p.input[p.offset:max18])
                 }
@@ -2375,11 +2157,9 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
         }
         if address98 != nil {
             elements39[1] = address98
-            var address102 TreeNode
-            var chunk19 string
-            chunk19 = ""
-            var max19 int
-            max19 = p.offset + 1
+            var address102 TreeNode = nil
+            var chunk19 string = ""
+            var max19 int = p.offset + 1
             if max19 <= len(p.input) {
                 chunk19 = string(p.input[p.offset:max19])
             }
@@ -2417,15 +2197,11 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
     }
     if address96 == nil {
         p.offset = index72
-        var index77 int
-        index77 = p.offset
-        var elements42 []TreeNode
-        elements42 = make([]TreeNode, 3)
-        var address103 TreeNode
-        var chunk20 string
-        chunk20 = ""
-        var max20 int
-        max20 = p.offset + 1
+        var index77 int = p.offset
+        var elements42 []TreeNode = make([]TreeNode, 3)
+        var address103 TreeNode = nil
+        var chunk20 string = ""
+        var max20 int = p.offset + 1
         if max20 <= len(p.input) {
             chunk20 = string(p.input[p.offset:max20])
         }
@@ -2444,25 +2220,17 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
         }
         if address103 != nil {
             elements42[0] = address103
-            var address104 TreeNode
-            var index78 int
-            index78 = p.offset
-            var elements43 []TreeNode
-            elements43 = nil
-            var address105 TreeNode
-            address105 = nil
+            var address104 TreeNode = nil
+            var index78 int = p.offset
+            var elements43 []TreeNode = nil
+            var address105 TreeNode = nil
             for {
-                var index79 int
-                index79 = p.offset
-                var index80 int
-                index80 = p.offset
-                var elements44 []TreeNode
-                elements44 = make([]TreeNode, 2)
-                var address106 TreeNode
-                var chunk21 string
-                chunk21 = ""
-                var max21 int
-                max21 = p.offset + 1
+                var index79 int = p.offset
+                var index80 int = p.offset
+                var elements44 []TreeNode = make([]TreeNode, 2)
+                var address106 TreeNode = nil
+                var chunk21 string = ""
+                var max21 int = p.offset + 1
                 if max21 <= len(p.input) {
                     chunk21 = string(p.input[p.offset:max21])
                 }
@@ -2481,7 +2249,7 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
                 }
                 if address106 != nil {
                     elements44[0] = address106
-                    var address107 TreeNode
+                    var address107 TreeNode = nil
                     if p.offset < len(p.input) {
                         address107 = &BaseNode{text: p.slice(p.offset, p.offset + 1), offset: p.offset, children: nil}
                         p.offset = p.offset + 1
@@ -2512,10 +2280,8 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
                 }
                 if address105 == nil {
                     p.offset = index79
-                    var chunk22 string
-                    chunk22 = ""
-                    var max22 int
-                    max22 = p.offset + 1
+                    var chunk22 string = ""
+                    var max22 int = p.offset + 1
                     if max22 <= len(p.input) {
                         chunk22 = string(p.input[p.offset:max22])
                     }
@@ -2549,11 +2315,9 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
             }
             if address104 != nil {
                 elements42[1] = address104
-                var address108 TreeNode
-                var chunk23 string
-                chunk23 = ""
-                var max23 int
-                max23 = p.offset + 1
+                var address108 TreeNode = nil
+                var chunk23 string = ""
+                var max23 int = p.offset + 1
                 if max23 <= len(p.input) {
                     chunk23 = string(p.input[p.offset:max23])
                 }
@@ -2598,12 +2362,9 @@ func (p *PegGoParser) _read_string_expression() TreeNode {
 }
 
 func (p *PegGoParser) _read_ci_string_expression() TreeNode {
-    var address109 TreeNode
-    address109 = nil
-    var index81 int
-    index81 = p.offset
-    var cache21 map[int]cacheEntry
-    cache21 = p.cache["ci_string_expression"]
+    var address109 TreeNode = nil
+    var index81 int = p.offset
+    var cache21 map[int]cacheEntry = p.cache["ci_string_expression"]
     if cache21 == nil {
         cache21 = make(map[int]cacheEntry)
         p.cache["ci_string_expression"] = cache21
@@ -2612,15 +2373,11 @@ func (p *PegGoParser) _read_ci_string_expression() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index82 int
-    index82 = p.offset
-    var elements45 []TreeNode
-    elements45 = make([]TreeNode, 3)
-    var address110 TreeNode
-    var chunk24 string
-    chunk24 = ""
-    var max24 int
-    max24 = p.offset + 1
+    var index82 int = p.offset
+    var elements45 []TreeNode = make([]TreeNode, 3)
+    var address110 TreeNode = nil
+    var chunk24 string = ""
+    var max24 int = p.offset + 1
     if max24 <= len(p.input) {
         chunk24 = string(p.input[p.offset:max24])
     }
@@ -2639,25 +2396,17 @@ func (p *PegGoParser) _read_ci_string_expression() TreeNode {
     }
     if address110 != nil {
         elements45[0] = address110
-        var address111 TreeNode
-        var index83 int
-        index83 = p.offset
-        var elements46 []TreeNode
-        elements46 = nil
-        var address112 TreeNode
-        address112 = nil
+        var address111 TreeNode = nil
+        var index83 int = p.offset
+        var elements46 []TreeNode = nil
+        var address112 TreeNode = nil
         for {
-            var index84 int
-            index84 = p.offset
-            var index85 int
-            index85 = p.offset
-            var elements47 []TreeNode
-            elements47 = make([]TreeNode, 2)
-            var address113 TreeNode
-            var chunk25 string
-            chunk25 = ""
-            var max25 int
-            max25 = p.offset + 1
+            var index84 int = p.offset
+            var index85 int = p.offset
+            var elements47 []TreeNode = make([]TreeNode, 2)
+            var address113 TreeNode = nil
+            var chunk25 string = ""
+            var max25 int = p.offset + 1
             if max25 <= len(p.input) {
                 chunk25 = string(p.input[p.offset:max25])
             }
@@ -2676,7 +2425,7 @@ func (p *PegGoParser) _read_ci_string_expression() TreeNode {
             }
             if address113 != nil {
                 elements47[0] = address113
-                var address114 TreeNode
+                var address114 TreeNode = nil
                 if p.offset < len(p.input) {
                     address114 = &BaseNode{text: p.slice(p.offset, p.offset + 1), offset: p.offset, children: nil}
                     p.offset = p.offset + 1
@@ -2707,10 +2456,8 @@ func (p *PegGoParser) _read_ci_string_expression() TreeNode {
             }
             if address112 == nil {
                 p.offset = index84
-                var chunk26 string
-                chunk26 = ""
-                var max26 int
-                max26 = p.offset + 1
+                var chunk26 string = ""
+                var max26 int = p.offset + 1
                 if max26 <= len(p.input) {
                     chunk26 = string(p.input[p.offset:max26])
                 }
@@ -2744,11 +2491,9 @@ func (p *PegGoParser) _read_ci_string_expression() TreeNode {
         }
         if address111 != nil {
             elements45[1] = address111
-            var address115 TreeNode
-            var chunk27 string
-            chunk27 = ""
-            var max27 int
-            max27 = p.offset + 1
+            var address115 TreeNode = nil
+            var chunk27 string = ""
+            var max27 int = p.offset + 1
             if max27 <= len(p.input) {
                 chunk27 = string(p.input[p.offset:max27])
             }
@@ -2789,12 +2534,9 @@ func (p *PegGoParser) _read_ci_string_expression() TreeNode {
 }
 
 func (p *PegGoParser) _read_any_char_expression() TreeNode {
-    var address116 TreeNode
-    address116 = nil
-    var index86 int
-    index86 = p.offset
-    var cache22 map[int]cacheEntry
-    cache22 = p.cache["any_char_expression"]
+    var address116 TreeNode = nil
+    var index86 int = p.offset
+    var cache22 map[int]cacheEntry = p.cache["any_char_expression"]
     if cache22 == nil {
         cache22 = make(map[int]cacheEntry)
         p.cache["any_char_expression"] = cache22
@@ -2803,10 +2545,8 @@ func (p *PegGoParser) _read_any_char_expression() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var chunk28 string
-    chunk28 = ""
-    var max28 int
-    max28 = p.offset + 1
+    var chunk28 string = ""
+    var max28 int = p.offset + 1
     if max28 <= len(p.input) {
         chunk28 = string(p.input[p.offset:max28])
     }
@@ -2828,12 +2568,9 @@ func (p *PegGoParser) _read_any_char_expression() TreeNode {
 }
 
 func (p *PegGoParser) _read_char_class_expression() TreeNode {
-    var address117 TreeNode
-    address117 = nil
-    var index87 int
-    index87 = p.offset
-    var cache23 map[int]cacheEntry
-    cache23 = p.cache["char_class_expression"]
+    var address117 TreeNode = nil
+    var index87 int = p.offset
+    var cache23 map[int]cacheEntry = p.cache["char_class_expression"]
     if cache23 == nil {
         cache23 = make(map[int]cacheEntry)
         p.cache["char_class_expression"] = cache23
@@ -2842,15 +2579,11 @@ func (p *PegGoParser) _read_char_class_expression() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index88 int
-    index88 = p.offset
-    var elements48 []TreeNode
-    elements48 = make([]TreeNode, 4)
-    var address118 TreeNode
-    var chunk29 string
-    chunk29 = ""
-    var max29 int
-    max29 = p.offset + 1
+    var index88 int = p.offset
+    var elements48 []TreeNode = make([]TreeNode, 4)
+    var address118 TreeNode = nil
+    var chunk29 string = ""
+    var max29 int = p.offset + 1
     if max29 <= len(p.input) {
         chunk29 = string(p.input[p.offset:max29])
     }
@@ -2869,13 +2602,10 @@ func (p *PegGoParser) _read_char_class_expression() TreeNode {
     }
     if address118 != nil {
         elements48[0] = address118
-        var address119 TreeNode
-        var index89 int
-        index89 = p.offset
-        var chunk30 string
-        chunk30 = ""
-        var max30 int
-        max30 = p.offset + 1
+        var address119 TreeNode = nil
+        var index89 int = p.offset
+        var chunk30 string = ""
+        var max30 int = p.offset + 1
         if max30 <= len(p.input) {
             chunk30 = string(p.input[p.offset:max30])
         }
@@ -2898,25 +2628,17 @@ func (p *PegGoParser) _read_char_class_expression() TreeNode {
         }
         if address119 != nil {
             elements48[1] = address119
-            var address120 TreeNode
-            var index90 int
-            index90 = p.offset
-            var elements49 []TreeNode
-            elements49 = nil
-            var address121 TreeNode
-            address121 = nil
+            var address120 TreeNode = nil
+            var index90 int = p.offset
+            var elements49 []TreeNode = nil
+            var address121 TreeNode = nil
             for {
-                var index91 int
-                index91 = p.offset
-                var index92 int
-                index92 = p.offset
-                var elements50 []TreeNode
-                elements50 = make([]TreeNode, 2)
-                var address122 TreeNode
-                var chunk31 string
-                chunk31 = ""
-                var max31 int
-                max31 = p.offset + 1
+                var index91 int = p.offset
+                var index92 int = p.offset
+                var elements50 []TreeNode = make([]TreeNode, 2)
+                var address122 TreeNode = nil
+                var chunk31 string = ""
+                var max31 int = p.offset + 1
                 if max31 <= len(p.input) {
                     chunk31 = string(p.input[p.offset:max31])
                 }
@@ -2935,7 +2657,7 @@ func (p *PegGoParser) _read_char_class_expression() TreeNode {
                 }
                 if address122 != nil {
                     elements50[0] = address122
-                    var address123 TreeNode
+                    var address123 TreeNode = nil
                     if p.offset < len(p.input) {
                         address123 = &BaseNode{text: p.slice(p.offset, p.offset + 1), offset: p.offset, children: nil}
                         p.offset = p.offset + 1
@@ -2966,10 +2688,8 @@ func (p *PegGoParser) _read_char_class_expression() TreeNode {
                 }
                 if address121 == nil {
                     p.offset = index91
-                    var chunk32 string
-                    chunk32 = ""
-                    var max32 int
-                    max32 = p.offset + 1
+                    var chunk32 string = ""
+                    var max32 int = p.offset + 1
                     if max32 <= len(p.input) {
                         chunk32 = string(p.input[p.offset:max32])
                     }
@@ -3003,11 +2723,9 @@ func (p *PegGoParser) _read_char_class_expression() TreeNode {
             }
             if address120 != nil {
                 elements48[2] = address120
-                var address124 TreeNode
-                var chunk33 string
-                chunk33 = ""
-                var max33 int
-                max33 = p.offset + 1
+                var address124 TreeNode = nil
+                var chunk33 string = ""
+                var max33 int = p.offset + 1
                 if max33 <= len(p.input) {
                     chunk33 = string(p.input[p.offset:max33])
                 }
@@ -3052,12 +2770,9 @@ func (p *PegGoParser) _read_char_class_expression() TreeNode {
 }
 
 func (p *PegGoParser) _read_label() TreeNode {
-    var address125 TreeNode
-    address125 = nil
-    var index93 int
-    index93 = p.offset
-    var cache24 map[int]cacheEntry
-    cache24 = p.cache["label"]
+    var address125 TreeNode = nil
+    var index93 int = p.offset
+    var cache24 map[int]cacheEntry = p.cache["label"]
     if cache24 == nil {
         cache24 = make(map[int]cacheEntry)
         p.cache["label"] = cache24
@@ -3066,19 +2781,15 @@ func (p *PegGoParser) _read_label() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index94 int
-    index94 = p.offset
-    var elements51 []TreeNode
-    elements51 = make([]TreeNode, 2)
-    var address126 TreeNode
+    var index94 int = p.offset
+    var elements51 []TreeNode = make([]TreeNode, 2)
+    var address126 TreeNode = nil
     address126 = p._read_identifier()
     if address126 != nil {
         elements51[0] = address126
-        var address127 TreeNode
-        var chunk34 string
-        chunk34 = ""
-        var max34 int
-        max34 = p.offset + 1
+        var address127 TreeNode = nil
+        var chunk34 string = ""
+        var max34 int = p.offset + 1
         if max34 <= len(p.input) {
             chunk34 = string(p.input[p.offset:max34])
         }
@@ -3115,12 +2826,9 @@ func (p *PegGoParser) _read_label() TreeNode {
 }
 
 func (p *PegGoParser) _read_object_identifier() TreeNode {
-    var address128 TreeNode
-    address128 = nil
-    var index95 int
-    index95 = p.offset
-    var cache25 map[int]cacheEntry
-    cache25 = p.cache["object_identifier"]
+    var address128 TreeNode = nil
+    var index95 int = p.offset
+    var cache25 map[int]cacheEntry = p.cache["object_identifier"]
     if cache25 == nil {
         cache25 = make(map[int]cacheEntry)
         p.cache["object_identifier"] = cache25
@@ -3129,31 +2837,22 @@ func (p *PegGoParser) _read_object_identifier() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index96 int
-    index96 = p.offset
-    var elements52 []TreeNode
-    elements52 = make([]TreeNode, 2)
-    var address129 TreeNode
+    var index96 int = p.offset
+    var elements52 []TreeNode = make([]TreeNode, 2)
+    var address129 TreeNode = nil
     address129 = p._read_identifier()
     if address129 != nil {
         elements52[0] = address129
-        var address130 TreeNode
-        var index97 int
-        index97 = p.offset
-        var elements53 []TreeNode
-        elements53 = nil
-        var address131 TreeNode
-        address131 = nil
+        var address130 TreeNode = nil
+        var index97 int = p.offset
+        var elements53 []TreeNode = nil
+        var address131 TreeNode = nil
         for {
-            var index98 int
-            index98 = p.offset
-            var elements54 []TreeNode
-            elements54 = make([]TreeNode, 2)
-            var address132 TreeNode
-            var chunk35 string
-            chunk35 = ""
-            var max35 int
-            max35 = p.offset + 1
+            var index98 int = p.offset
+            var elements54 []TreeNode = make([]TreeNode, 2)
+            var address132 TreeNode = nil
+            var chunk35 string = ""
+            var max35 int = p.offset + 1
             if max35 <= len(p.input) {
                 chunk35 = string(p.input[p.offset:max35])
             }
@@ -3172,7 +2871,7 @@ func (p *PegGoParser) _read_object_identifier() TreeNode {
             }
             if address132 != nil {
                 elements54[0] = address132
-                var address133 TreeNode
+                var address133 TreeNode = nil
                 address133 = p._read_identifier()
                 if address133 != nil {
                     elements54[1] = address133
@@ -3220,12 +2919,9 @@ func (p *PegGoParser) _read_object_identifier() TreeNode {
 }
 
 func (p *PegGoParser) _read_identifier() TreeNode {
-    var address134 TreeNode
-    address134 = nil
-    var index99 int
-    index99 = p.offset
-    var cache26 map[int]cacheEntry
-    cache26 = p.cache["identifier"]
+    var address134 TreeNode = nil
+    var index99 int = p.offset
+    var cache26 map[int]cacheEntry = p.cache["identifier"]
     if cache26 == nil {
         cache26 = make(map[int]cacheEntry)
         p.cache["identifier"] = cache26
@@ -3234,15 +2930,11 @@ func (p *PegGoParser) _read_identifier() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index100 int
-    index100 = p.offset
-    var elements55 []TreeNode
-    elements55 = make([]TreeNode, 2)
-    var address135 TreeNode
-    var chunk36 string
-    chunk36 = ""
-    var max36 int
-    max36 = p.offset + 1
+    var index100 int = p.offset
+    var elements55 []TreeNode = make([]TreeNode, 2)
+    var address135 TreeNode = nil
+    var chunk36 string = ""
+    var max36 int = p.offset + 1
     if max36 <= len(p.input) {
         chunk36 = string(p.input[p.offset:max36])
     }
@@ -3261,18 +2953,13 @@ func (p *PegGoParser) _read_identifier() TreeNode {
     }
     if address135 != nil {
         elements55[0] = address135
-        var address136 TreeNode
-        var index101 int
-        index101 = p.offset
-        var elements56 []TreeNode
-        elements56 = nil
-        var address137 TreeNode
-        address137 = nil
+        var address136 TreeNode = nil
+        var index101 int = p.offset
+        var elements56 []TreeNode = nil
+        var address137 TreeNode = nil
         for {
-            var chunk37 string
-            chunk37 = ""
-            var max37 int
-            max37 = p.offset + 1
+            var chunk37 string = ""
+            var max37 int = p.offset + 1
             if max37 <= len(p.input) {
                 chunk37 = string(p.input[p.offset:max37])
             }
@@ -3320,12 +3007,9 @@ func (p *PegGoParser) _read_identifier() TreeNode {
 }
 
 func (p *PegGoParser) _read___() TreeNode {
-    var address138 TreeNode
-    address138 = nil
-    var index102 int
-    index102 = p.offset
-    var cache27 map[int]cacheEntry
-    cache27 = p.cache["__"]
+    var address138 TreeNode = nil
+    var index102 int = p.offset
+    var cache27 map[int]cacheEntry = p.cache["__"]
     if cache27 == nil {
         cache27 = make(map[int]cacheEntry)
         p.cache["__"] = cache27
@@ -3334,12 +3018,9 @@ func (p *PegGoParser) _read___() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index103 int
-    index103 = p.offset
-    var chunk38 string
-    chunk38 = ""
-    var max38 int
-    max38 = p.offset + 1
+    var index103 int = p.offset
+    var chunk38 string = ""
+    var max38 int = p.offset + 1
     if max38 <= len(p.input) {
         chunk38 = string(p.input[p.offset:max38])
     }
@@ -3368,12 +3049,9 @@ func (p *PegGoParser) _read___() TreeNode {
 }
 
 func (p *PegGoParser) _read_comment() TreeNode {
-    var address139 TreeNode
-    address139 = nil
-    var index104 int
-    index104 = p.offset
-    var cache28 map[int]cacheEntry
-    cache28 = p.cache["comment"]
+    var address139 TreeNode = nil
+    var index104 int = p.offset
+    var cache28 map[int]cacheEntry = p.cache["comment"]
     if cache28 == nil {
         cache28 = make(map[int]cacheEntry)
         p.cache["comment"] = cache28
@@ -3382,15 +3060,11 @@ func (p *PegGoParser) _read_comment() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index105 int
-    index105 = p.offset
-    var elements57 []TreeNode
-    elements57 = make([]TreeNode, 2)
-    var address140 TreeNode
-    var chunk39 string
-    chunk39 = ""
-    var max39 int
-    max39 = p.offset + 1
+    var index105 int = p.offset
+    var elements57 []TreeNode = make([]TreeNode, 2)
+    var address140 TreeNode = nil
+    var chunk39 string = ""
+    var max39 int = p.offset + 1
     if max39 <= len(p.input) {
         chunk39 = string(p.input[p.offset:max39])
     }
@@ -3409,18 +3083,13 @@ func (p *PegGoParser) _read_comment() TreeNode {
     }
     if address140 != nil {
         elements57[0] = address140
-        var address141 TreeNode
-        var index106 int
-        index106 = p.offset
-        var elements58 []TreeNode
-        elements58 = nil
-        var address142 TreeNode
-        address142 = nil
+        var address141 TreeNode = nil
+        var index106 int = p.offset
+        var elements58 []TreeNode = nil
+        var address142 TreeNode = nil
         for {
-            var chunk40 string
-            chunk40 = ""
-            var max40 int
-            max40 = p.offset + 1
+            var chunk40 string = ""
+            var max40 int = p.offset + 1
             if max40 <= len(p.input) {
                 chunk40 = string(p.input[p.offset:max40])
             }
@@ -3548,18 +3217,5 @@ func (p *PegGoParser) slice(start, end int) string {
     if end > len(p.input) { end = len(p.input) }
     if start > end { start = end }
     return string(p.input[start:end])
-}
-
-func (p *PegGoParser) extendNode(node TreeNode, name string) TreeNode {
-    if node == nil {
-        return nil
-    }
-    if p.types == nil {
-        return node
-    }
-    if extender, ok := p.types[name]; ok && extender != nil {
-        return extender(node)
-    }
-    return node
 }
 

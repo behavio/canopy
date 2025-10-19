@@ -34,6 +34,7 @@ class Builder extends Base {
     super(...args);
     this._parserImports = new Set();
     this._currentClass = null;
+    this._usesExtensions = false;
   }
 
   _tab() {
@@ -317,8 +318,16 @@ class Builder extends Base {
   localVar_(name, value) {
     let varName = this._varName(name);
     let typeName = TYPES[name] || 'TreeNode';
-    this._line('var ' + varName + ' ' + typeName);
-    if (value !== undefined) this.assign_(varName, value);
+    if (value !== undefined) {
+      this._line('var ' + varName + ' ' + typeName + ' = ' + value);
+    } else {
+      // Always initialize variables to satisfy staticcheck S1021
+      // For TreeNode and other types, use appropriate zero values
+      let zeroValue = 'nil';
+      if (typeName === 'int') zeroValue = '0';
+      if (typeName === 'string') zeroValue = '""';
+      this._line('var ' + varName + ' ' + typeName + ' = ' + zeroValue);
+    }
     return varName;
   }
 
@@ -411,6 +420,7 @@ class Builder extends Base {
   }
 
   extendNode_(address, nodeType) {
+    this._usesExtensions = true;
     this.assign_(
       address,
       'p.extendNode(' + address + ', ' + this._quote(nodeType) + ')'
@@ -484,9 +494,19 @@ class Builder extends Base {
 
   compileRegex_(charClass, name) {
     let pattern = charClass.regex.source;
-    this._line(
-      'var ' + name + ' = regexp.MustCompile(' + this._quote(pattern) + ')'
-    );
+    // Use raw string literal (backticks) for regex patterns to avoid double escaping
+    // However, if the pattern itself contains backticks, use quoted strings
+    if (pattern.includes('`')) {
+      // Use quoted string and escape backslashes and quotes
+      let escaped = pattern.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+      this._line(
+        'var ' + name + ' = regexp.MustCompile("' + escaped + '")'
+      );
+    } else {
+      this._line(
+        'var ' + name + ' = regexp.MustCompile(`' + pattern + '`)'
+      );
+    }
     charClass.constName = name;
     this._parserImports.add('regexp');
   }
@@ -687,31 +707,34 @@ class Builder extends Base {
     this._line('}');
     this._newline();
 
-    this._line(
-      'func (p *' +
-        this._structName +
-        ') extendNode(node TreeNode, name string) TreeNode {'
-    );
-    this._indent(() => {
-      this._line('if node == nil {');
+    // Only generate extendNode if the grammar uses type extensions
+    if (this._usesExtensions) {
+      this._line(
+        'func (p *' +
+          this._structName +
+          ') extendNode(node TreeNode, name string) TreeNode {'
+      );
       this._indent(() => {
-        this._line('return nil');
-      });
-      this._line('}');
-      this._line('if p.types == nil {');
-      this._indent(() => {
+        this._line('if node == nil {');
+        this._indent(() => {
+          this._line('return nil');
+        });
+        this._line('}');
+        this._line('if p.types == nil {');
+        this._indent(() => {
+          this._line('return node');
+        });
+        this._line('}');
+        this._line('if extender, ok := p.types[name]; ok && extender != nil {');
+        this._indent(() => {
+          this._line('return extender(node)');
+        });
+        this._line('}');
         this._line('return node');
       });
       this._line('}');
-      this._line('if extender, ok := p.types[name]; ok && extender != nil {');
-      this._indent(() => {
-        this._line('return extender(node)');
-      });
-      this._line('}');
-      this._line('return node');
-    });
-    this._line('}');
-    this._newline();
+      this._newline();
+    }
   }
 
   serialize() {

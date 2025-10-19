@@ -82,18 +82,15 @@ func newNode2(text string, start int, elements []TreeNode) TreeNode {
 }
 
 
-var REGEX_1 = regexp.MustCompile("^[1-9]")
-var REGEX_2 = regexp.MustCompile("^[0-9]")
-var REGEX_3 = regexp.MustCompile("^[^\"]")
-var REGEX_4 = regexp.MustCompile("^[\\s]")
+var REGEX_1 = regexp.MustCompile(`^[1-9]`)
+var REGEX_2 = regexp.MustCompile(`^[0-9]`)
+var REGEX_3 = regexp.MustCompile(`^[^"]`)
+var REGEX_4 = regexp.MustCompile(`^[\s]`)
 
 func (p *LispGoParser) _read_program() TreeNode {
-    var address0 TreeNode
-    address0 = nil
-    var index0 int
-    index0 = p.offset
-    var cache0 map[int]cacheEntry
-    cache0 = p.cache["program"]
+    var address0 TreeNode = nil
+    var index0 int = p.offset
+    var cache0 map[int]cacheEntry = p.cache["program"]
     if cache0 == nil {
         cache0 = make(map[int]cacheEntry)
         p.cache["program"] = cache0
@@ -102,12 +99,9 @@ func (p *LispGoParser) _read_program() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index1 int
-    index1 = p.offset
-    var elements0 []TreeNode
-    elements0 = nil
-    var address1 TreeNode
-    address1 = nil
+    var index1 int = p.offset
+    var elements0 []TreeNode = nil
+    var address1 TreeNode = nil
     for {
         address1 = p._read_cell()
         if address1 != nil {
@@ -126,12 +120,9 @@ func (p *LispGoParser) _read_program() TreeNode {
 }
 
 func (p *LispGoParser) _read_cell() TreeNode {
-    var address2 TreeNode
-    address2 = nil
-    var index2 int
-    index2 = p.offset
-    var cache1 map[int]cacheEntry
-    cache1 = p.cache["cell"]
+    var address2 TreeNode = nil
+    var index2 int = p.offset
+    var cache1 map[int]cacheEntry = p.cache["cell"]
     if cache1 == nil {
         cache1 = make(map[int]cacheEntry)
         p.cache["cell"] = cache1
@@ -140,17 +131,12 @@ func (p *LispGoParser) _read_cell() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index3 int
-    index3 = p.offset
-    var elements1 []TreeNode
-    elements1 = make([]TreeNode, 3)
-    var address3 TreeNode
-    var index4 int
-    index4 = p.offset
-    var elements2 []TreeNode
-    elements2 = nil
-    var address4 TreeNode
-    address4 = nil
+    var index3 int = p.offset
+    var elements1 []TreeNode = make([]TreeNode, 3)
+    var address3 TreeNode = nil
+    var index4 int = p.offset
+    var elements2 []TreeNode = nil
+    var address4 TreeNode = nil
     for {
         address4 = p._read_space()
         if address4 != nil {
@@ -166,9 +152,8 @@ func (p *LispGoParser) _read_cell() TreeNode {
     }
     if address3 != nil {
         elements1[0] = address3
-        var address5 TreeNode
-        var index5 int
-        index5 = p.offset
+        var address5 TreeNode = nil
+        var index5 int = p.offset
         address5 = p._read_list()
         if address5 == nil {
             p.offset = index5
@@ -179,13 +164,10 @@ func (p *LispGoParser) _read_cell() TreeNode {
         }
         if address5 != nil {
             elements1[1] = address5
-            var address6 TreeNode
-            var index6 int
-            index6 = p.offset
-            var elements3 []TreeNode
-            elements3 = nil
-            var address7 TreeNode
-            address7 = nil
+            var address6 TreeNode = nil
+            var index6 int = p.offset
+            var elements3 []TreeNode = nil
+            var address7 TreeNode = nil
             for {
                 address7 = p._read_space()
                 if address7 != nil {
@@ -223,12 +205,9 @@ func (p *LispGoParser) _read_cell() TreeNode {
 }
 
 func (p *LispGoParser) _read_list() TreeNode {
-    var address8 TreeNode
-    address8 = nil
-    var index7 int
-    index7 = p.offset
-    var cache2 map[int]cacheEntry
-    cache2 = p.cache["list"]
+    var address8 TreeNode = nil
+    var index7 int = p.offset
+    var cache2 map[int]cacheEntry = p.cache["list"]
     if cache2 == nil {
         cache2 = make(map[int]cacheEntry)
         p.cache["list"] = cache2
@@ -237,15 +216,11 @@ func (p *LispGoParser) _read_list() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index8 int
-    index8 = p.offset
-    var elements4 []TreeNode
-    elements4 = make([]TreeNode, 3)
-    var address9 TreeNode
-    var chunk0 string
-    chunk0 = ""
-    var max0 int
-    max0 = p.offset + 1
+    var index8 int = p.offset
+    var elements4 []TreeNode = make([]TreeNode, 3)
+    var address9 TreeNode = nil
+    var chunk0 string = ""
+    var max0 int = p.offset + 1
     if max0 <= len(p.input) {
         chunk0 = string(p.input[p.offset:max0])
     }
@@ -264,13 +239,10 @@ func (p *LispGoParser) _read_list() TreeNode {
     }
     if address9 != nil {
         elements4[0] = address9
-        var address10 TreeNode
-        var index9 int
-        index9 = p.offset
-        var elements5 []TreeNode
-        elements5 = nil
-        var address11 TreeNode
-        address11 = nil
+        var address10 TreeNode = nil
+        var index9 int = p.offset
+        var elements5 []TreeNode = nil
+        var address11 TreeNode = nil
         for {
             address11 = p._read_cell()
             if address11 != nil {
@@ -286,11 +258,9 @@ func (p *LispGoParser) _read_list() TreeNode {
         }
         if address10 != nil {
             elements4[1] = address10
-            var address12 TreeNode
-            var chunk1 string
-            chunk1 = ""
-            var max1 int
-            max1 = p.offset + 1
+            var address12 TreeNode = nil
+            var chunk1 string = ""
+            var max1 int = p.offset + 1
             if max1 <= len(p.input) {
                 chunk1 = string(p.input[p.offset:max1])
             }
@@ -331,12 +301,9 @@ func (p *LispGoParser) _read_list() TreeNode {
 }
 
 func (p *LispGoParser) _read_atom() TreeNode {
-    var address13 TreeNode
-    address13 = nil
-    var index10 int
-    index10 = p.offset
-    var cache3 map[int]cacheEntry
-    cache3 = p.cache["atom"]
+    var address13 TreeNode = nil
+    var index10 int = p.offset
+    var cache3 map[int]cacheEntry = p.cache["atom"]
     if cache3 == nil {
         cache3 = make(map[int]cacheEntry)
         p.cache["atom"] = cache3
@@ -345,8 +312,7 @@ func (p *LispGoParser) _read_atom() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index11 int
-    index11 = p.offset
+    var index11 int = p.offset
     address13 = p._read_boolean_()
     if address13 == nil {
         p.offset = index11
@@ -368,12 +334,9 @@ func (p *LispGoParser) _read_atom() TreeNode {
 }
 
 func (p *LispGoParser) _read_boolean_() TreeNode {
-    var address14 TreeNode
-    address14 = nil
-    var index12 int
-    index12 = p.offset
-    var cache4 map[int]cacheEntry
-    cache4 = p.cache["boolean_"]
+    var address14 TreeNode = nil
+    var index12 int = p.offset
+    var cache4 map[int]cacheEntry = p.cache["boolean_"]
     if cache4 == nil {
         cache4 = make(map[int]cacheEntry)
         p.cache["boolean_"] = cache4
@@ -382,12 +345,9 @@ func (p *LispGoParser) _read_boolean_() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index13 int
-    index13 = p.offset
-    var chunk2 string
-    chunk2 = ""
-    var max2 int
-    max2 = p.offset + 2
+    var index13 int = p.offset
+    var chunk2 string = ""
+    var max2 int = p.offset + 2
     if max2 <= len(p.input) {
         chunk2 = string(p.input[p.offset:max2])
     }
@@ -406,10 +366,8 @@ func (p *LispGoParser) _read_boolean_() TreeNode {
     }
     if address14 == nil {
         p.offset = index13
-        var chunk3 string
-        chunk3 = ""
-        var max3 int
-        max3 = p.offset + 2
+        var chunk3 string = ""
+        var max3 int = p.offset + 2
         if max3 <= len(p.input) {
             chunk3 = string(p.input[p.offset:max3])
         }
@@ -435,12 +393,9 @@ func (p *LispGoParser) _read_boolean_() TreeNode {
 }
 
 func (p *LispGoParser) _read_integer() TreeNode {
-    var address15 TreeNode
-    address15 = nil
-    var index14 int
-    index14 = p.offset
-    var cache5 map[int]cacheEntry
-    cache5 = p.cache["integer"]
+    var address15 TreeNode = nil
+    var index14 int = p.offset
+    var cache5 map[int]cacheEntry = p.cache["integer"]
     if cache5 == nil {
         cache5 = make(map[int]cacheEntry)
         p.cache["integer"] = cache5
@@ -449,15 +404,11 @@ func (p *LispGoParser) _read_integer() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index15 int
-    index15 = p.offset
-    var elements6 []TreeNode
-    elements6 = make([]TreeNode, 2)
-    var address16 TreeNode
-    var chunk4 string
-    chunk4 = ""
-    var max4 int
-    max4 = p.offset + 1
+    var index15 int = p.offset
+    var elements6 []TreeNode = make([]TreeNode, 2)
+    var address16 TreeNode = nil
+    var chunk4 string = ""
+    var max4 int = p.offset + 1
     if max4 <= len(p.input) {
         chunk4 = string(p.input[p.offset:max4])
     }
@@ -476,18 +427,13 @@ func (p *LispGoParser) _read_integer() TreeNode {
     }
     if address16 != nil {
         elements6[0] = address16
-        var address17 TreeNode
-        var index16 int
-        index16 = p.offset
-        var elements7 []TreeNode
-        elements7 = nil
-        var address18 TreeNode
-        address18 = nil
+        var address17 TreeNode = nil
+        var index16 int = p.offset
+        var elements7 []TreeNode = nil
+        var address18 TreeNode = nil
         for {
-            var chunk5 string
-            chunk5 = ""
-            var max5 int
-            max5 = p.offset + 1
+            var chunk5 string = ""
+            var max5 int = p.offset + 1
             if max5 <= len(p.input) {
                 chunk5 = string(p.input[p.offset:max5])
             }
@@ -535,12 +481,9 @@ func (p *LispGoParser) _read_integer() TreeNode {
 }
 
 func (p *LispGoParser) _read_string() TreeNode {
-    var address19 TreeNode
-    address19 = nil
-    var index17 int
-    index17 = p.offset
-    var cache6 map[int]cacheEntry
-    cache6 = p.cache["string"]
+    var address19 TreeNode = nil
+    var index17 int = p.offset
+    var cache6 map[int]cacheEntry = p.cache["string"]
     if cache6 == nil {
         cache6 = make(map[int]cacheEntry)
         p.cache["string"] = cache6
@@ -549,15 +492,11 @@ func (p *LispGoParser) _read_string() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index18 int
-    index18 = p.offset
-    var elements8 []TreeNode
-    elements8 = make([]TreeNode, 3)
-    var address20 TreeNode
-    var chunk6 string
-    chunk6 = ""
-    var max6 int
-    max6 = p.offset + 1
+    var index18 int = p.offset
+    var elements8 []TreeNode = make([]TreeNode, 3)
+    var address20 TreeNode = nil
+    var chunk6 string = ""
+    var max6 int = p.offset + 1
     if max6 <= len(p.input) {
         chunk6 = string(p.input[p.offset:max6])
     }
@@ -576,25 +515,17 @@ func (p *LispGoParser) _read_string() TreeNode {
     }
     if address20 != nil {
         elements8[0] = address20
-        var address21 TreeNode
-        var index19 int
-        index19 = p.offset
-        var elements9 []TreeNode
-        elements9 = nil
-        var address22 TreeNode
-        address22 = nil
+        var address21 TreeNode = nil
+        var index19 int = p.offset
+        var elements9 []TreeNode = nil
+        var address22 TreeNode = nil
         for {
-            var index20 int
-            index20 = p.offset
-            var index21 int
-            index21 = p.offset
-            var elements10 []TreeNode
-            elements10 = make([]TreeNode, 2)
-            var address23 TreeNode
-            var chunk7 string
-            chunk7 = ""
-            var max7 int
-            max7 = p.offset + 1
+            var index20 int = p.offset
+            var index21 int = p.offset
+            var elements10 []TreeNode = make([]TreeNode, 2)
+            var address23 TreeNode = nil
+            var chunk7 string = ""
+            var max7 int = p.offset + 1
             if max7 <= len(p.input) {
                 chunk7 = string(p.input[p.offset:max7])
             }
@@ -613,7 +544,7 @@ func (p *LispGoParser) _read_string() TreeNode {
             }
             if address23 != nil {
                 elements10[0] = address23
-                var address24 TreeNode
+                var address24 TreeNode = nil
                 if p.offset < len(p.input) {
                     address24 = &BaseNode{text: p.slice(p.offset, p.offset + 1), offset: p.offset, children: nil}
                     p.offset = p.offset + 1
@@ -644,10 +575,8 @@ func (p *LispGoParser) _read_string() TreeNode {
             }
             if address22 == nil {
                 p.offset = index20
-                var chunk8 string
-                chunk8 = ""
-                var max8 int
-                max8 = p.offset + 1
+                var chunk8 string = ""
+                var max8 int = p.offset + 1
                 if max8 <= len(p.input) {
                     chunk8 = string(p.input[p.offset:max8])
                 }
@@ -681,11 +610,9 @@ func (p *LispGoParser) _read_string() TreeNode {
         }
         if address21 != nil {
             elements8[1] = address21
-            var address25 TreeNode
-            var chunk9 string
-            chunk9 = ""
-            var max9 int
-            max9 = p.offset + 1
+            var address25 TreeNode = nil
+            var chunk9 string = ""
+            var max9 int = p.offset + 1
             if max9 <= len(p.input) {
                 chunk9 = string(p.input[p.offset:max9])
             }
@@ -726,12 +653,9 @@ func (p *LispGoParser) _read_string() TreeNode {
 }
 
 func (p *LispGoParser) _read_symbol() TreeNode {
-    var address26 TreeNode
-    address26 = nil
-    var index22 int
-    index22 = p.offset
-    var cache7 map[int]cacheEntry
-    cache7 = p.cache["symbol"]
+    var address26 TreeNode = nil
+    var index22 int = p.offset
+    var cache7 map[int]cacheEntry = p.cache["symbol"]
     if cache7 == nil {
         cache7 = make(map[int]cacheEntry)
         p.cache["symbol"] = cache7
@@ -740,20 +664,14 @@ func (p *LispGoParser) _read_symbol() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index23 int
-    index23 = p.offset
-    var elements11 []TreeNode
-    elements11 = nil
-    var address27 TreeNode
-    address27 = nil
+    var index23 int = p.offset
+    var elements11 []TreeNode = nil
+    var address27 TreeNode = nil
     for {
-        var index24 int
-        index24 = p.offset
-        var elements12 []TreeNode
-        elements12 = make([]TreeNode, 2)
-        var address28 TreeNode
-        var index25 int
-        index25 = p.offset
+        var index24 int = p.offset
+        var elements12 []TreeNode = make([]TreeNode, 2)
+        var address28 TreeNode = nil
+        var index25 int = p.offset
         address28 = p._read_delimiter()
         p.offset = index25
         if address28 == nil {
@@ -763,7 +681,7 @@ func (p *LispGoParser) _read_symbol() TreeNode {
         }
         if address28 != nil {
             elements12[0] = address28
-            var address29 TreeNode
+            var address29 TreeNode = nil
             if p.offset < len(p.input) {
                 address29 = &BaseNode{text: p.slice(p.offset, p.offset + 1), offset: p.offset, children: nil}
                 p.offset = p.offset + 1
@@ -808,12 +726,9 @@ func (p *LispGoParser) _read_symbol() TreeNode {
 }
 
 func (p *LispGoParser) _read_space() TreeNode {
-    var address30 TreeNode
-    address30 = nil
-    var index26 int
-    index26 = p.offset
-    var cache8 map[int]cacheEntry
-    cache8 = p.cache["space"]
+    var address30 TreeNode = nil
+    var index26 int = p.offset
+    var cache8 map[int]cacheEntry = p.cache["space"]
     if cache8 == nil {
         cache8 = make(map[int]cacheEntry)
         p.cache["space"] = cache8
@@ -822,10 +737,8 @@ func (p *LispGoParser) _read_space() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var chunk10 string
-    chunk10 = ""
-    var max10 int
-    max10 = p.offset + 1
+    var chunk10 string = ""
+    var max10 int = p.offset + 1
     if max10 <= len(p.input) {
         chunk10 = string(p.input[p.offset:max10])
     }
@@ -847,12 +760,9 @@ func (p *LispGoParser) _read_space() TreeNode {
 }
 
 func (p *LispGoParser) _read_paren() TreeNode {
-    var address31 TreeNode
-    address31 = nil
-    var index27 int
-    index27 = p.offset
-    var cache9 map[int]cacheEntry
-    cache9 = p.cache["paren"]
+    var address31 TreeNode = nil
+    var index27 int = p.offset
+    var cache9 map[int]cacheEntry = p.cache["paren"]
     if cache9 == nil {
         cache9 = make(map[int]cacheEntry)
         p.cache["paren"] = cache9
@@ -861,12 +771,9 @@ func (p *LispGoParser) _read_paren() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index28 int
-    index28 = p.offset
-    var chunk11 string
-    chunk11 = ""
-    var max11 int
-    max11 = p.offset + 1
+    var index28 int = p.offset
+    var chunk11 string = ""
+    var max11 int = p.offset + 1
     if max11 <= len(p.input) {
         chunk11 = string(p.input[p.offset:max11])
     }
@@ -885,10 +792,8 @@ func (p *LispGoParser) _read_paren() TreeNode {
     }
     if address31 == nil {
         p.offset = index28
-        var chunk12 string
-        chunk12 = ""
-        var max12 int
-        max12 = p.offset + 1
+        var chunk12 string = ""
+        var max12 int = p.offset + 1
         if max12 <= len(p.input) {
             chunk12 = string(p.input[p.offset:max12])
         }
@@ -914,12 +819,9 @@ func (p *LispGoParser) _read_paren() TreeNode {
 }
 
 func (p *LispGoParser) _read_delimiter() TreeNode {
-    var address32 TreeNode
-    address32 = nil
-    var index29 int
-    index29 = p.offset
-    var cache10 map[int]cacheEntry
-    cache10 = p.cache["delimiter"]
+    var address32 TreeNode = nil
+    var index29 int = p.offset
+    var cache10 map[int]cacheEntry = p.cache["delimiter"]
     if cache10 == nil {
         cache10 = make(map[int]cacheEntry)
         p.cache["delimiter"] = cache10
@@ -928,8 +830,7 @@ func (p *LispGoParser) _read_delimiter() TreeNode {
         p.offset = entry.offset
         return entry.node
     }
-    var index30 int
-    index30 = p.offset
+    var index30 int = p.offset
     address32 = p._read_paren()
     if address32 == nil {
         p.offset = index30
@@ -1023,18 +924,5 @@ func (p *LispGoParser) slice(start, end int) string {
     if end > len(p.input) { end = len(p.input) }
     if start > end { start = end }
     return string(p.input[start:end])
-}
-
-func (p *LispGoParser) extendNode(node TreeNode, name string) TreeNode {
-    if node == nil {
-        return nil
-    }
-    if p.types == nil {
-        return node
-    }
-    if extender, ok := p.types[name]; ok && extender != nil {
-        return extender(node)
-    }
-    return node
 }
 

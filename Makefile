@@ -89,6 +89,3 @@ examples/pegjs:
 
 clean-examples:
 	find examples -name '*.class' -o -name '*.pyc' -exec rm {} \;
-	find examples/canopy -name go.mod -exec rm {} \;
-	find examples/canopy -name parser.go -exec rm {} \;
-	find examples/canopy -type d -name '*-go' -prune -exec rm -r {} \;

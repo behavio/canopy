@@ -187,7 +187,9 @@ class Builder extends Base {
   attributes_(iterable) {
     if (!this._currentClass) return;
     for (let name of iterable) {
-      this._currentClass.fields.set(name, toPascalCase(name));
+      const fieldName = toPascalCase(name);
+      if (!fieldName) continue;
+      this._currentClass.fields.set(name, fieldName);
     }
   }
 

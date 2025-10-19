@@ -55,6 +55,8 @@ type Node1 struct {
     Data TreeNode
 }
 
+var _ TreeNode = (*Node1)(nil)
+
 func newNode1(text string, start int, elements []TreeNode) TreeNode {
     node := &Node1{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -68,6 +70,8 @@ type Node2 struct {
     BaseNode
     Cells TreeNode
 }
+
+var _ TreeNode = (*Node2)(nil)
 
 func newNode2(text string, start int, elements []TreeNode) TreeNode {
     node := &Node2{

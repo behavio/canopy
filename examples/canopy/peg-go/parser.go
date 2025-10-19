@@ -57,6 +57,8 @@ type Node1 struct {
     Rules TreeNode
 }
 
+var _ TreeNode = (*Node1)(nil)
+
 func newNode1(text string, start int, elements []TreeNode) TreeNode {
     node := &Node1{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -72,6 +74,8 @@ type Node2 struct {
     GrammarRule TreeNode
 }
 
+var _ TreeNode = (*Node2)(nil)
+
 func newNode2(text string, start int, elements []TreeNode) TreeNode {
     node := &Node2{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -85,6 +89,8 @@ type Node3 struct {
     BaseNode
     ObjectIdentifier TreeNode
 }
+
+var _ TreeNode = (*Node3)(nil)
 
 func newNode3(text string, start int, elements []TreeNode) TreeNode {
     node := &Node3{
@@ -102,6 +108,8 @@ type Node4 struct {
     ParsingExpression TreeNode
 }
 
+var _ TreeNode = (*Node4)(nil)
+
 func newNode4(text string, start int, elements []TreeNode) TreeNode {
     node := &Node4{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -118,6 +126,8 @@ type Node5 struct {
     ParsingExpression TreeNode
 }
 
+var _ TreeNode = (*Node5)(nil)
+
 func newNode5(text string, start int, elements []TreeNode) TreeNode {
     node := &Node5{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -133,6 +143,8 @@ type Node6 struct {
     ChoicePart TreeNode
     Rest TreeNode
 }
+
+var _ TreeNode = (*Node6)(nil)
 
 func newNode6(text string, start int, elements []TreeNode) TreeNode {
     node := &Node6{
@@ -151,6 +163,8 @@ type Node7 struct {
     ChoicePart TreeNode
 }
 
+var _ TreeNode = (*Node7)(nil)
+
 func newNode7(text string, start int, elements []TreeNode) TreeNode {
     node := &Node7{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -165,6 +179,8 @@ type Node8 struct {
     BaseNode
     TypeTag TreeNode
 }
+
+var _ TreeNode = (*Node8)(nil)
 
 func newNode8(text string, start int, elements []TreeNode) TreeNode {
     node := &Node8{
@@ -181,6 +197,8 @@ type Node9 struct {
     ActionTag TreeNode
 }
 
+var _ TreeNode = (*Node9)(nil)
+
 func newNode9(text string, start int, elements []TreeNode) TreeNode {
     node := &Node9{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -196,6 +214,8 @@ type Node10 struct {
     ActionableExpression TreeNode
 }
 
+var _ TreeNode = (*Node10)(nil)
+
 func newNode10(text string, start int, elements []TreeNode) TreeNode {
     node := &Node10{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -210,6 +230,8 @@ type Node11 struct {
     Identifier TreeNode
 }
 
+var _ TreeNode = (*Node11)(nil)
+
 func newNode11(text string, start int, elements []TreeNode) TreeNode {
     node := &Node11{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -223,6 +245,8 @@ type Node12 struct {
     BaseNode
     ObjectIdentifier TreeNode
 }
+
+var _ TreeNode = (*Node12)(nil)
 
 func newNode12(text string, start int, elements []TreeNode) TreeNode {
     node := &Node12{
@@ -239,6 +263,8 @@ type Node13 struct {
     SequencePart TreeNode
     Rest TreeNode
 }
+
+var _ TreeNode = (*Node13)(nil)
 
 func newNode13(text string, start int, elements []TreeNode) TreeNode {
     node := &Node13{
@@ -257,6 +283,8 @@ type Node14 struct {
     SequencePart TreeNode
 }
 
+var _ TreeNode = (*Node14)(nil)
+
 func newNode14(text string, start int, elements []TreeNode) TreeNode {
     node := &Node14{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -272,6 +300,8 @@ type Node15 struct {
     Expression TreeNode
 }
 
+var _ TreeNode = (*Node15)(nil)
+
 func newNode15(text string, start int, elements []TreeNode) TreeNode {
     node := &Node15{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -285,6 +315,8 @@ type Node16 struct {
     BaseNode
     Atom TreeNode
 }
+
+var _ TreeNode = (*Node16)(nil)
 
 func newNode16(text string, start int, elements []TreeNode) TreeNode {
     node := &Node16{
@@ -300,6 +332,8 @@ type Node17 struct {
     Atom TreeNode
     Quantifier TreeNode
 }
+
+var _ TreeNode = (*Node17)(nil)
 
 func newNode17(text string, start int, elements []TreeNode) TreeNode {
     node := &Node17{
@@ -317,6 +351,8 @@ type Node18 struct {
     Atom TreeNode
 }
 
+var _ TreeNode = (*Node18)(nil)
+
 func newNode18(text string, start int, elements []TreeNode) TreeNode {
     node := &Node18{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -332,6 +368,8 @@ type Node19 struct {
     Identifier TreeNode
 }
 
+var _ TreeNode = (*Node19)(nil)
+
 func newNode19(text string, start int, elements []TreeNode) TreeNode {
     node := &Node19{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -345,6 +383,8 @@ type Node20 struct {
     BaseNode
     Identifier TreeNode
 }
+
+var _ TreeNode = (*Node20)(nil)
 
 func newNode20(text string, start int, elements []TreeNode) TreeNode {
     node := &Node20{
@@ -360,6 +400,8 @@ type Node21 struct {
     Identifier TreeNode
 }
 
+var _ TreeNode = (*Node21)(nil)
+
 func newNode21(text string, start int, elements []TreeNode) TreeNode {
     node := &Node21{
         BaseNode: BaseNode{text: text, offset: start, children: elements},
@@ -373,6 +415,8 @@ type Node22 struct {
     BaseNode
     Identifier TreeNode
 }
+
+var _ TreeNode = (*Node22)(nil)
 
 func newNode22(text string, start int, elements []TreeNode) TreeNode {
     node := &Node22{

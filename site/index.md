@@ -16,7 +16,8 @@ You can install the command-line tools through `npm`:
 
 Canopy can generate parsers in the following languages:
 
-* [Java](/langs/java.html)
-* [JavaScript](/langs/javascript.html)
-* [Python](/langs/python.html)
-* [Ruby](/langs/ruby.html)
+- [Go](/langs/golang.html)
+- [Java](/langs/java.html)
+- [JavaScript](/langs/javascript.html)
+- [Python](/langs/python.html)
+- [Ruby](/langs/ruby.html)

@@ -499,13 +499,9 @@ class Builder extends Base {
     if (pattern.includes('`')) {
       // Use quoted string and escape backslashes and quotes
       let escaped = pattern.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-      this._line(
-        'var ' + name + ' = regexp.MustCompile("' + escaped + '")'
-      );
+      this._line('var ' + name + ' = regexp.MustCompile("' + escaped + '")');
     } else {
-      this._line(
-        'var ' + name + ' = regexp.MustCompile(`' + pattern + '`)'
-      );
+      this._line('var ' + name + ' = regexp.MustCompile(`' + pattern + '`)');
     }
     charClass.constName = name;
     this._parserImports.add('regexp');

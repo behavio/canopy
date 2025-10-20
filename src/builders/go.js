@@ -91,7 +91,7 @@ class Builder extends Base {
     this._currentBuffer = join(this._outputPath, 'go.mod');
     this._buffers.set(this._currentBuffer, '');
     this._line('module ' + this._packageName);
-    this._line('go 1.22.0');
+    this._line('go 1.22');
 
     this._currentBuffer = join(this._outputPath, 'parser.go');
     block();

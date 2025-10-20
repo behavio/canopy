@@ -38,7 +38,7 @@ class Builder extends Base {
   }
 
   _tab() {
-    return '    ';
+    return '\t';
   }
 
   _line(source) {

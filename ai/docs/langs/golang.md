@@ -25,8 +25,8 @@ For a grammar file `json.peg`, Canopy generates a module named `jsongoparser` wi
 json-go/
 ├── go.mod                    # Module definition
 ├── parser.go                 # Main parser struct and logic
-├── treenode.go              # TreeNode interface and BaseNode
-└── actions.go               # Actions interface definition
+├── treenode.go               # TreeNode interface and BaseNode
+└── actions.go                # Actions interface definition
 ```
 
 **Naming Conventions**:
@@ -554,8 +554,8 @@ For `json.peg`, the builder generates:
 json-go/
 ├── go.mod                    # module jsongoparser; go 1.22.0
 ├── parser.go                 # ~1600 lines: structs, methods, helpers
-├── treenode.go              # ~35 lines: TreeNode interface, BaseNode
-└── actions.go               # ~8 lines: Actions interface (empty if no actions)
+├── treenode.go               # ~35 lines: TreeNode interface, BaseNode
+└── actions.go                # ~8 lines: Actions interface (empty if no actions)
 ```
 
 ## 6. Advanced Features
@@ -636,7 +636,7 @@ The `test/go/` directory contains comprehensive tests:
 
 ```
 test/go/
-├── go.mod                    # Test module
+├── go.mod                   # Test module
 ├── parse_helper.go          # Generic test helpers
 ├── choices_test.go          # Choice expression tests
 ├── sequences_test.go        # Sequence tests

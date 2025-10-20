@@ -1,6 +1,6 @@
 # Canopy
 
-Canopy is a parser compiler targeting Java, JavaScript, Python and Ruby. It
+Canopy is a parser compiler targeting Go, Java, JavaScript, Python and Ruby. It
 takes a file describing a [parsing expression grammar][1] and compiles it into a
 parser module in the target language. The generated parsers have no runtime
 dependency on Canopy itself.

@@ -58,18 +58,15 @@ defines how grammars are written (that's the self-hosting bit), run:
 
 You need to have bootstrapped the project for this to work.
 
-To regenerate the example Canopy parsers:
+To regenerate the example Canopy and PEG.js parsers:
 
-    make java
-    make js
-    make python
-    make ruby
-
-To regenerate the example PEG.js parsers:
-
-    make pegjs
+    make examples
 
 ## Running the examples
+
+To run the Go examples:
+
+    cd examples/golang-example && go test -bench=.
 
 To run the Java examples:
 

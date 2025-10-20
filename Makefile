@@ -39,13 +39,20 @@ test/%.js: test/%.peg $(lib_files)
 %.rb: %.peg $(lib_files)
 	./bin/canopy --lang ruby $<
 
+%-go/parser.go: %.peg $(lib_files)
+	./bin/canopy --lang go --output $(basename $<)-go $<
+
 
 test_grammars := $(wildcard test/grammars/*.peg)
+test_grammars_go := $(test_grammars:%.peg=%-go/parser.go)
 
 test/javascript/node_modules:
 	cd test/javascript && npm install --no-save
 
-test-all: test-java test-js test-python test-ruby
+test-all: test-java test-js test-python test-ruby test-go
+
+test-go: $(test_grammars_go)
+	cd test/go && go test
 
 test-java: $(test_grammars:%.peg=%/Grammar.java)
 	cd test/java && mvn clean test
@@ -61,18 +68,20 @@ test-ruby: $(test_grammars:%.peg=%.rb)
 
 clean-test:
 	find test/grammars -type f -a ! -name '*.peg' -a ! -name __init__.py -exec rm {} \;
-
+	find test/grammars -type d -name '*-go' -prune -exec rm -r {} \;
 
 example_grammars        := $(wildcard examples/canopy/*.peg)
 example_grammars_js     := $(example_grammars:%.peg=%.js)
 example_grammars_java   := $(example_grammars:%.peg=%/Grammar.java)
 example_grammars_python := $(example_grammars:%.peg=%.py)
 example_grammars_ruby   := $(example_grammars:%.peg=%.rb)
+example_grammars_go     := $(example_grammars:%.peg=%-go/parser.go)
 
 examples: $(example_grammars_js) \
 	$(example_grammars_java) \
 	$(example_grammars_python) \
 	$(example_grammars_ruby) \
+	$(example_grammars_go) \
 	examples/pegjs
 
 examples/pegjs:

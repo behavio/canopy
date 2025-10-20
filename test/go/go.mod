@@ -1,0 +1,23 @@
+module canopy/test
+
+go 1.22
+
+require (
+	choicesgoparser v0.0.0
+	extensionsgoparser v0.0.0
+	nodeactionsgoparser v0.0.0
+	predicatesgoparser v0.0.0
+	quantifiersgoparser v0.0.0
+	sequencesgoparser v0.0.0
+	terminalsgoparser v0.0.0
+)
+
+replace (
+	choicesgoparser => ../grammars/choices-go
+	extensionsgoparser => ../grammars/extensions-go
+	nodeactionsgoparser => ../grammars/node_actions-go
+	predicatesgoparser => ../grammars/predicates-go
+	quantifiersgoparser => ../grammars/quantifiers-go
+	sequencesgoparser => ../grammars/sequences-go
+	terminalsgoparser => ../grammars/terminals-go
+)

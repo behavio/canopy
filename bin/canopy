@@ -7,6 +7,7 @@ const { basename, dirname, join, relative } = require('path')
 const canopy = require('../lib/canopy')
 
 Object.assign(canopy.builders, {
+  go: canopy.builders.go,
   js: canopy.builders.javascript,
   py: canopy.builders.python,
   rb: canopy.builders.ruby

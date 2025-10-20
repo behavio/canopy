@@ -1,17 +1,18 @@
-'use strict'
+'use strict';
 
-const Compiler = require('./compiler')
+const Compiler = require('./compiler');
 
 module.exports = {
   builders: {
-    java:       require('./builders/java'),
+    go: require('./builders/go'),
+    java: require('./builders/java'),
     javascript: require('./builders/javascript'),
-    python:     require('./builders/python'),
-    ruby:       require('./builders/ruby')
+    python: require('./builders/python'),
+    ruby: require('./builders/ruby'),
   },
 
-  compile (grammar, builder) {
-    let compiler = new Compiler(grammar, builder)
-    return compiler.toSource()
-  }
-}
+  compile(grammar, builder) {
+    let compiler = new Compiler(grammar, builder);
+    return compiler.toSource();
+  },
+};
